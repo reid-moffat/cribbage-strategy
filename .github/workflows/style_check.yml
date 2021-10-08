@@ -1,20 +1,17 @@
-name: Style check
+name: checkstyle
 
-on:
-  # pull_request:
-  push:
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
-  checkstyle_job:
+  java-checkstyle:
     runs-on: ubuntu-latest
-    name: Checkstyle job
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Run check style
-        uses: nikitasavinov/checkstyle-action@master
+      - name: Run Java Checkstyle
+        uses: Justintime50/java-checkstyle-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: 'github-pr-check'
-          tool_name: 'testtool'
+          style_suite: google
+          # The directory to run Checkstyle recursively on
+          # (default is the repo root)
+          # directory: src
