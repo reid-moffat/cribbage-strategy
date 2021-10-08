@@ -1,4 +1,8 @@
-on: push
+name: Style check
+
+on:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   checkstyle_job:
