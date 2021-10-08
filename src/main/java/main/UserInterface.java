@@ -217,6 +217,8 @@ final class UserInterface {
         this.input.close();
     }
 
+
+    
     /**
      * Calculates the average cribbage points obtained for each combination of cards
      * to be dropped and prints out the value
@@ -225,6 +227,7 @@ final class UserInterface {
      * The average number of points takes into account the number of points gained
      * from each possible starter card to be flipped up
      */
+
     private void printAveragePoints() {
         CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand));
         ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest points for combinations
@@ -295,7 +298,7 @@ final class UserInterface {
         }
         System.out.println();
         if (fives) System.out.println("(*) Consider keeping fives if you don't have the crib");
-        if (aces)
+        if (aces )
             System.out.println("(**) Aces are good for the play round, consider keeping it is the points are close");
     }
 
