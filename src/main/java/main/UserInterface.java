@@ -153,6 +153,12 @@ final class UserInterface {
 
     public static void main(String[] args) {
         new UserInterface().run();
+
+        int i = 0; // google style check
+        switch (i) {
+            case 1 :
+                break;
+        }
     }
 
     /**
@@ -218,7 +224,7 @@ final class UserInterface {
     }
 
 
-    
+
     /**
      * Calculates the average cribbage points obtained for each combination of cards
      * to be dropped and prints out the value

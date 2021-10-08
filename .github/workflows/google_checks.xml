@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
     Google's Java style check. Retrieved from
-    https://github.com/checkstyle/checkstyle/blob/422be612a4dce54f204094449f3de75d248e2871/src/main/resources/google_checks.xml
+    https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml
     and used to run style_check.yml
 -->
 
