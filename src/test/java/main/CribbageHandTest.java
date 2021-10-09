@@ -52,6 +52,6 @@ class CribbageHandTest {
 
         CribbageHand test = new CribbageHand(hand);
         int points = test.totalPoints(new Card(null, null));
-        assert points == 0;
+        assert points == 7;
     }
 }
