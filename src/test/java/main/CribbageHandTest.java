@@ -1,20 +1,16 @@
 package main;
 
-import card.Card;
-import card.Rank;
-import card.Suit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CribbageHandTest {
 
     @BeforeEach
     void setUp() {
+        assertEquals(1, 1);
     }
 
     @AfterEach
@@ -47,13 +43,5 @@ class CribbageHandTest {
 
     @Test
     void totalPoints() {
-        /*
-        HashSet<Card> hand = new HashSet<>();
-        hand.add(new Card(Rank.ACE, Suit.CLUBS));
-
-        CribbageHand test = new CribbageHand(hand);
-        int points = test.totalPoints(new Card(null, null));
-        */
-        assertEquals(1, 1);
     }
 }
