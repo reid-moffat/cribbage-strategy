@@ -157,38 +157,6 @@ final class CribbageHand implements CribbageCombinations {
     }
 
     /**
-     * Some fields needs to be refreshed if the hand changes before performing a
-     * total point calculation
-     *
-     * <p> This method must always be called in totalPoints()
-     *
-     * @param starter the starter {@code Card} object
-     */
-    private void refreshHand(Card starter) {
-        //@formatter:off
-        /*
-         * Different point methods require different input types:
-         * -Fifteens accepts any combination of the hand with starter card
-         * -Multiples counts duplicates in the hand with starter card
-         * -Runs uses any combination of the hand plus starter card
-         * -Flushes and nobs need to differentiate between the starter and hand
-         */
-        //@formatter:on
-        this.starter = starter;
-        this.handWithStarter = new HashSet<>(hand);
-        this.handWithStarter.add(this.starter);
-
-        /*
-         * Although calculating a power set is O(2^n), a hand and starter card is
-         * guaranteed to only have five Card objects
-         *
-         * Using a power set significantly reduces the number of test cases, allowing
-         * methods to be much more concise
-         */
-        this.cardCombinations = powerSet(handWithStarter);
-    }
-
-    /**
      * Calculates the sum of point combinations for this hand (if it includes 4
      * {@code Card} objects with a starter {@code Card} object)
      *
@@ -205,8 +173,12 @@ final class CribbageHand implements CribbageCombinations {
             throw new IllegalArgumentException("illegal hand and/or starter card");
         }
 
-        /* Updates all fields then calculates the total points*/
-        this.refreshHand(starter);
+        // Updates all fields then calculates the total points
+        this.starter = starter;
+        this.handWithStarter = new HashSet<>(hand);
+        this.handWithStarter.add(this.starter);
+        this.cardCombinations = powerSet(handWithStarter);  // This is O(2^n), but n is always 5
+
         return fifteens() + multiples() + runs() + flushes() + nobs();
     }
 
@@ -236,7 +208,7 @@ final class CribbageHand implements CribbageCombinations {
      * @return 2 if the card values add up to 15, 0 if not
      */
     private int isFifteen(HashSet<Card> cards) {
-        return cards.stream().mapToInt(this::cribbageValue) // Maps each card to it's cribbage value (10 for face cards)
+        return cards.stream().mapToInt(this::cribbageValue) // Maps each card to its cribbage value (10 for face cards)
                 .sum() == 15 ? 2 : 0;
     }
 
@@ -263,23 +235,13 @@ final class CribbageHand implements CribbageCombinations {
      *
      * <p> Multiples are a double (2 points), triple (6 points) or quadruple (12 points)
      * of one rank of card. Face cards are not considered the same for multiples; a
-     * ten and a queen both have a rank value of 10 but they would not give points
+     * ten and a queen both have a rank value of 10, but they would not give points
      * for a double
      *
      * @return the number of points obtained from multiples
      */
     private int multiples() {
-        // @formatter:off
-        /*
-         * Counting points from each multiple is simple because a multiple of n cards is
-         * worth n*n - n points:
-         *
-         * Single: 1*1-1 = 0 points
-         * Double: 2*2-2 = 2 points
-         * Triple: 3*3 - 3 = 3 points
-         * Quadruple: 4*4 - 4 = 12 points
-         */
-        // @formatter:on
+        // A multiple of n cards is n*n - n points (single: 0, double: 2, triple: 6, quadruple: 12)
         return countDuplicates(this.handWithStarter).values() // Count of each rank present in the hand + starter
                 .stream().mapToInt(v -> v * v - v).sum(); // Total points from multiples
     }
@@ -295,19 +257,13 @@ final class CribbageHand implements CribbageCombinations {
      * @return the number of points obtained from runs
      */
     private int runs() {
-        // @formatter:off
         /*
-         * Each card can be part of multiple runs of the same length, but not not
-         * multiple runs of different lengths. The longest run always trumps lower length runs
-         *
-         * Take a hand containing cards with the ranks 2-3-3-4-5 for example:
-         * -There are eight points from runs: 2-3-4-5 and 2-3-4-5 (with the other 3)
-         * -The combination 2-3-4 is not counted as a run because 2-3-4-5 trumps it
+         * Each card can be part of multiple runs of the same length, but not multiple runs of
+         * different lengths (the longest run always trumps lower length runs)
          */
-        // @formatter:on
         int score = this.cardCombinations.stream().filter(c -> c.size() == 5).mapToInt(this::isRun).sum();
 
-        /* It is only possible to have one length of run possible in a hand */
+        // It is only possible to have one length of run possible in a hand
         if (score == 0) {
             score += this.cardCombinations.stream().filter(c -> c.size() == 4).mapToInt(this::isRun).sum();
             if (score == 0) {
@@ -325,11 +281,11 @@ final class CribbageHand implements CribbageCombinations {
      * the cards do form a run
      */
     private int isRun(HashSet<Card> cards) {
-        /* Creates a sorted list of card rank numbers (ex: [2, 5, 5, 11, 13]) */
+        // Creates a sorted list of card rank numbers (ex: [2, 5, 5, 11, 13])
         ArrayList<Integer> values = cards.stream()
                 .mapToInt(Card::getRankNumber).sorted().boxed().collect(Collectors.toCollection(ArrayList::new));
 
-        /* If any card is 'out of order', no points are given for runs */
+        // If any card is 'out of order', no points are given for runs
         return IntStream.range(0, values.size() - 1).anyMatch(i -> values.get(i) + 1 != values.get(i + 1)) ? 0
                 : values.size();
     }
@@ -346,10 +302,10 @@ final class CribbageHand implements CribbageCombinations {
      * @return the number of points obtained from flushes
      */
     private int flushes() {
-        /* All the suits in this hand */
+        // All the suits in this hand
         HashSet<Suit> suits = this.hand.stream().map(Card::getSuit).collect(Collectors.toCollection(HashSet::new));
 
-        /* If all the suits are the same, 'suits' will only have one object */
+        // If all the suits are the same, 'suits' will only have one object
         return suits.size() == 1 ? 4 + (suits.add(this.starter.getSuit()) ? 0 : 1) : 0;
     }
 
