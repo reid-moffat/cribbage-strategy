@@ -47,11 +47,13 @@ class CribbageHandTest {
 
     @Test
     void totalPoints() {
+        /*
         HashSet<Card> hand = new HashSet<>();
         hand.add(new Card(Rank.ACE, Suit.CLUBS));
 
         CribbageHand test = new CribbageHand(hand);
         int points = test.totalPoints(new Card(null, null));
-        assert points == 7;
+        */
+        assert 1 == 7;
     }
 }
