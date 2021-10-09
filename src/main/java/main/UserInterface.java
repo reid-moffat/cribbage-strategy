@@ -9,8 +9,7 @@ import java.util.*;
 /**
  * UI for a cribbage calculator
  *
- * <p>
- * Used to get user input from the console for a cribbage hand, and use the
+ * <p> Used to get user input from the console for a cribbage hand, and use the
  * class {@code CribbageCombinations} to determine the optimal strategies for
  * dropping cards
  *
@@ -46,8 +45,7 @@ final class UserInterface {
     /**
      * A list of valid card suits that the user can input
      *
-     * <p>
-     * These are not part of the suits in Card.Suit
+     * <p> These are not part of the suits in Card.Suit
      */
     private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(Arrays.asList('C', 'D', 'H', 'S'));
     /**
@@ -70,7 +68,6 @@ final class UserInterface {
             + "'KH': King of hearts\n"
             + "Enter each of the cards in your hand one by one below and press enter:\n";
 
-    // @formatter:off (for string readability)
     /**
      * A set of 5 (3 players) or 6 (2 players) cards the player is dealt at the beginning of the round
      */
@@ -79,13 +76,11 @@ final class UserInterface {
      * Used to get user input from the console
      */
     private final Scanner input;
-    // @formatter:on
 
     /**
      * Initializes a cribbage calculator {@code UserInterface} object
      *
-     * <p>
-     * Use the method {@code .run()} to run the UI
+     * <p> Use the method {@code .run()} to run the UI
      */
     public UserInterface() {
         this.dealtHand = new HashSet<>();
@@ -109,8 +104,7 @@ final class UserInterface {
      * Checks if a String represents a valid card, and returns the {@code Card}
      * object that it represents if it does
      *
-     * <p>
-     * A valid card string is the rank (1-10, j, q or k) of the card followed by the
+     * <p> A valid card string is the rank (1-10, j, q or k) of the card followed by the
      * first letter of the suit (neither are case-sensitive). Examples:
      *
      * <ul>
@@ -153,12 +147,6 @@ final class UserInterface {
 
     public static void main(String[] args) {
         new UserInterface().run();
-
-        int i = 0; // google style check
-        switch (i) {
-            case 1 :
-                break;
-        }
     }
 
     /**
@@ -174,8 +162,7 @@ final class UserInterface {
      * Introduces the program and prompts the user to enter the number of cribbage
      * players in the console
      *
-     * <p>
-     * Loops until a valid number of players is inputted (2-4), then calculates and
+     * <p> Loops until a valid number of players is inputted (2-4), then calculates and
      * returns the number of cards each player starts the game with:
      *
      * <ul>
@@ -224,13 +211,11 @@ final class UserInterface {
     }
 
 
-
     /**
      * Calculates the average cribbage points obtained for each combination of cards
      * to be dropped and prints out the value
      *
-     * <p>
-     * The average number of points takes into account the number of points gained
+     * <p> The average number of points takes into account the number of points gained
      * from each possible starter card to be flipped up
      */
 
@@ -304,7 +289,7 @@ final class UserInterface {
         }
         System.out.println();
         if (fives) System.out.println("(*) Consider keeping fives if you don't have the crib");
-        if (aces )
+        if (aces)
             System.out.println("(**) Aces are good for the play round, consider keeping it is the points are close");
     }
 

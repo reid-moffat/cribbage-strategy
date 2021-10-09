@@ -34,8 +34,7 @@ public enum Suit {
     /**
      * Returns the rank of this {@code Suit}
      *
-     * <p>
-     * Ranks are alphabetical as follows:
+     * <p> Ranks are alphabetical as follows:
      *
      * <ol>
      * <li><code>CLUBS</code></li>
@@ -43,8 +42,8 @@ public enum Suit {
      * <li><code>HEARTS</code></li>
      * <li><code>SPADES</code></li>
      * </ol>
-     * <p>
-     * Note: 'Rank' has nothing to do with the card's rank (ACE, KING, THREE, SEVEN,
+     *
+     * <p> Note: 'Rank' has nothing to do with the card's rank (ACE, KING, THREE, SEVEN,
      * etc.), this is only for card games in which {@code Suits} have different values
      *
      * @return the rank of this {@code Suit}

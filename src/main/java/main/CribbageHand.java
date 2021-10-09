@@ -15,13 +15,11 @@ import java.util.stream.IntStream;
  * The class {@code CribbageHand} represents a player's hand in the game of
  * cribbage
  *
- * <p>
- * Initializing this class requires a {@code HashSet} of {@code Card} objects.
+ * <p> Initializing this class requires a {@code HashSet} of {@code Card} objects.
  * The hand's {@code Cards} can be modified using the methods {@code setHand},
  * {@code add}, {@code clear} and {@code remove}
  *
- * <p>
- * The total points obtained from this cribbage hand (in the counting phase)
+ * <p> The total points obtained from this cribbage hand (in the counting phase)
  * can be calculated by passing a starter {@code Card} object through
  * {@code totalPoints} if this hand has four {@code Card} objects
  *
@@ -33,16 +31,14 @@ final class CribbageHand implements CribbageCombinations {
      * A set of unique playing {@code Cards}. Must include 4 {@code Cards} for
      * points to be calculated
      *
-     * <p>
-     * Does not include the starter {@code Card}
+     * <p> Does not include the starter {@code Card}
      */
     private HashSet<Card> hand;
 
     /**
      * The starter {@code Card}
      *
-     * <p>
-     * Kept separate from the {@code Card} hand due to points from runs and nobs
+     * <p> Kept separate from the {@code Card} hand due to points from runs and nobs
      */
     private Card starter;
 
@@ -56,8 +52,7 @@ final class CribbageHand implements CribbageCombinations {
      * Every combination of {@code Card} objects in the hand and starter
      * {@code Card}
      *
-     * <p>
-     * More formally, the power set of {@code handWithStarter}
+     * <p> More formally, the power set of {@code handWithStarter}
      */
     private HashSet<HashSet<Card>> cardCombinations;
 
@@ -74,8 +69,7 @@ final class CribbageHand implements CribbageCombinations {
     /**
      * Returns the power set of a given {@code HashSet}
      *
-     * <p>
-     * Adapted from <a href=
+     * <p> Adapted from <a href=
      * "https://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java">stack
      * overflow</a>
      *
@@ -167,8 +161,7 @@ final class CribbageHand implements CribbageCombinations {
      * Some fields needs to be refreshed if the hand changes before performing a
      * total point calculation
      *
-     * <p>
-     * This method must always be called in totalPoints()
+     * <p> This method must always be called in totalPoints()
      *
      * @param starter the starter {@code Card} object
      */
@@ -221,14 +214,12 @@ final class CribbageHand implements CribbageCombinations {
     /**
      * Returns the number of points obtained from fifteens
      *
-     * <p>
-     * Each unique combination of cards that add up to 15 is worth two points. Any
+     * <p> Each unique combination of cards that add up to 15 is worth two points. Any
      * number of cards (between 2 and 5) can be used for each combination, and cards
      * may be used for multiple fifteens. All face cards have a value of 10 when
      * calculating fifteens
      *
-     * <p>
-     * For example, a hand with four 5s and a three has 8 (2 points from each
+     * <p> For example, a hand with four 5s and a three has 8 (2 points from each
      * fifteen, 4 choose 3 = 4 fifteens from the fives) points from fifteens
      *
      * @return the number of points obtained from fifteens
@@ -253,8 +244,7 @@ final class CribbageHand implements CribbageCombinations {
     /**
      * Returns the cribbage value of a card. Used to calculate fifteens
      *
-     * <p>
-     * Ranks are as follows:
+     * <p> Ranks are as follows:
      * <ul>
      * <li>Ace: 1</li>
      * <li>Two to ten: Their respective values</li>
@@ -272,8 +262,7 @@ final class CribbageHand implements CribbageCombinations {
      * Returns the number of points obtained from multiples in the given cribbage
      * hand (with the starter card included)
      *
-     * <p>
-     * Multiples are a double (2 points), triple (6 points) or quadruple (12 points)
+     * <p> Multiples are a double (2 points), triple (6 points) or quadruple (12 points)
      * of one rank of card. Face cards are not considered the same for multiples; a
      * ten and a queen both have a rank value of 10 but they would not give points
      * for a double
@@ -299,8 +288,7 @@ final class CribbageHand implements CribbageCombinations {
     /**
      * Returns the number of points obtained from runs
      *
-     * <p>
-     * A run is a sequence of three (3 points), four (4 points) or five (5 points)
+     * <p> A run is a sequence of three (3 points), four (4 points) or five (5 points)
      * cards with consecutive ranks. Suit does not matter, and cards can be part of
      * multiple runs (but only the highest run is counted; a run of four is only four
      * points, NOT two runs of three)
@@ -351,8 +339,7 @@ final class CribbageHand implements CribbageCombinations {
      * Returns the number of points obtained from flushes in a given cribbage hand
      * and starter card
      *
-     * <p>
-     * To obtain a flush, the player's hand must have all four cards of the same
+     * <p> To obtain a flush, the player's hand must have all four cards of the same
      * suit (4 points). If the starter card is also the same suit, 5 points are
      * obtained. Note that if only three cards in the player's hand plus the starter
      * card have the same suit, this is not a flush
@@ -371,8 +358,7 @@ final class CribbageHand implements CribbageCombinations {
      * Returns the number of points obtained from nobs in a given cribbage hand and
      * starter card
      *
-     * <p>
-     * One point is obtained from nobs if the player's hand has a jack of the same
+     * <p> One point is obtained from nobs if the player's hand has a jack of the same
      * suit as the starter card
      *
      * @return the number of points obtained from nobs
@@ -387,8 +373,7 @@ final class CribbageHand implements CribbageCombinations {
      * Maps each card rank number in cards to the number of occurrences of that rank
      * number
      *
-     * <p>
-     * For example, three kings, an ace and four would have the key-value pairs:
+     * <p> For example, three kings, an ace and four would have the key-value pairs:
      *
      * <ul>
      * <li><code>1: 1</code></li>

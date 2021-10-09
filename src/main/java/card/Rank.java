@@ -3,8 +3,7 @@ package card;
 /**
  * The thirteen card ranks in a standard deck of 52 playing cards
  *
- * <p>
- * Card ranks are ordered as aces low:
+ * <p> Card ranks are ordered as aces low:
  *
  * <ol>
  * <li><code>ACE</code>
