@@ -70,8 +70,7 @@ final class CribbageHand implements CribbageCombinations {
      * Returns the power set of a given {@code HashSet}
      *
      * <p> Adapted from <a href=
-     * "https://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java">stack
-     * overflow</a>
+     * "https://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java"> stack overflow</a>
      *
      * @param originalSet a {@code HashSet} of objects
      * @param <T>         the type of objects in {@code originalSet}
