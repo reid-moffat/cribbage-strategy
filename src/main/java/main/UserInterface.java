@@ -18,55 +18,18 @@ import java.util.*;
 final class UserInterface {
 
     /**
-     * A standard 52-deck of cards
+     * A standard 52-card deck
      */
     private static final HashSet<Card> cardPile = initializeDeck();
     /**
-     * A list of valid card ranks used to check if a user input is valid
-     *
-     * <ul>
-     * <li><code>1</code></li>
-     * <li><code>2</code></li>
-     * <li><code>3</code></li>
-     * <li><code>4</code></li>
-     * <li><code>5</code></li>
-     * <li><code>6</code></li>
-     * <li><code>7</code></li>
-     * <li><code>8</code></li>
-     * <li><code>9</code></li>
-     * <li><code>10</code></li>
-     * <li><code>J</code></li>
-     * <li><code>Q</code></li>
-     * <li><code>K</code></li>
-     * </ul>
+     * A list of valid card ranks (1-10, J, Q and K) used to check if a user input is valid
      */
     private static final ArrayList<String> VALID_RANKS = new ArrayList<>(
             Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
     /**
-     * A list of valid card suits that the user can input
-     *
-     * <p> These are not part of the suits in Card.Suit
+     * A list of valid card suit characters that the user can input ('C', 'D', 'H' and 'S')
      */
     private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(Arrays.asList('C', 'D', 'H', 'S'));
-    /**
-     * A string that gives a short introduction to the program and asks the user to
-     * input the number of players in the cribbage game (for determining the number
-     * of starting cards)
-     */
-    private static final String ENTER_PLAYERS = "Cribbage Calculator\n"
-            + "Created by Reid Moffat\n\n"
-            + "How many players (2-4)? ";
-    /**
-     * A string that explains how to properly enter card values, gives some examples
-     * and prompts the user to enter their cards into the console
-     */
-    private static final String ENTER_CARDS = "\nEach card must be its value (1-10, J, Q or K) plus the suit (case insensitive)\n"
-            + "Examples:\n"
-            + "'1D': Ace of diamonds\n"
-            + "'4S': Four of spades\n"
-            + "'10C': Ten of clubs\n"
-            + "'KH': King of hearts\n"
-            + "Enter each of the cards in your hand one by one below and press enter:\n";
 
     /**
      * A set of 5 (3 players) or 6 (2 players) cards the player is dealt at the beginning of the round
@@ -129,8 +92,7 @@ final class UserInterface {
     }
 
     /**
-     * Generates a {@code HashSet} of all 2-{@code Card} combinations in
-     * {@code cards}
+     * Generates a {@code HashSet} of all 2-{@code Card} combinations in {@code cards}
      *
      * @param cards a {@code HashSet} of {@code Card} objects
      * @return a {@code HashSet} of 2-element subsets (stored as {@code Card[]})
@@ -159,24 +121,16 @@ final class UserInterface {
     }
 
     /**
-     * Introduces the program and prompts the user to enter the number of cribbage
-     * players in the console
-     *
-     * <p> Loops until a valid number of players is inputted (2-4), then calculates and
-     * returns the number of cards each player starts the game with:
-     *
-     * <ul>
-     * <li>2 Players: 6 cards</li>
-     * <li>3 Players: 5 cards</li>
-     * <li>4 Players: 5 cards</li>
-     * </ul>
+     * Introduces the program and gets the user to enter the number of cribbage players in the
+     * console; returning the number of cards that each player has (6 cards for 2 players, 5
+     * cards for 3 or 4 players)
      *
      * @return the number of starting cards for the given number of players
      */
     private int getNumCards() {
-        System.out.print(UserInterface.ENTER_PLAYERS);
+        System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
-        /* Loops until a valid number of players is inputted */
+        // Loops until a valid number of players is inputted
         String numPlayers = input.nextLine();
         while (!(numPlayers.equals("2") || numPlayers.equals("3") || numPlayers.equals("4"))) {
             System.out.println("Invalid input. Try again: ");
@@ -194,10 +148,15 @@ final class UserInterface {
      */
     private void getCards(int numCards) {
         System.out.println(numCards + " cards to start");
-        System.out.println(UserInterface.ENTER_CARDS);
+        System.out.println("\nEach cards is represented as their value (1-10, J, Q or K) and suit\n"
+                + "Examples:\n"
+                + "'1D': Ace of diamonds\n"
+                + "'10c': Ten of clubs\n"
+                + "'KH': King of hearts\n"
+                + "Enter each of the cards in your hand one by one below and press enter:\n");
 
-        /* Gets and stores each valid card the user inputs */
-        for (int i = 1; i <= numCards; i++) {
+        // Gets and stores each valid card the user inputs
+        for (int i = 1; i <= numCards; ++i) {
             System.out.print("Card " + i + ": ");
             Card card = checkValidCard(input.nextLine());
             while (card == null || !notInHand(card)) {
@@ -242,7 +201,8 @@ final class UserInterface {
 
                 // The combination and its average number of points to 2 decimals
                 double avgPoints = Math.round(100 * (totalPoints / unknownCards)) / 100.0;
-                hands.add(String.format("%4.0f%s and %s: %3.2f", 100 * avgPoints, combination[0], combination[1], avgPoints));
+                hands.add(String.format("%4.0f%s and %s: %3.2f", 100 * avgPoints, combination[0]
+                        , combination[1], avgPoints));
 
                 hand.add(combination[0]);
                 hand.add(combination[1]);
@@ -265,7 +225,7 @@ final class UserInterface {
 
         // Sorts the combinations from highest to lowest points and outputs them
         hands.sort(Collections.reverseOrder());
-        int counter = 1;
+        int counter = 1; // Current rank (multiple combinations may have the same amount of points)
         boolean fives = false; // Fives and aces are apical cases; you might not want to drop them
         boolean aces = false;
         for (int i = 0; i < hands.size(); ++i) {
