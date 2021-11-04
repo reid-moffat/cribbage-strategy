@@ -96,24 +96,6 @@ final class CribbageHand implements CribbageCombinations {
     }
 
     /**
-     * Sets the cribbage hand to a copy of the specified hand
-     *
-     * @param hand a {@code Set} of {@code Card} objects
-     */
-    @Override
-    public void setHand(HashSet<Card> hand) {
-        this.hand = new HashSet<>(hand);
-    }
-
-    /**
-     * Removes all {@code Card} objects from this hand
-     */
-    @Override
-    public void clearHand() {
-        this.hand.clear();
-    }
-
-    /**
      * Adds a {@code Card} object to this hand
      *
      * @param card a {@code Card} object
