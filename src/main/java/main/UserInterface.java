@@ -7,11 +7,10 @@ import card.Suit;
 import java.util.*;
 
 /**
- * UI for a cribbage calculator
+ * CLI UI for a cribbage calculator
  *
- * <p> Used to get user input from the console for a cribbage hand, and use the
- * class {@code CribbageCombinations} to determine the optimal strategies for
- * dropping cards
+ * <p> Used to get user input from the console for a cribbage hand, and use the class {@code
+ * CribbageCombinations} to determine the optimal strategies for dropping cards
  *
  * @author Reid Moffat
  */
@@ -21,20 +20,25 @@ final class UserInterface {
      * A standard 52-card deck
      */
     private static final HashSet<Card> cardPile = initializeDeck();
+
     /**
      * A list of valid card ranks (1-10, J, Q and K) used to check if a user input is valid
      */
     private static final ArrayList<String> VALID_RANKS = new ArrayList<>(
             Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
+
     /**
      * A list of valid card suit characters that the user can input ('C', 'D', 'H' and 'S')
      */
-    private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(Arrays.asList('C', 'D', 'H', 'S'));
+    private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(
+            Arrays.asList('C', 'D', 'H', 'S'));
 
     /**
-     * A set of 5 (3 players) or 6 (2 players) cards the player is dealt at the beginning of the round
+     * A set of 5 cards (for 3 players) or 6 cards (for 2 players) the player is dealt at the
+     * beginning of the round
      */
     private final HashSet<Card> dealtHand;
+
     /**
      * Used to get user input from the console
      */
@@ -51,24 +55,24 @@ final class UserInterface {
     }
 
     /**
-     * Returns a {@code HashSet} that includes each of the cards (as a {@code Card}
-     * object) in a standard 52-card deck
+     * Returns a {@code HashSet} that includes each of the cards (as a {@code Card} object) in a
+     * standard 52-card deck
      *
      * @return a {@code HashSet} with all standard playing cards
      */
     private static HashSet<Card> initializeDeck() {
         HashSet<Card> deck = new HashSet<>();
-        Arrays.stream(Card.RANKS)
-                .forEach(rank -> Arrays.stream(Card.SUITS).forEach(suit -> deck.add(new Card(rank, suit))));
+        Arrays.stream(Card.RANKS).forEach(rank -> Arrays.stream(Card.SUITS)
+                .forEach(suit -> deck.add(new Card(rank, suit))));
         return deck;
     }
 
     /**
-     * Checks if a String represents a valid card, and returns the {@code Card}
-     * object that it represents if it does
+     * Checks if a String represents a valid card, and returns the {@code Card} object that it
+     * represents if it does
      *
-     * <p> A valid card string is the rank (1-10, j, q or k) of the card followed by the
-     * first letter of the suit (neither are case-sensitive). Examples:
+     * <p> A valid card string is the rank (1-10, j, q or k) of the card followed by the first
+     * letter of the suit (neither are case-sensitive). Examples:
      *
      * <ul>
      * <li>"3d": Three of diamonds</li>
@@ -78,8 +82,8 @@ final class UserInterface {
      * </ul>
      *
      * @param card a string that represents a playing card
-     * @return a {@code Card} object with the specified rank and suit if the
-     * parameter is valid; null otherwise
+     * @return a {@code Card} object with the specified rank and suit if the parameter is valid;
+     * null otherwise
      */
     private static Card checkValidCard(String card) {
         card = card.trim().toUpperCase();
@@ -112,8 +116,9 @@ final class UserInterface {
     }
 
     /**
-     * Runs the program's user interface, calling the required methods in the
-     * correct order
+     * Runs the program's user interface, calling the required methods in the correct order
+     *
+     * <p> No parameters or return value; calling this method will do all
      */
     public void run() {
         this.getCards(this.getNumCards());
@@ -131,7 +136,7 @@ final class UserInterface {
         System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
         // Loops until a valid number of players is inputted
-        String numPlayers = input.nextLine();
+        String numPlayers = input.nextLine().trim();
         while (!(numPlayers.equals("2") || numPlayers.equals("3") || numPlayers.equals("4"))) {
             System.out.println("Invalid input. Try again: ");
             numPlayers = input.nextLine();
@@ -169,24 +174,19 @@ final class UserInterface {
         this.input.close();
     }
 
-
     /**
-     * Calculates the average cribbage points obtained for each combination of cards
-     * to be dropped and prints out the value
+     * Calculates and outputs the average cribbage points obtained for each combination of cards to
+     * be dropped and prints out the value
      *
-     * <p> The average number of points takes into account the number of points gained
-     * from each possible starter card to be flipped up
+     * <p> The average number of points takes into account the number of points gained from each
+     * possible starter card to be flipped up
      */
-
     private void printAveragePoints() {
         CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand));
         ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest points for combinations
 
-        /*
-         * The player has seen either 5 or 6 cards so far (from their hand), implying
-         * that the remaining 47 or 48 cards respectively could all possibly be the
-         * starter
-         */
+        // The player has seen either 5 or 6 cards so far (from their hand), implying that the
+        // remaining 47 or 46 cards respectively could all possibly be the starter
         final int unknownCards = 52 - hand.size();
 
         System.out.println("---Drop combinations by average points---");
@@ -200,9 +200,9 @@ final class UserInterface {
                 double totalPoints = cardPile.stream().filter(this::notInHand).mapToInt(hand::totalPoints).sum();
 
                 // The combination and its average number of points to 2 decimals
-                double avgPoints = Math.round(100 * (totalPoints / unknownCards)) / 100.0;
-                hands.add(String.format("%4.0f%s and %s: %3.2f", 100 * avgPoints, combination[0]
-                        , combination[1], avgPoints));
+                double avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
+                hands.add(String.format("%4.0f%s and %s: %3.2f", 100 * avgPoints, combination[0],
+                        combination[1], avgPoints));
 
                 hand.add(combination[0]);
                 hand.add(combination[1]);
@@ -216,7 +216,7 @@ final class UserInterface {
                 double totalPoints = cardPile.stream().filter(this::notInHand).mapToInt(hand::totalPoints).sum();
 
                 // The combination and its average number of points to 2 decimals
-                double avgPoints = Math.round(100 * (totalPoints / unknownCards)) / 100.0;
+                double avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
                 hands.add(String.format("%4.0f%s: %3.2f", 100 * avgPoints, droppedCard, avgPoints));
 
                 hand.add(droppedCard);
@@ -226,11 +226,11 @@ final class UserInterface {
         // Sorts the combinations from highest to lowest points and outputs them
         hands.sort(Collections.reverseOrder());
         int counter = 1; // Current rank (multiple combinations may have the same amount of points)
-        boolean fives = false; // Fives and aces are apical cases; you might not want to drop them
+        boolean fives = false; // Fives and aces are special cases; you might not want to drop them
         boolean aces = false;
         for (int i = 0; i < hands.size(); ++i) {
-            // The first four characters of the string is the average points (multiplied by 100 to remove the decimal)
-            // So it can be sorted
+            // The first four characters of the string is the average points (multiplied by 100
+            // to remove the decimal) so it can be sorted
             if (i > 0 && hands.get(i).substring(0, 3).compareTo(hands.get(i - 1).substring(0, 3)) != 0) {
                 counter = i + 1;
             }
@@ -248,14 +248,15 @@ final class UserInterface {
             System.out.println();
         }
         System.out.println();
-        if (fives) System.out.println("(*) Consider keeping fives if you don't have the crib");
+        if (fives) System.out.println("(*) Consider keeping fives, especially if you don't have " +
+                "the crib");
         if (aces)
-            System.out.println("(**) Aces are good for the play round, consider keeping it is the points are close");
+            System.out.println("(**) Aces are good for the play round, consider keeping them " +
+                    "if the points are close");
     }
 
     /**
-     * Checks if the player's hand (before dropping cards) contains the specified
-     * card
+     * Checks if the player's hand (before dropping cards) contains the specified card
      *
      * @param card the card to check
      * @return true if the card is not in the player's hand, false otherwise

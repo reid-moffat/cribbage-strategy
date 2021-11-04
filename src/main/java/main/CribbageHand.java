@@ -224,7 +224,7 @@ final class CribbageHand implements CribbageCombinations {
      * @return number of points obtained from all runs of this length
      */
     private int countRuns(int len) {
-        return cardCombinations.stream().filter(cards -> cards.size() == len).mapToInt(
+        return this.cardCombinations.stream().filter(cards -> cards.size() == len).mapToInt(
                 cardSet -> {
                     // Sorted list of card rank numbers (ex: [2, 5, 5, 11, 13])
                     ArrayList<Integer> values = cardSet.stream().mapToInt(Card::getRankNumber)
