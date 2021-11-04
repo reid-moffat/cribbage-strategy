@@ -47,18 +47,6 @@ public final class Card implements PlayingCard {
     }
 
     /**
-     * Sets the rank and suit of this card
-     *
-     * @param rank the card's new {@code Rank}
-     * @param suit the card's new {@code Suit}
-     */
-    @Override
-    public void setState(Rank rank, Suit suit) {
-        this.rank = rank;
-        this.suit = suit;
-    }
-
-    /**
      * Returns this card's rank
      *
      * @return this card's rank

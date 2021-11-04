@@ -212,7 +212,7 @@ final class CribbageHand implements CribbageCombinations {
 
             // If any card is 'out of order', no points are given for runs
             runScores[cards.size() - 3] += IntStream.range(0, values.size() - 1)
-                    .anyMatch(i -> values.get(i) + 1 != values.get(i + 1)) ? 0 : values.size();;
+                    .anyMatch(i -> values.get(i) + 1 != values.get(i + 1)) ? 0 : values.size();
         });
 
         // Only one length of run is possible in a hand (a run of 5 is NOT two runs of 4)
