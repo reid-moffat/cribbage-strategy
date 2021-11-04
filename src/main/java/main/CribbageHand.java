@@ -202,39 +202,21 @@ final class CribbageHand implements CribbageCombinations {
      * @return the number of points obtained from runs
      */
     private int runs() {
-        // It is only possible to have one length of run possible in a hand
-        // i.e. if you have a run of 4 or 5, a run of 3 would have to be part of that run
-        // Note that multiple runs of the same length is still fine, such as 2 unique runs of
-        // length 4 or up to 4 unique runs of length 3
-        int score = this.countRuns(5);
-        if (score == 0) {
-            score += this.countRuns(4);
-            if (score == 0) {
-                score += this.countRuns(3);
-            }
-        }
-        return score;
-    }
+        int[] runScores = {0, 0, 0}; // Total points obtained from each length of run (offset by 3)
 
-    /**
-     * Returns the number of points obtained from runs of a specific length (for all cards in the
-     * hand)
-     *
-     * @param len length of run to check for
-     * @return number of points obtained from all runs of this length
-     */
-    private int countRuns(int len) {
-        return this.cardCombinations.stream().filter(cards -> cards.size() == len).mapToInt(
-                cardSet -> {
-                    // Sorted list of card rank numbers (ex: [2, 5, 5, 11, 13])
-                    ArrayList<Integer> values = cardSet.stream().mapToInt(Card::getRankNumber)
-                            .sorted().boxed().collect(Collectors.toCollection(ArrayList::new));
+        this.cardCombinations.forEach(cards -> {
+            if (cards.size() < 3) return;
+            // Sorted list of card rank numbers (ex: [2, 5, 5, 11, 13])
+            ArrayList<Integer> values = cards.stream().mapToInt(Card::getRankNumber)
+                    .sorted().boxed().collect(Collectors.toCollection(ArrayList::new));
 
-                    // If any card is 'out of order', no points are given for runs
-                    return IntStream.range(0, values.size() - 1)
-                            .anyMatch(i -> values.get(i) + 1 != values.get(i + 1)) ? 0 : values.size();
-                }
-        ).sum();
+            // If any card is 'out of order', no points are given for runs
+            runScores[cards.size() - 3] += IntStream.range(0, values.size() - 1)
+                    .anyMatch(i -> values.get(i) + 1 != values.get(i + 1)) ? 0 : values.size();;
+        });
+
+        // Only one length of run is possible in a hand (a run of 5 is NOT two runs of 4)
+        return runScores[2] != 0 ? runScores[2] : runScores[1] != 0 ? runScores[1] : runScores[0];
     }
 
     /**
