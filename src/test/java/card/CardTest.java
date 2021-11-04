@@ -18,10 +18,6 @@ class CardTest {
     }
 
     @Test
-    void setState() {
-    }
-
-    @Test
     void getRank() {
     }
 

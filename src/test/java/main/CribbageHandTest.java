@@ -18,14 +18,6 @@ class CribbageHandTest {
     }
 
     @Test
-    void setHand() {
-    }
-
-    @Test
-    void clearHand() {
-    }
-
-    @Test
     void add() {
     }
 

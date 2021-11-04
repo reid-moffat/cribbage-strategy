@@ -18,7 +18,47 @@ class SuitTest {
     }
 
     @Test
-    void getSuitRank() {
+    void name() {
+    }
+
+    @Test
+    void ordinal() {
+    }
+
+    @Test
+    void testToString() {
+    }
+
+    @Test
+    void testEquals() {
+    }
+
+    @Test
+    void testHashCode() {
+    }
+
+    @Test
+    void testClone() {
+    }
+
+    @Test
+    void compareTo() {
+    }
+
+    @Test
+    void getDeclaringClass() {
+    }
+
+    @Test
+    void describeConstable() {
+    }
+
+    @Test
+    void valueOf() {
+    }
+
+    @Test
+    void testFinalize() {
     }
 
     @Test
@@ -26,6 +66,6 @@ class SuitTest {
     }
 
     @Test
-    void valueOf() {
+    void testValueOf() {
     }
 }
