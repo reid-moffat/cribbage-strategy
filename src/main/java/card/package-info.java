@@ -1,10 +1,8 @@
 /**
- * Contains classes for a card class designed to represent a card in a standard
- * 52-card playing card deck with various methods for cribbage calculations
+ * Contains classes to represent playing cards in a standard 52-card playing card deck
  *
- * <p> The card class is designed for cribbage and may not include all desired
- * methods for other uses of cards, or produce unexpected results (since
- * cribbage values all face cards as 10)
+ * <p> The card class is designed for cribbage, and such includes certain cribbage-related data
+ * (such as treating all face cards as having a value of 10)
  *
  * @author Reid Moffat
  */

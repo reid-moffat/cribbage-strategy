@@ -1,9 +1,7 @@
 package card;
 
 /**
- * The thirteen card ranks in a standard deck of 52 playing cards
- *
- * <p> Card ranks are ordered as aces low:
+ * The thirteen card ranks in a standard deck of 52 playing cards, ordered with aces low:
  *
  * <ol>
  * <li><code>ACE</code>
@@ -24,7 +22,7 @@ package card;
 public enum Rank {
 
     /**
-     * The rank ace (lowest in this case)
+     * The rank ace (lowest)
      */
     ACE,
 

@@ -9,14 +9,6 @@ package card;
 public interface PlayingCard extends Comparable<Card> {
 
     /**
-     * Sets the rank and suit of this card
-     *
-     * @param rank the card's new rank
-     * @param suit the card's new suit
-     */
-    void setState(Rank rank, Suit suit);
-
-    /**
      * Returns this card's rank
      *
      * @return this card's rank

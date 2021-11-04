@@ -36,24 +36,12 @@ public final class Card implements PlayingCard {
     private Suit suit;
 
     /**
-     * Initializes the card with a rank and suit
+     * Initializes this card with a rank and suit
      *
      * @param rank the card's {@code Rank} enum
      * @param suit the card's {@code Suit} enum
      */
     public Card(Rank rank, Suit suit) {
-        this.rank = rank;
-        this.suit = suit;
-    }
-
-    /**
-     * Sets the rank and suit of this card
-     *
-     * @param rank the card's new {@code Rank}
-     * @param suit the card's new {@code Suit}
-     */
-    @Override
-    public void setState(Rank rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
     }
@@ -110,7 +98,7 @@ public final class Card implements PlayingCard {
      * Returns the number of ranks this card is above the card it is compared to
      *
      * <p>
-     * Aces are low, and negative values mean the card rank is below
+     * Aces are low and negative values mean the card rank is below
      *
      * <p>
      * Examples:

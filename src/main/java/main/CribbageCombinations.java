@@ -10,26 +10,13 @@ import java.util.HashSet;
  * <ul>
  * <li>Store a cribbage hand of cards</li>
  * <li>Add or remove cards from the hand</li>
- * <li>Clear and replace cards in the hand</li>
- * <li>Return the size of the hand</li>
- * <li>Return a copy of the hand</li>
+ * <li>Get the size of the hand</li>
  * <li>Calculate the number of cribbage points in the hand with a starter card</li>
  * </ul>
  *
  * @author Reid Moffat
  */
 public interface CribbageCombinations {
-    /**
-     * Sets the cribbage hand to a copy of the specified hand
-     *
-     * @param hand a {@code Set} of {@code Card} objects
-     */
-    void setHand(HashSet<Card> hand);
-
-    /**
-     * Removes all {@code Card} objects from this hand
-     */
-    void clearHand();
 
     /**
      * Adds a {@code Card} object to this hand
