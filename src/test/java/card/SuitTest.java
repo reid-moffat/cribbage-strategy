@@ -1,71 +1,54 @@
 package card;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class SuitTest {
 
-    @BeforeEach
-    void setUp() {
-        assertEquals(1, 1);
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    void name() {
-    }
-
-    @Test
-    void ordinal() {
-    }
+    private final Suit[] suits = {Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES};
 
     @Test
     void testToString() {
+        final String[] names = {"CLUBS", "DIAMONDS", "HEARTS", "SPADES"};
+        for (int i = 0; i < suits.length; ++i) {
+            assertEquals(suits[i].toString(), names[i]);
+        }
     }
 
     @Test
     void testEquals() {
+        Suit s1 = Suit.CLUBS;
+        Suit s2 = Suit.CLUBS;
+        Suit s3 = Suit.DIAMONDS;
+
+        assertEquals(s1, s2);
+        assertNotEquals(s1, s3);
+        assertNotEquals(s2, s3);
+        s3 = Suit.CLUBS;
+
+        for (int i = 1; i < suits.length; ++i) {
+            s1 = suits[i];
+            s2 = suits[i];
+
+            assertEquals(s1, s2);
+            assertNotEquals(s1, s3);
+            assertNotEquals(s2, s3);
+        }
     }
 
     @Test
     void testHashCode() {
-    }
+        int hashCode1, hashCode2;
+        Suit s2;
+        for (Suit s : suits) {
+            hashCode1 = s.hashCode();
+            s2 = s;
+            hashCode2 = s.hashCode();
 
-    @Test
-    void testClone() {
-    }
-
-    @Test
-    void compareTo() {
-    }
-
-    @Test
-    void getDeclaringClass() {
-    }
-
-    @Test
-    void describeConstable() {
-    }
-
-    @Test
-    void valueOf() {
-    }
-
-    @Test
-    void testFinalize() {
-    }
-
-    @Test
-    void values() {
-    }
-
-    @Test
-    void testValueOf() {
+            assertEquals(hashCode1, hashCode2);
+            assertEquals(hashCode1, s2.hashCode());
+        }
     }
 }
