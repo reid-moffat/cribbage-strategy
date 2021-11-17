@@ -21,13 +21,23 @@ class RankTest {
 
     @Test
     void testEquals() {
-        Rank r1 = Rank.FOUR;
-        Rank r2 = Rank.FOUR;
-        Rank r3 = Rank.FIVE;
+        Rank r1 = Rank.ACE;
+        Rank r2 = Rank.ACE;
+        Rank r3 = Rank.TWO;
 
         assertEquals(r1, r2);
         assertNotEquals(r1, r3);
         assertNotEquals(r2, r3);
+        r3 = Rank.ACE;
+
+        for (int i = 1; i < ranks.length; ++i) {
+            r1 = ranks[i];
+            r2 = ranks[i];
+
+            assertEquals(r1, r2);
+            assertNotEquals(r1, r3);
+            assertNotEquals(r2, r3);
+        }
     }
 
     @Test
@@ -35,9 +45,11 @@ class RankTest {
         // Test that the hashCode value for a specific rank is constant
         // no matter when it is calculated or what variable it is from
         int hashCode1, hashCode2;
+        Rank r2;
+
         for (Rank r : ranks) {
             hashCode1 = r.hashCode();
-            Rank r2 = r;
+            r2 = r;
             hashCode2 = r.hashCode();
 
             assertEquals(hashCode1, hashCode2);

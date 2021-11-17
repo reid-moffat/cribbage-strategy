@@ -40,8 +40,11 @@ class SuitTest {
 
     @Test
     void testHashCode() {
+        // Test that the hashCode value for a specific suit is constant
+        // no matter when it is calculated or what variable it is from
         int hashCode1, hashCode2;
         Suit s2;
+
         for (Suit s : suits) {
             hashCode1 = s.hashCode();
             s2 = s;
