@@ -53,6 +53,13 @@ final class CribbageHand implements CribbageCombinations {
     private HashSet<HashSet<Card>> cardCombinations;
 
     /**
+     * Initializes this {@code CribbageHand} with an empty hand
+     */
+    CribbageHand() {
+        this.hand = new HashSet<>();
+    }
+
+    /**
      * Initializes this {@code CribbageHand} with a set of {@code Cards}
      *
      * @param hand a {@code Set} of {@code Card} objects (not including the starter card)
@@ -144,8 +151,13 @@ final class CribbageHand implements CribbageCombinations {
      */
     @Override
     public int totalPoints(Card starter) {
-        if (this.hand == null || starter == null || this.hand.size() != 4) {
-            throw new IllegalArgumentException("Illegal hand and/or starter card");
+        if (this.hand == null || this.hand.size() != 4) {
+            throw new IllegalArgumentException("Illegal hand: the hand must have four unique " +
+                    "cards in it");
+        }
+        if (starter == null || this.hand.contains(starter)) {
+            throw new IllegalArgumentException("Illegal starter card: the start card must not be " +
+                    "in the hand");
         }
 
         // Update all fields then calculates the total points
