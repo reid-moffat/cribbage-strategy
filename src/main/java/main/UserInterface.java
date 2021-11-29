@@ -5,6 +5,8 @@ import card.Rank;
 import card.Suit;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * CLI UI for a cribbage calculator
@@ -19,7 +21,9 @@ final class UserInterface {
     /**
      * A standard 52-card deck
      */
-    private static final HashSet<Card> cardPile = initializeDeck();
+    private static final HashSet<Card> cardPile =
+            new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values()[i % 13],
+                    Suit.values()[i / 13])).collect(Collectors.toSet()));
 
     /**
      * A list of valid card ranks (1-10, J, Q and K) used to check if a user input is valid
@@ -52,19 +56,6 @@ final class UserInterface {
     public UserInterface() {
         this.dealtHand = new HashSet<>();
         this.input = new Scanner(System.in);
-    }
-
-    /**
-     * Returns a {@code HashSet} that includes each of the cards (as a {@code Card} object) in a
-     * standard 52-card deck
-     *
-     * @return a {@code HashSet} with all standard playing cards
-     */
-    private static HashSet<Card> initializeDeck() {
-        HashSet<Card> deck = new HashSet<>();
-        Arrays.stream(Card.RANKS).forEach(rank -> Arrays.stream(Card.SUITS)
-                .forEach(suit -> deck.add(new Card(rank, suit))));
-        return deck;
     }
 
     /**
@@ -133,6 +124,7 @@ final class UserInterface {
      * @return the number of starting cards for the given number of players
      */
     private int getNumCards() {
+        System.out.println(cardPile.size());
         System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
         // Loops until a valid number of players is inputted
@@ -152,7 +144,6 @@ final class UserInterface {
      * @param numCards the number of cards to be inputted
      */
     private void getCards(int numCards) {
-        System.out.println(numCards + " cards to start");
         System.out.println("\nEach cards is represented as their value (1-10, J, Q or K) and suit\n"
                 + "Examples:\n"
                 + "'1D': Ace of diamonds\n"
