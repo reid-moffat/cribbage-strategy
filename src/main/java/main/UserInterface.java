@@ -124,7 +124,6 @@ final class UserInterface {
      * @return the number of starting cards for the given number of players
      */
     private int getNumCards() {
-        System.out.println(cardPile.size());
         System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
         // Loops until a valid number of players is inputted
@@ -144,6 +143,7 @@ final class UserInterface {
      * @param numCards the number of cards to be inputted
      */
     private void getCards(int numCards) {
+        System.out.println(numCards + " cards to start");
         System.out.println("\nEach cards is represented as their value (1-10, J, Q or K) and suit\n"
                 + "Examples:\n"
                 + "'1D': Ace of diamonds\n"
