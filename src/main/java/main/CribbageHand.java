@@ -102,10 +102,11 @@ final class CribbageHand implements CribbageCombinations {
      * Adds a {@code Card} object to this hand
      *
      * @param card a {@code Card} object
+     * @return if the card was successfully added (the card is not currently in the hand)
      */
     @Override
-    public void add(Card card) {
-        this.hand.add(card);
+    public boolean add(Card card) {
+        return this.hand.add(card);
     }
 
     /**

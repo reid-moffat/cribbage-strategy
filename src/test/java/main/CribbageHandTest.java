@@ -3,6 +3,7 @@ package main;
 import card.Card;
 import card.Rank;
 import card.Suit;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,20 +11,37 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CribbageHandTest {
 
-    // String representation for ranks and suits
-    private static final ArrayList<String> VALID_RANKS = new ArrayList<>(
-            Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
-    private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(
-            Arrays.asList('C', 'D', 'H', 'S'));
-    private final CribbageHand hand = new CribbageHand();
-    // All the possible ranks and suits
+    /**
+     * All possible card ranks
+     */
     private final Rank[] ranks = {Rank.ACE, Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX,
             Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING};
+
+    /**
+     * All possible card suits
+     */
     private final Suit[] suits = {Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES};
+
+    /**
+     * String representation of all the possible card ranks
+     */
+    private static final ArrayList<String> VALID_RANKS = new ArrayList<>(
+            Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
+
+    /**
+     * String representation of all the possible card suits
+     */
+    private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(
+            Arrays.asList('C', 'D', 'H', 'S'));
+
+    /**
+     * Hand for testing
+     */
+    private final CribbageHand hand = new CribbageHand();
 
     @BeforeEach
     void setUp() {
@@ -35,7 +53,7 @@ class CribbageHandTest {
         for (Rank r : ranks) {
             for (Suit s : suits) {
                 hand.add(new Card(r, s));
-                hand.add(new Card(r, s)); // Should not do anything
+                assertFalse(hand.add(new Card(r, s)));
             }
         }
         assertEquals(hand.size(), 52);
@@ -156,29 +174,17 @@ class CribbageHandTest {
      * @param starter  the starter card for this hand (string representation)
      * @param expected the expected amount of points gained from this hand
      */
-    void testHand(String[] cards, String starter, int expected) {
+    void testHand(String @NotNull [] cards, String starter, int expected) {
         if (cards.length != 4 || starter == null) {
             throw new IllegalArgumentException("Must provide four cards and a starter");
         }
 
         clearHand();
         for (String card : cards) {
-            hand.add(validCard(card));
+            hand.add(Card.validCard(card));
         }
 
-        assertEquals(hand.totalPoints(validCard(starter)), expected);
+        assertEquals(hand.totalPoints(Card.validCard(starter)), expected);
     }
 
-    /**
-     * Returns a card object given a string representation
-     */
-    Card validCard(String card) {
-        card = card.trim().toUpperCase();
-        if (card.matches("^(10|[1-9JQK])[SDCH]$")) {
-            Rank rank = Card.RANKS[VALID_RANKS.indexOf(card.substring(0, card.length() - 1))];
-            Suit suit = Card.SUITS[VALID_SUITS.indexOf(card.charAt(card.length() - 1))];
-            return new Card(rank, suit);
-        }
-        throw new IllegalArgumentException("Invalid card: '" + card + "'");
-    }
 }

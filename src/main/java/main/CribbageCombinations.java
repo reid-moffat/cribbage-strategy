@@ -22,8 +22,9 @@ public interface CribbageCombinations {
      * Adds a {@code Card} object to this hand
      *
      * @param card a {@code Card} object
+     * @return if the card was successfully added (the card is not currently in the hand)
      */
-    void add(Card card);
+    boolean add(Card card);
 
     /**
      * Removes a {@code Card} object from this hand
