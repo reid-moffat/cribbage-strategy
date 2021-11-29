@@ -41,12 +41,7 @@ final class UserInterface {
      * A set of 5 cards (for 3 players) or 6 cards (for 2 players) the player is dealt at the
      * beginning of the round
      */
-    private final HashSet<Card> dealtHand;
-
-    /**
-     * Used to get user input from the console
-     */
-    private final Scanner input;
+    private final HashSet<Card> dealtHand = new HashSet<>();
 
     /**
      * Initializes a cribbage calculator {@code UserInterface} object
@@ -54,8 +49,6 @@ final class UserInterface {
      * <p> Use the method {@code .run()} to run the UI
      */
     public UserInterface() {
-        this.dealtHand = new HashSet<>();
-        this.input = new Scanner(System.in);
     }
 
     /**
@@ -120,6 +113,7 @@ final class UserInterface {
      * Prints instructions to the console and gets user input
      */
     private void getUserInput() {
+        final Scanner input = new Scanner(System.in);
         System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
         // Loops until a valid number of players is inputted
@@ -149,7 +143,7 @@ final class UserInterface {
             this.dealtHand.add(card);
             System.out.println(card + "\n");
         }
-        this.input.close();
+        input.close();
     }
 
     /**
