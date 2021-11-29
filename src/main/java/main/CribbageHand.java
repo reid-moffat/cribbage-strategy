@@ -3,6 +3,8 @@ package main;
 import card.Card;
 import card.Rank;
 import card.Suit;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -77,7 +79,7 @@ final class CribbageHand implements CribbageCombinations {
      * @param originalSet a {@code HashSet} of objects
      * @return a {@code HashSet} containing all subsets of {@code originalSet}
      */
-    private static HashSet<HashSet<Card>> powerSet(HashSet<Card> originalSet) {
+    private static @NotNull HashSet<HashSet<Card>> powerSet(@NotNull HashSet<Card> originalSet) {
         HashSet<HashSet<Card>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
             sets.add(new HashSet<>());
@@ -134,8 +136,9 @@ final class CribbageHand implements CribbageCombinations {
      *
      * @return a copy of this hand
      */
+    @Contract(" -> new")
     @Override
-    public HashSet<Card> getCards() {
+    public @NotNull HashSet<Card> getCards() {
         return new HashSet<>(hand);
     }
 

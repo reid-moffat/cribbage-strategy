@@ -3,6 +3,7 @@ package main;
 import card.Card;
 import card.Rank;
 import card.Suit;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +71,7 @@ final class UserInterface {
      * @param cards a {@code HashSet} of {@code Card} objects
      * @return a {@code HashSet} of 2-element subsets (stored as {@code Card[]})
      */
-    private static HashSet<Card[]> subset2(HashSet<Card> cards) {
+    private static @NotNull HashSet<Card[]> subset2(HashSet<Card> cards) {
         HashSet<Card[]> subsets = new HashSet<>();
         HashSet<Card> remaining = new HashSet<>(cards);
         cards.forEach(card1 -> {
@@ -138,7 +139,7 @@ final class UserInterface {
      * <p> The average number of points takes into account the number of points gained from each
      * possible starter card to be flipped up
      */
-    private ArrayList<String> getAveragePoints() {
+    private @NotNull ArrayList<String> getAveragePoints() {
         CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand)); // Current cards
         ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest points for combinations
 
@@ -185,7 +186,7 @@ final class UserInterface {
     /**
      * Prints to the console the average points for each hand with suggestions for cards to keep
      */
-    private void printPoints(ArrayList<String> hands) {
+    private void printPoints(@NotNull ArrayList<String> hands) {
         // Sorts the combinations from highest to lowest points and outputs them
         hands.sort(Collections.reverseOrder());
         int counter = 1; // Current rank (multiple combinations may have the same amount of points)
