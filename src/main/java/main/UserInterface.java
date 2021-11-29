@@ -109,21 +109,17 @@ final class UserInterface {
     /**
      * Runs the program's user interface, calling the required methods in the correct order
      *
-     * <p> No parameters or return value; calling this method will do all
+     * <p> No parameters or return value; calling this method will do all the required work
      */
-    public void run() {
-        this.getCards(this.getNumCards());
-        this.printAveragePoints();
+    private void run() {
+        this.getUserInput();
+        this.printPoints(this.getAveragePoints());
     }
 
     /**
-     * Introduces the program and gets the user to enter the number of cribbage players in the
-     * console; returning the number of cards that each player has (6 cards for 2 players, 5
-     * cards for 3 or 4 players)
-     *
-     * @return the number of starting cards for the given number of players
+     * Prints instructions to the console and gets user input
      */
-    private int getNumCards() {
+    private void getUserInput() {
         System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
         // Loops until a valid number of players is inputted
@@ -132,17 +128,8 @@ final class UserInterface {
             System.out.println("Invalid input. Try again: ");
             numPlayers = input.nextLine();
         }
+        int numCards = numPlayers.equals("2") ? 6 : 5;
 
-        return numPlayers.equals("2") ? 6 : 5;
-    }
-
-    /**
-     * Prompts the user to enter the playing cards in their hand and stores their
-     * values
-     *
-     * @param numCards the number of cards to be inputted
-     */
-    private void getCards(int numCards) {
         System.out.println(numCards + " cards to start");
         System.out.println("\nEach cards is represented as their value (1-10, J, Q or K) and suit\n"
                 + "Examples:\n"
@@ -172,8 +159,8 @@ final class UserInterface {
      * <p> The average number of points takes into account the number of points gained from each
      * possible starter card to be flipped up
      */
-    private void printAveragePoints() {
-        CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand));
+    private ArrayList<String> getAveragePoints() {
+        CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand)); // Current cards
         ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest points for combinations
 
         // The player has seen either 5 or 6 cards so far (from their hand), implying that the
@@ -213,7 +200,13 @@ final class UserInterface {
                 hand.add(droppedCard);
             }
         }
+        return hands;
+    }
 
+    /**
+     * Prints to the console the average points for each hand with suggestions for cards to keep
+     */
+    private void printPoints(ArrayList<String> hands) {
         // Sorts the combinations from highest to lowest points and outputs them
         hands.sort(Collections.reverseOrder());
         int counter = 1; // Current rank (multiple combinations may have the same amount of points)
