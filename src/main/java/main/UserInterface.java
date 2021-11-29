@@ -4,7 +4,10 @@ import card.Card;
 import card.Rank;
 import card.Suit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,18 +27,6 @@ final class UserInterface {
     private static final HashSet<Card> cardPile =
             new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values()[i % 13],
                     Suit.values()[i / 13])).collect(Collectors.toSet()));
-
-    /**
-     * A list of valid card ranks (1-10, J, Q and K) used to check if a user input is valid
-     */
-    private static final ArrayList<String> VALID_RANKS = new ArrayList<>(
-            Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
-
-    /**
-     * A list of valid card suit characters that the user can input ('C', 'D', 'H' and 'S')
-     */
-    private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(
-            Arrays.asList('C', 'D', 'H', 'S'));
 
     /**
      * A set of 5 cards (for 3 players) or 6 cards (for 2 players) the player is dealt at the
@@ -70,13 +61,7 @@ final class UserInterface {
      * null otherwise
      */
     private static Card checkValidCard(String card) {
-        card = card.trim().toUpperCase();
-        if (card.matches("^(10|[1-9JQK])[SDCH]$")) {
-            Rank rank = Card.RANKS[VALID_RANKS.indexOf(card.substring(0, card.length() - 1))];
-            Suit suit = Card.SUITS[VALID_SUITS.indexOf(card.charAt(card.length() - 1))];
-            return new Card(rank, suit);
-        }
-        return null;
+        return Card.validCard(card);
     }
 
     /**

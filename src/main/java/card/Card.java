@@ -1,5 +1,8 @@
 package card;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 /**
@@ -28,12 +31,12 @@ public final class Card implements PlayingCard {
     /**
      * This card's rank enum (ACE, TWO, THREE, ..., QUEEN or KING)
      */
-    private Rank rank;
+    private final Rank rank;
 
     /**
      * This card's suit enum (CLUBS, DIAMONDS, HEARTS or SPADES)
      */
-    private Suit suit;
+    private final Suit suit;
 
     /**
      * Initializes this card with a rank and suit
@@ -44,6 +47,48 @@ public final class Card implements PlayingCard {
     public Card(Rank rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
+    }
+
+    /**
+     * Checks if a string represents a playing card and returns it if it does
+     *
+     * @param card a string that represents a playing card
+     * @return a {@code Card} object with the specified rank and suit if the parameter is valid;
+     * null otherwise
+     */
+    public static @Nullable Card validCard(String card) {
+        card = card.trim().toUpperCase();
+        if (!card.matches("^(10|[1-9JQK])[CDHS]$")) { // Ignore invalid cards
+            return null;
+        }
+
+        Rank rank;
+        switch (card.substring(0, card.length() - 1)) { // Determine the card's rank
+            case "J":
+                rank = RANKS[10]; // Jack is the 11th value i.e. index 10
+                break;
+            case "Q":
+                rank = RANKS[11];
+                break;
+            case "K":
+                rank = RANKS[12];
+                break;
+            default:
+                int value = Integer.parseInt(card.substring(0, card.length() - 1));
+                rank = RANKS[value - 1];
+                break;
+        }
+
+        switch (card.charAt(card.length() - 1)) { // Determine the card's suit
+            case 'C':
+                return new Card(rank, Suit.CLUBS);
+            case 'D':
+                return new Card(rank, Suit.DIAMONDS);
+            case 'H':
+                return new Card(rank, Suit.HEARTS);
+            default:
+                return new Card(rank, Suit.SPADES);
+        }
     }
 
     /**
@@ -112,7 +157,7 @@ public final class Card implements PlayingCard {
      * @return the number of ranks the current card is above the other card
      */
     @Override
-    public int compareTo(Card other) {
+    public int compareTo(@NotNull Card other) {
         return this.getRankNumber() - other.getRankNumber();
     }
 
@@ -156,7 +201,7 @@ public final class Card implements PlayingCard {
      * </ul>
      */
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         String rankString = rank.toString();
         return rankString.charAt(0) // First letter of the rank (a capital letter)
                 + rankString.substring(1).toLowerCase() // Rest of the rank (lower case)
