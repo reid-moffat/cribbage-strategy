@@ -218,13 +218,12 @@ final class CribbageHand implements CribbageCombinations {
 
         this.cardCombinations.forEach(cards -> {
             if (cards.size() < 3) return;
-            // Sorted list of card rank numbers (ex: [2, 5, 5, 11, 13])
-            ArrayList<Integer> values = cards.stream().mapToInt(Card::getRankNumber)
-                    .sorted().boxed().collect(Collectors.toCollection(ArrayList::new));
+            // Sorted list of card rank numbers with duplicates (ex: [2, 5, 5, 11, 13])
+            int[] values = cards.stream().mapToInt(Card::getRankNumber).sorted().toArray();
 
             // If any card is 'out of order', no points are given for runs
-            runScores[cards.size() - 3] += IntStream.range(0, values.size() - 1)
-                    .anyMatch(i -> values.get(i) + 1 != values.get(i + 1)) ? 0 : values.size();
+            runScores[cards.size() - 3] += IntStream.range(0, values.length - 1)
+                    .anyMatch(i -> values[i] + 1 != values[i + 1]) ? 0 : values.length;
         });
 
         // Only one length of run is possible in a hand (a run of 5 is NOT two runs of 4)
