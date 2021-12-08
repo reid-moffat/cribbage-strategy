@@ -11,33 +11,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class CribbageHandTest {
-
-    /**
-     * All possible card ranks
-     */
-    private final Rank[] ranks = {Rank.ACE, Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX,
-            Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING};
-
-    /**
-     * All possible card suits
-     */
-    private final Suit[] suits = {Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES};
 
     /**
      * String representation of all the possible card ranks
      */
     private static final ArrayList<String> VALID_RANKS = new ArrayList<>(
             Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
-
     /**
      * String representation of all the possible card suits
      */
     private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(
             Arrays.asList('C', 'D', 'H', 'S'));
-
+    /**
+     * All possible card ranks
+     */
+    private final Rank[] ranks = {Rank.ACE, Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX,
+            Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING};
+    /**
+     * All possible card suits
+     */
+    private final Suit[] suits = {Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES};
     /**
      * Hand for testing
      */
@@ -162,9 +159,7 @@ class CribbageHandTest {
      * Removes all the cards from this hand
      */
     void clearHand() {
-        for (Card c : hand.getCards()) {
-            hand.remove(c);
-        }
+        for (Card c : hand.getCards()) hand.remove(c);
     }
 
     /**
