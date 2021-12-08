@@ -58,11 +58,11 @@ final class UserInterface {
      * </ul>
      *
      * @param card a string that represents a playing card
-     * @return a {@code Card} object with the specified rank and suit if the parameter is valid;
-     * null otherwise
+     * @return a {@code Card} object with the specified rank and suit if the parameter is valid
+     * @throws IllegalArgumentException if the string does not represent a valid card
      */
     private static Card checkValidCard(String card) {
-        return Card.validCard(card);
+        return Card.stringToCard(card);
     }
 
     /**

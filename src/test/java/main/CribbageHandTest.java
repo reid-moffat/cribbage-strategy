@@ -177,11 +177,10 @@ class CribbageHandTest {
         // Refresh hand
         clearHand();
         for (String card : cards) {
-            Card c = Card.validCard(card);
-            hand.add(c);
+            hand.add(Card.stringToCard(card));
         }
 
-        assertEquals(hand.totalPoints(Card.validCard(starter)), expected);
+        assertEquals(hand.totalPoints(Card.stringToCard(starter)), expected);
     }
 
 }

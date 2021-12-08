@@ -1,7 +1,6 @@
 package card;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -14,19 +13,6 @@ import java.util.Objects;
  * @author Reid Moffat
  */
 public final class Card implements PlayingCard {
-
-    /**
-     * All card ranks in order
-     *
-     * <p>
-     * Ranks are ordered with aces low (ace, two, three, ..., ten, jack, queen, king)
-     */
-    public static final Rank[] RANKS = Rank.values();
-
-    /**
-     * All card suits in alphabetical order
-     */
-    public static final Suit[] SUITS = Suit.values();
 
     /**
      * This card's rank enum (ACE, TWO, THREE, ..., QUEEN or KING)
@@ -50,32 +36,36 @@ public final class Card implements PlayingCard {
     }
 
     /**
-     * Checks if a string represents a playing card and returns it if it does
+     * Takes a string representation of a card and returns the corresponding card object
+     * <p>
+     * The string representation (case-insensitive) must be the rank (1-9, 10, J, Q or K) followed
+     * by the suit (C, D, H, S) (i.e. match the regular expression {@code ^(10|[1-9JQK])[CDHS]$})
      *
      * @param card a string that represents a playing card
-     * @return a {@code Card} object with the specified rank and suit if the parameter is valid;
-     * null otherwise
+     * @return a {@code Card} object with the specified rank and suit if the parameter is valid
+     * @throws IllegalArgumentException if the string does not represent a valid card
      */
-    public static @Nullable Card validCard(String card) {
+    public static @NotNull Card stringToCard(String card) {
         card = card.trim().toUpperCase();
-        if (!card.matches("^(10|[1-9JQK])[CDHS]$")) { // Ignore invalid cards
-            return null;
+        if (!card.matches("^(10|[1-9JQK])[CDHS]$")) {
+            throw new IllegalArgumentException("Card string is invalid, it must match ^" +
+                    "(10|[1-9JQK])[CDHS]$");
         }
 
         Rank rank;
         switch (card.substring(0, card.length() - 1)) { // Determine the card's rank
             case "J":
-                rank = RANKS[10]; // Jack is the 11th value i.e. index 10
+                rank = Rank.JACK;
                 break;
             case "Q":
-                rank = RANKS[11];
+                rank = Rank.QUEEN;
                 break;
             case "K":
-                rank = RANKS[12];
+                rank = Rank.KING;
                 break;
             default:
                 int value = Integer.parseInt(card.substring(0, card.length() - 1));
-                rank = RANKS[value - 1];
+                rank = Rank.values()[value - 1];
                 break;
         }
 

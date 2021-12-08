@@ -69,7 +69,7 @@ final class CribbageHand implements CribbageCombinations {
      */
     CribbageHand(HashSet<Card> hand) {
         if (hand.contains(null)) {
-            throw new IllegalArgumentException("Error: cannot have a null card in the hand");
+            throw new IllegalArgumentException("Cannot have a null card in the hand");
         }
         this.hand = hand;
     }
@@ -112,7 +112,7 @@ final class CribbageHand implements CribbageCombinations {
     @Override
     public boolean add(Card card) {
         if (card == null) {
-            throw new IllegalArgumentException("Error: cannot add a a null card to the hand");
+            throw new IllegalArgumentException("Cannot add a a null card to the hand");
         }
         return this.hand.add(card);
     }

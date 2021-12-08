@@ -68,6 +68,11 @@ class CardTest {
     }
 
     @Test
+    void testStringToCard() {
+
+    }
+
+    @Test
     void testEquals() {
 
     }
