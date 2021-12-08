@@ -174,9 +174,11 @@ class CribbageHandTest {
             throw new IllegalArgumentException("Must provide four cards and a starter");
         }
 
+        // Refresh hand
         clearHand();
         for (String card : cards) {
-            hand.add(Card.validCard(card));
+            Card c = Card.validCard(card);
+            hand.add(c);
         }
 
         assertEquals(hand.totalPoints(Card.validCard(starter)), expected);

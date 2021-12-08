@@ -106,6 +106,7 @@ final class CribbageHand implements CribbageCombinations {
      */
     @Override
     public boolean add(Card card) {
+        if (card == null) throw new IllegalArgumentException("Error: card is null");
         return this.hand.add(card);
     }
 
