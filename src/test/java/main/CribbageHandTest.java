@@ -7,8 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,16 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class CribbageHandTest {
 
-    /**
-     * String representation of all the possible card ranks
-     */
-    private static final ArrayList<String> VALID_RANKS = new ArrayList<>(
-            Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"));
-    /**
-     * String representation of all the possible card suits
-     */
-    private static final ArrayList<Character> VALID_SUITS = new ArrayList<>(
-            Arrays.asList('C', 'D', 'H', 'S'));
     /**
      * All possible card ranks
      */
