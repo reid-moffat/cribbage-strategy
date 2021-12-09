@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class RankTest {
 
-    static final Rank[] ranks = {Rank.ACE, Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX,
-            Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING};
+    static final Rank[] ranks = Rank.values();
 
     @Test
     void testToString() {
