@@ -92,7 +92,7 @@ public enum Rank {
      * By storing this as a field, the overhead is decreased since each call of Rank.values()
      * requires a .clone() call every time it is invoked
      */
-    public static Rank[] values = Rank.values();
+    public static final Rank[] values = Rank.values();
 
     /**
      * Returns the value of this rank with aces low:

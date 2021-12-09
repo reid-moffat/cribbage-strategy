@@ -37,6 +37,6 @@ public enum Suit {
      * By storing this as a field, the overhead is decreased since each call of Suit.values()
      * requires a .clone() call every time it is invoked
      */
-    public static Suit[] values = Suit.values();
+    public static final Suit[] values = Suit.values();
 
 }
