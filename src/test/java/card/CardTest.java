@@ -2,14 +2,18 @@ package card;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CardTest {
 
-    private final Rank[] ranks = RankTest.ranks;
-    private final Suit[] suits = SuitTest.suits;
+    private final Rank[] ranks = Rank.values();
+    private final Suit[] suits = Suit.values();
 
     @Test
     void getRank() {
@@ -69,7 +73,34 @@ class CardTest {
 
     @Test
     void testStringToCard() {
+        // Valid ranks and suits
+        final List<String> rankStrings = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9",
+                "10", "J", "Q", "K", "j", "q", "k");
+        final List<Character> suitStrings = Arrays.asList('c', 'd', 'h', 's', 'C', 'D', 'H', 'S');
 
+        // Valid cases
+        for (int i = 0; i < rankStrings.size(); ++i) {
+            for (int j = 0; j < suitStrings.size(); ++j) {
+                // stringToCard has parameter checking included
+                Card fromString = Card.stringToCard(rankStrings.get(i) + suitStrings.get(j));
+                Card fromEnum = new Card(ranks[i < 13 ? i : i - 3], suits[j < 4 ? j : j - 4]);
+
+                assertEquals(fromString, fromEnum);
+            }
+        }
+
+        // Checks ~430k (~(2^16/100)^2) random invalid cases of a rank and suit combination
+        int[] invalidSuits = IntStream.range(0, Character.MAX_VALUE + 1)
+                .filter(i -> Math.random() < 0.01 && !suitStrings.contains((char) i)).toArray();
+        IntStream.range(0, Character.MAX_VALUE + 1)
+                .filter(i -> Math.random() < 0.01 && !rankStrings.contains(Character.toString(i)))
+                .forEach(rank -> {
+                    for (int suit : invalidSuits) {
+                        assertThrows(IllegalArgumentException.class,
+                                () -> Card.stringToCard(Character.toString(rank) + suit),
+                                "Card should not be legal: " + Character.toString(rank) + suit);
+                    }
+                });
     }
 
     @Test
