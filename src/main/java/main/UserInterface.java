@@ -123,7 +123,7 @@ final class UserInterface {
         for (int i = 1; i <= numCards; ++i) {
             System.out.print("Card " + i + ": ");
             Card card = checkValidCard(input.nextLine());
-            while (card == null || !notInHand(card)) {
+            while (!notInHand(card)) {
                 System.out.print("Invalid or duplicate card, input again: ");
                 card = checkValidCard(input.nextLine());
             }
