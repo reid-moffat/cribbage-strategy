@@ -12,14 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CardTest {
 
-    private final Rank[] ranks = Rank.values();
-    private final Suit[] suits = Suit.values();
-
     @Test
     void getRank() {
         Card c;
-        for (Rank r : ranks) {
-            for (Suit s : suits) {
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
                 c = new Card(r, s);
                 assertEquals(c.getRank(), r);
             }
@@ -29,8 +26,8 @@ class CardTest {
     @Test
     void getSuit() {
         Card c;
-        for (Rank r : ranks) {
-            for (Suit s : suits) {
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
                 c = new Card(r, s);
                 assertEquals(c.getSuit(), s);
             }
@@ -41,11 +38,11 @@ class CardTest {
     void compareTo() {
         Random r = new Random();
         for (int i = 0; i < 1000; ++i) {
-            int[] randomRanks = r.ints(2, 0, ranks.length - 1).toArray();
+            int[] randomRanks = r.ints(2, 0, Rank.values.length - 1).toArray();
             int rank1 = randomRanks[0];
             int rank2 = randomRanks[1];
-            Card c1 = new Card(ranks[rank1], Suit.CLUBS);
-            Card c2 = new Card(ranks[rank2], Suit.CLUBS);
+            Card c1 = new Card(Rank.values[rank1], Suit.CLUBS);
+            Card c2 = new Card(Rank.values[rank2], Suit.CLUBS);
 
             assertEquals(c1.compareTo(c2), rank1 - rank2);
         }
@@ -58,8 +55,8 @@ class CardTest {
         int hashCode1, hashCode2;
         Card c1, c2;
 
-        for (Rank r : ranks) {
-            for (Suit s : suits) {
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
                 c1 = new Card(r, s);
                 hashCode1 = c1.hashCode();
                 c2 = c1;
@@ -83,7 +80,8 @@ class CardTest {
             for (int j = 0; j < suitStrings.size(); ++j) {
                 // stringToCard has parameter checking included
                 Card fromString = Card.stringToCard(rankStrings.get(i) + suitStrings.get(j));
-                Card fromEnum = new Card(ranks[i < 13 ? i : i - 3], suits[j < 4 ? j : j - 4]);
+                Card fromEnum = new Card(Rank.values[i < 13 ? i : i - 3], Suit.values[j < 4 ? j :
+                        j - 4]);
 
                 assertEquals(fromString, fromEnum);
             }

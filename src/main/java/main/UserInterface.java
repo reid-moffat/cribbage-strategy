@@ -26,8 +26,8 @@ final class UserInterface {
      * A standard 52-card deck
      */
     private static final HashSet<Card> cardPile =
-            new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values()[i % 13],
-                    Suit.values()[i / 13])).collect(Collectors.toSet()));
+            new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
+                    Suit.values[i / 13])).collect(Collectors.toSet()));
 
     /**
      * A set of 5 cards (for 3 players) or 6 cards (for 2 players) the player is dealt at the

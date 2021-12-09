@@ -65,7 +65,7 @@ public final class Card implements PlayingCard {
                 break;
             default:
                 int value = Integer.parseInt(card.substring(0, card.length() - 1));
-                rank = Rank.values()[value - 1];
+                rank = Rank.values[value - 1];
                 break;
         }
 

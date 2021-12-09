@@ -34,7 +34,7 @@ public enum Suit {
     /**
      * Array of all suits
      * <p>
-     * By storing this as a field, the overhead is decreased since each call of Rank.values()
+     * By storing this as a field, the overhead is decreased since each call of Suit.values()
      * requires a .clone() call every time it is invoked
      */
     public static Suit[] values = Suit.values();
