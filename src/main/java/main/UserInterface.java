@@ -41,6 +41,7 @@ final class UserInterface {
      * <p> Use the method {@code .run()} to run the UI
      */
     public UserInterface() {
+        assert cardPile.size() == 52;
     }
 
     /**

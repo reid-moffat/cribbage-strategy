@@ -3,14 +3,19 @@ package card;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
+
+    private static final HashSet<Card> allCards =
+            new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
+                    Suit.values[i / 13])).collect(Collectors.toSet()));
 
     @Test
     void getRank() {
@@ -37,7 +42,7 @@ class CardTest {
     @Test
     void compareTo() {
         Random r = new Random();
-        for (int i = 0; i < 1000; ++i) {
+        for (int i = 0; i < 10000; ++i) {
             int[] randomRanks = r.ints(2, 0, Rank.values.length - 1).toArray();
             int rank1 = randomRanks[0];
             int rank2 = randomRanks[1];
@@ -103,20 +108,31 @@ class CardTest {
 
     @Test
     void testEquals() {
-
-
         // Equals contract:
         // 1. x.equals(y) is false if y is null (x == null would cause a nullPointerException)
-        ;
+        allCards.forEach(card -> assertNotEquals(null, card));
 
         // 2. x.equals(y) is false if x and y are not of the same object type
-        ;
+        HashSet<Object> differentTypes = new HashSet<>();
+        differentTypes.add(Rank.values);
+        differentTypes.add(Suit.values);
+        allCards.forEach(card -> {
+            differentTypes.forEach(t -> assertNotEquals(card, t));
+        });
 
         // 3. x.equals(y) is false if x and y are of the same class, but semantically different
-        ;
+        allCards.forEach(card1 -> {
+            allCards.forEach(card2 -> {
+                if (!(card1 == card2)) {
+                    assertNotEquals(card1, card2);
+                }
+            });
+        });
 
         // 4. x.equals(y) is true if x and y are of the same type and semantically equal
-        ;
+        allCards.forEach(card -> {
+            assertEquals(card, new Card(card.getRank(), card.getSuit()));
+        });
     }
 
     @Test

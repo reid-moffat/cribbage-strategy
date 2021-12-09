@@ -16,7 +16,7 @@ import java.util.HashSet;
  *
  * @author Reid Moffat
  */
-public interface CribbageCombinations {
+interface CribbageCombinations {
 
     /**
      * Adds a {@code Card} object to this hand
