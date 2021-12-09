@@ -29,6 +29,14 @@ public enum Suit {
     /**
      * The suit spades
      */
-    SPADES
+    SPADES;
+
+    /**
+     * Array of all suits
+     * <p>
+     * By storing this as a field, the overhead is decreased since each call of Rank.values()
+     * requires a .clone() call every time it is invoked
+     */
+    public static Suit[] values = Suit.values();
 
 }

@@ -106,6 +106,19 @@ class CardTest {
     @Test
     void testEquals() {
 
+
+        // Equals contract:
+        // 1. x.equals(y) is false if y is null (x == null would cause a nullPointerException)
+        ;
+
+        // 2. x.equals(y) is false if x and y are not of the same object type
+        ;
+
+        // 3. x.equals(y) is false if x and y are of the same class, but semantically different
+        ;
+
+        // 4. x.equals(y) is true if x and y are of the same type and semantically equal
+        ;
     }
 
     @Test
