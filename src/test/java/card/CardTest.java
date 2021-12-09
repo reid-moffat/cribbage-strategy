@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -41,16 +40,12 @@ class CardTest {
 
     @Test
     void compareTo() {
-        Random r = new Random();
-        for (int i = 0; i < 10000; ++i) {
-            int[] randomRanks = r.ints(2, 0, Rank.values.length - 1).toArray();
-            int rank1 = randomRanks[0];
-            int rank2 = randomRanks[1];
-            Card c1 = new Card(Rank.values[rank1], Suit.CLUBS);
-            Card c2 = new Card(Rank.values[rank2], Suit.CLUBS);
-
-            assertEquals(c1.compareTo(c2), rank1 - rank2);
-        }
+        allCards.forEach(card1 -> {
+            allCards.forEach(card2 -> {
+                assertEquals(card1.compareTo(card2),
+                        card1.getRank().getRankValue() - card2.getRank().getRankValue());
+            });
+        });
     }
 
     @Test
