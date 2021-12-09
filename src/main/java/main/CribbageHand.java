@@ -65,8 +65,12 @@ final class CribbageHand implements CribbageCombinations {
      * Initializes this {@code CribbageHand} with a set of {@code Cards}
      *
      * @param hand a {@code Set} of {@code Card} objects (not including the starter card)
+     * @throws IllegalArgumentException if any card in the parameter is null
      */
     CribbageHand(HashSet<Card> hand) {
+        if (hand.contains(null)) {
+            throw new IllegalArgumentException("Cannot have a null card in the hand");
+        }
         this.hand = hand;
     }
 
@@ -79,7 +83,8 @@ final class CribbageHand implements CribbageCombinations {
      * @param originalSet a {@code HashSet} of objects
      * @return a {@code HashSet} containing all subsets of {@code originalSet}
      */
-    private static @NotNull HashSet<HashSet<Card>> powerSet(@NotNull HashSet<Card> originalSet) {
+    private static @NotNull
+    HashSet<HashSet<Card>> powerSet(@NotNull HashSet<Card> originalSet) {
         HashSet<HashSet<Card>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
             sets.add(new HashSet<>());
@@ -102,10 +107,15 @@ final class CribbageHand implements CribbageCombinations {
      * Adds a {@code Card} object to this hand
      *
      * @param card a {@code Card} object
+     * @return if the card was successfully added (the card is not currently in the hand)
+     * @throws IllegalArgumentException if the card parameter is null
      */
     @Override
-    public void add(Card card) {
-        this.hand.add(card);
+    public boolean add(Card card) {
+        if (card == null) {
+            throw new IllegalArgumentException("Cannot add a a null card to the hand");
+        }
+        return this.hand.add(card);
     }
 
     /**
@@ -138,7 +148,8 @@ final class CribbageHand implements CribbageCombinations {
      */
     @Contract(" -> new")
     @Override
-    public @NotNull HashSet<Card> getCards() {
+    public @NotNull
+    HashSet<Card> getCards() {
         return new HashSet<>(hand);
     }
 

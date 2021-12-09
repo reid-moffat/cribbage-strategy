@@ -6,7 +6,7 @@ package card;
  *
  * @author Reid Moffat
  */
-public interface PlayingCard extends Comparable<Card> {
+interface PlayingCard extends Comparable<Card> {
 
     /**
      * Returns this card's rank

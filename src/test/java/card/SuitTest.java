@@ -7,13 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class SuitTest {
 
-    static final Suit[] suits = {Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES};
-
     @Test
     void testToString() {
         final String[] names = {"CLUBS", "DIAMONDS", "HEARTS", "SPADES"};
-        for (int i = 0; i < suits.length; ++i) {
-            assertEquals(suits[i].toString(), names[i]);
+        for (int i = 0; i < Suit.values.length; ++i) {
+            assertEquals(Suit.values[i].toString(), names[i]);
         }
     }
 
@@ -28,9 +26,9 @@ class SuitTest {
         assertNotEquals(s2, s3);
         s3 = Suit.CLUBS;
 
-        for (int i = 1; i < suits.length; ++i) {
-            s1 = suits[i];
-            s2 = suits[i];
+        for (int i = 1; i < Suit.values.length; ++i) {
+            s1 = Suit.values[i];
+            s2 = Suit.values[i];
 
             assertEquals(s1, s2);
             assertNotEquals(s1, s3);
@@ -45,7 +43,7 @@ class SuitTest {
         int hashCode1, hashCode2;
         Suit s2;
 
-        for (Suit s : suits) {
+        for (Suit s : Suit.values) {
             hashCode1 = s.hashCode();
             s2 = s;
             hashCode2 = s.hashCode();

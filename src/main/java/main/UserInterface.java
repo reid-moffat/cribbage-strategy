@@ -26,8 +26,8 @@ final class UserInterface {
      * A standard 52-card deck
      */
     private static final HashSet<Card> cardPile =
-            new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values()[i % 13],
-                    Suit.values()[i / 13])).collect(Collectors.toSet()));
+            new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
+                    Suit.values[i / 13])).collect(Collectors.toSet()));
 
     /**
      * A set of 5 cards (for 3 players) or 6 cards (for 2 players) the player is dealt at the
@@ -41,6 +41,7 @@ final class UserInterface {
      * <p> Use the method {@code .run()} to run the UI
      */
     public UserInterface() {
+        assert cardPile.size() == 52;
     }
 
     /**
@@ -58,11 +59,11 @@ final class UserInterface {
      * </ul>
      *
      * @param card a string that represents a playing card
-     * @return a {@code Card} object with the specified rank and suit if the parameter is valid;
-     * null otherwise
+     * @return a {@code Card} object with the specified rank and suit if the parameter is valid
+     * @throws IllegalArgumentException if the string does not represent a valid card
      */
     private static Card checkValidCard(String card) {
-        return Card.validCard(card);
+        return Card.stringToCard(card);
     }
 
     /**
@@ -71,7 +72,8 @@ final class UserInterface {
      * @param cards a {@code HashSet} of {@code Card} objects
      * @return a {@code HashSet} of 2-element subsets (stored as {@code Card[]})
      */
-    private static @NotNull HashSet<Card[]> subset2(HashSet<Card> cards) {
+    private static @NotNull
+    HashSet<Card[]> subset2(HashSet<Card> cards) {
         HashSet<Card[]> subsets = new HashSet<>();
         HashSet<Card> remaining = new HashSet<>(cards);
         cards.forEach(card1 -> {
@@ -122,7 +124,7 @@ final class UserInterface {
         for (int i = 1; i <= numCards; ++i) {
             System.out.print("Card " + i + ": ");
             Card card = checkValidCard(input.nextLine());
-            while (card == null || !notInHand(card)) {
+            while (!notInHand(card)) {
                 System.out.print("Invalid or duplicate card, input again: ");
                 card = checkValidCard(input.nextLine());
             }
@@ -139,7 +141,8 @@ final class UserInterface {
      * <p> The average number of points takes into account the number of points gained from each
      * possible starter card to be flipped up
      */
-    private @NotNull ArrayList<String> getAveragePoints() {
+    private @NotNull
+    ArrayList<String> getAveragePoints() {
         CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand)); // Current cards
         ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest points for combinations
 
