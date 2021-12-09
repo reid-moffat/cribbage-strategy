@@ -45,7 +45,8 @@ public final class Card implements PlayingCard {
      * @return a {@code Card} object with the specified rank and suit if the parameter is valid
      * @throws IllegalArgumentException if the string does not represent a valid card
      */
-    public static @NotNull Card stringToCard(String card) {
+    public static @NotNull
+    Card stringToCard(String card) {
         card = card.trim().toUpperCase();
         if (!card.matches("^(10|[1-9JQK])[CDHS]$")) {
             throw new IllegalArgumentException("Card string is invalid, it must match ^" +
@@ -191,7 +192,8 @@ public final class Card implements PlayingCard {
      * </ul>
      */
     @Override
-    public @NotNull String toString() {
+    public @NotNull
+    String toString() {
         String rankString = rank.toString();
         return rankString.charAt(0) // First letter of the rank (a capital letter)
                 + rankString.substring(1).toLowerCase() // Rest of the rank (lower case)

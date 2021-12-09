@@ -72,7 +72,8 @@ final class UserInterface {
      * @param cards a {@code HashSet} of {@code Card} objects
      * @return a {@code HashSet} of 2-element subsets (stored as {@code Card[]})
      */
-    private static @NotNull HashSet<Card[]> subset2(HashSet<Card> cards) {
+    private static @NotNull
+    HashSet<Card[]> subset2(HashSet<Card> cards) {
         HashSet<Card[]> subsets = new HashSet<>();
         HashSet<Card> remaining = new HashSet<>(cards);
         cards.forEach(card1 -> {
@@ -140,7 +141,8 @@ final class UserInterface {
      * <p> The average number of points takes into account the number of points gained from each
      * possible starter card to be flipped up
      */
-    private @NotNull ArrayList<String> getAveragePoints() {
+    private @NotNull
+    ArrayList<String> getAveragePoints() {
         CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand)); // Current cards
         ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest points for combinations
 

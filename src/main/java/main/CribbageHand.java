@@ -83,7 +83,8 @@ final class CribbageHand implements CribbageCombinations {
      * @param originalSet a {@code HashSet} of objects
      * @return a {@code HashSet} containing all subsets of {@code originalSet}
      */
-    private static @NotNull HashSet<HashSet<Card>> powerSet(@NotNull HashSet<Card> originalSet) {
+    private static @NotNull
+    HashSet<HashSet<Card>> powerSet(@NotNull HashSet<Card> originalSet) {
         HashSet<HashSet<Card>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
             sets.add(new HashSet<>());
@@ -147,7 +148,8 @@ final class CribbageHand implements CribbageCombinations {
      */
     @Contract(" -> new")
     @Override
-    public @NotNull HashSet<Card> getCards() {
+    public @NotNull
+    HashSet<Card> getCards() {
         return new HashSet<>(hand);
     }
 
