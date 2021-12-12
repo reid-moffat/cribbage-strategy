@@ -10,6 +10,10 @@ There are several online calculators that can find points in a given hand and ma
 
 If you would like to run this program, the entry point is UserInterface.java in src/main/java/main. Instructions will be provided to the console
 
+<p align="center">
+    <img align="center" src="https://user-images.githubusercontent.com/61813081/145729405-d7368ff3-130b-4d71-9fbd-ef92269470ce.png">
+<p>
+  
 ## cribbage
 
 If you are unfamiliar with cribbage, an in-depth guide can be found [here](https://bicyclecards.com/how-to-play/cribbage/)
