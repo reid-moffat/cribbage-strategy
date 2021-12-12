@@ -23,6 +23,7 @@ class CribbageHandTest {
      * All possible card suits
      */
     private final Suit[] suits = {Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES};
+
     /**
      * Hand for testing
      */
@@ -30,7 +31,7 @@ class CribbageHandTest {
 
     @BeforeEach
     void setUp() {
-        clearHand();
+        this.hand.clear();
     }
 
     @Test
@@ -144,13 +145,6 @@ class CribbageHandTest {
     }
 
     /**
-     * Removes all the cards from this hand
-     */
-    void clearHand() {
-        for (Card c : hand.getCards()) hand.remove(c);
-    }
-
-    /**
      * Tests the result of a cribbage hand
      *
      * @param cards    array of the string representation of four cards
@@ -163,7 +157,7 @@ class CribbageHandTest {
         }
 
         // Refresh hand
-        clearHand();
+        this.hand.clear();
         for (String card : cards) {
             hand.add(Card.stringToCard(card));
         }

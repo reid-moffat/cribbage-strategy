@@ -34,6 +34,11 @@ interface CribbageCombinations {
     void remove(Card card);
 
     /**
+     * Removes all the {@code Card} objects from this cribbage hand
+     */
+    void clear();
+
+    /**
      * Returns the number of {@code Card} objects in this hand
      *
      * @return the number of {@code Card} objects in this hand

@@ -35,26 +35,6 @@ final class CribbageHand implements CribbageCombinations {
     private final HashSet<Card> hand;
 
     /**
-     * The starter {@code Card}
-     *
-     * <p> Kept separate from the {@code Card} hand due to points from flushes and nobs
-     */
-    private Card starter;
-
-    /**
-     * A set that includes the hand of four {@code Card} objects and the starter
-     * {@code Card}
-     */
-    private HashSet<Card> handWithStarter;
-
-    /**
-     * Every combination of {@code Card} objects in the hand and starter {@code Card}
-     *
-     * <p> More formally, initialized to the power set of {@code handWithStarter}
-     */
-    private HashSet<HashSet<Card>> cardCombinations;
-
-    /**
      * Initializes this {@code CribbageHand} with an empty hand
      */
     CribbageHand() {
@@ -67,7 +47,7 @@ final class CribbageHand implements CribbageCombinations {
      * @param hand a {@code Set} of {@code Card} objects (not including the starter card)
      * @throws IllegalArgumentException if any card in the parameter is null
      */
-    CribbageHand(HashSet<Card> hand) {
+    CribbageHand(@NotNull HashSet<Card> hand) {
         if (hand.contains(null)) {
             throw new IllegalArgumentException("Cannot have a null card in the hand");
         }
@@ -132,6 +112,14 @@ final class CribbageHand implements CribbageCombinations {
     }
 
     /**
+     * Removes all the {@code Card} objects from this cribbage hand
+     */
+    @Override
+    public void clear() {
+        this.hand.clear();
+    }
+
+    /**
      * Returns the number of {@code Card} objects in this hand
      *
      * @return the number of {@code Card} objects in this hand
@@ -174,13 +162,14 @@ final class CribbageHand implements CribbageCombinations {
                     "in the hand");
         }
 
-        // Update all fields then calculates the total points
-        this.starter = starter;
-        this.handWithStarter = new HashSet<>(hand);
-        this.handWithStarter.add(this.starter);
-        this.cardCombinations = powerSet(handWithStarter);  // This is O(2^n), but n is always 5
+        // Various representations of the hand (the hand by itself, the hand with the starter card
+        // and every possible combination of cards) help make calculating the total score easier
+        final HashSet<Card> handWithStarter = new HashSet<>(this.hand);
+        handWithStarter.add(starter);
+        final HashSet<HashSet<Card>> cardCombinations = powerSet(handWithStarter);
 
-        return fifteens() + multiples() + runs() + flushes() + nobs();
+        return fifteens(cardCombinations) + multiples(handWithStarter) + runs(cardCombinations) +
+                flushes(starter) + nobs(starter);
     }
 
     /**
@@ -195,8 +184,8 @@ final class CribbageHand implements CribbageCombinations {
      *
      * @return the number of points obtained from fifteens
      */
-    private int fifteens() {
-        return this.cardCombinations.stream().mapToInt(cards -> cards.stream().mapToInt(card ->
+    private int fifteens(@NotNull HashSet<HashSet<Card>> cardCombinations) {
+        return cardCombinations.stream().mapToInt(cards -> cards.stream().mapToInt(card ->
                 Math.min(card.getRankNumber(), 10)).sum() == 15 ? 2 : 0).sum();
     }
 
@@ -210,10 +199,10 @@ final class CribbageHand implements CribbageCombinations {
      *
      * @return the number of points obtained from multiples
      */
-    private int multiples() {
+    private int multiples(@NotNull HashSet<Card> handWithStarter) {
         // Maps each card rank to the number of occurrences of that rank then counts multiples
         // A multiple of n cards is n*n - n points (single: 0, double: 2, triple: 6, quadruple: 12)
-        return this.handWithStarter.stream()
+        return handWithStarter.stream()
                 .collect(Collectors.groupingBy(Card::getRankNumber, Collectors.summingInt(x -> 1)))
                 .values().stream().mapToInt(v -> v * v - v).sum();
     }
@@ -227,13 +216,15 @@ final class CribbageHand implements CribbageCombinations {
      *
      * @return the number of points obtained from runs
      */
-    private int runs() {
-        int[] runScores = {0, 0, 0}; // Total points obtained from each length of run (offset by 3)
+    private int runs(@NotNull HashSet<HashSet<Card>> cardCombinations) {
+        // Total points obtained from each length of run, offset by 3 (runScores[0] is for length 3)
+        final int[] runScores = {0, 0, 0};
 
-        this.cardCombinations.forEach(cards -> {
+        cardCombinations.forEach(cards -> {
+            // If this may be a run (>2 cards), sort the list of card rank numbers with duplicates
+            // (ex: [2, 5, 5, 11, 13])
             if (cards.size() < 3) return;
-            // Sorted list of card rank numbers with duplicates (ex: [2, 5, 5, 11, 13])
-            int[] values = cards.stream().mapToInt(Card::getRankNumber).sorted().toArray();
+            final int[] values = cards.stream().mapToInt(Card::getRankNumber).sorted().toArray();
 
             // If any card is 'out of order', no points are given for runs
             runScores[cards.size() - 3] += IntStream.range(0, values.length - 1)
@@ -254,13 +245,13 @@ final class CribbageHand implements CribbageCombinations {
      *
      * @return the number of points obtained from flushes
      */
-    private int flushes() {
+    private int flushes(@NotNull Card starter) {
         // All the suits in this hand
         HashSet<Suit> suits = this.hand.stream().map(Card::getSuit).collect(Collectors
                 .toCollection(HashSet::new));
 
         // If all the suits are the same, 'suits' will only have one object
-        return suits.size() == 1 ? 4 + (suits.add(this.starter.getSuit()) ? 0 : 1) : 0;
+        return suits.size() == 1 ? 4 + (suits.add(starter.getSuit()) ? 0 : 1) : 0;
     }
 
     /**
@@ -271,9 +262,9 @@ final class CribbageHand implements CribbageCombinations {
      *
      * @return the number of points obtained from nobs
      */
-    private int nobs() {
+    private int nobs(@NotNull Card starter) {
         return this.hand.stream().filter(c -> c.getRank() == Rank.JACK).map(Card::getSuit)
-                .anyMatch(this.starter.getSuit()::equals) ? 1 : 0;
+                .anyMatch(starter.getSuit()::equals) ? 1 : 0;
     }
 
 }

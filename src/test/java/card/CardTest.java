@@ -83,11 +83,11 @@ class CardTest {
             }
         }
 
-        // Checks ~430k (~(2^16/100)^2) random invalid cases of a rank and suit combination
+        // Checks ~107k (~(2^16/200)^2) random invalid cases of a rank and suit combination
         int[] invalidSuits = IntStream.range(0, Character.MAX_VALUE + 1)
-                .filter(i -> Math.random() < 0.01 && !suitStrings.contains((char) i)).toArray();
+                .filter(i -> Math.random() < 0.005 && !suitStrings.contains((char) i)).toArray();
         IntStream.range(0, Character.MAX_VALUE + 1)
-                .filter(i -> Math.random() < 0.01 && !rankStrings.contains(Character.toString(i)))
+                .filter(i -> Math.random() < 0.005 && !rankStrings.contains(Character.toString(i)))
                 .forEach(rank -> {
                     for (int suit : invalidSuits) {
                         assertThrows(IllegalArgumentException.class,
