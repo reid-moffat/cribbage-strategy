@@ -123,10 +123,15 @@ final class UserInterface {
         // Gets and stores each valid card the user inputs
         for (int i = 1; i <= numCards; ++i) {
             System.out.print("Card " + i + ": ");
-            Card card = checkValidCard(input.nextLine());
-            while (!notInHand(card)) {
-                System.out.print("Invalid or duplicate card, input again: ");
-                card = checkValidCard(input.nextLine());
+            Card card;
+
+            while (true) {
+                try {
+                    card = checkValidCard(input.nextLine());
+                    if (notInHand(card)) break;
+                } catch (IllegalArgumentException e) {
+                    System.out.print("Invalid card, input again: ");
+                }
             }
             this.dealtHand.add(card);
             System.out.println(card + "\n");
