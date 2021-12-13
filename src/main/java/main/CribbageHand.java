@@ -24,7 +24,7 @@ import java.util.stream.IntStream;
  *
  * @author Reid Moffat
  */
-final class CribbageHand implements CribbageCombinations {
+final class CribbageHand {
 
     /**
      * A set of unique playing {@code Cards}. Must include 4 {@code Cards} for points to be
@@ -90,7 +90,6 @@ final class CribbageHand implements CribbageCombinations {
      * @return if the card was successfully added (the card is not currently in the hand)
      * @throws IllegalArgumentException if the card parameter is null
      */
-    @Override
     public boolean add(Card card) {
         if (card == null) {
             throw new IllegalArgumentException("Cannot add a a null card to the hand");
@@ -104,7 +103,6 @@ final class CribbageHand implements CribbageCombinations {
      * @param card a {@code Card} object
      * @throws IllegalArgumentException if the {@code Card} is not in the hand
      */
-    @Override
     public void remove(Card card) {
         if (!this.hand.remove(card)) {
             throw new IllegalArgumentException(card.toString() + "is not present in this hand");
@@ -114,7 +112,6 @@ final class CribbageHand implements CribbageCombinations {
     /**
      * Removes all the {@code Card} objects from this cribbage hand
      */
-    @Override
     public void clear() {
         this.hand.clear();
     }
@@ -124,7 +121,6 @@ final class CribbageHand implements CribbageCombinations {
      *
      * @return the number of {@code Card} objects in this hand
      */
-    @Override
     public int size() {
         return this.hand.size();
     }
@@ -135,7 +131,6 @@ final class CribbageHand implements CribbageCombinations {
      * @return a copy of this hand
      */
     @Contract(" -> new")
-    @Override
     public @NotNull
     HashSet<Card> getCards() {
         return new HashSet<>(hand);
@@ -151,7 +146,6 @@ final class CribbageHand implements CribbageCombinations {
      * @throws IllegalArgumentException if {@code hand} does not contain exactly four {@code Card}
      *                                  objects or {@code starter} is {@code null}
      */
-    @Override
     public int totalPoints(Card starter) {
         if (this.hand == null || this.hand.size() != 4) {
             throw new IllegalArgumentException("Illegal hand: the hand must have four unique " +
