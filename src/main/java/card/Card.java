@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Reid Moffat
  */
-public final class Card implements PlayingCard {
+public final class Card implements Comparable<Card> {
 
     /**
      * This card's rank enum (ACE, TWO, THREE, ..., QUEEN or KING)
@@ -87,7 +87,6 @@ public final class Card implements PlayingCard {
      *
      * @return this card's rank
      */
-    @Override
     public Rank getRank() {
         return this.rank;
     }
@@ -97,7 +96,6 @@ public final class Card implements PlayingCard {
      *
      * @return this card's suit
      */
-    @Override
     public Suit getSuit() {
         return this.suit;
     }
