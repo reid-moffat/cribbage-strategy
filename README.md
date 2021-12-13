@@ -14,8 +14,9 @@ but this calculator can do more:
 
 If you would like to run this program, the entry point is UserInterface.java in src/main/java/main. Instructions will be provided to the console
 
-<p style="display: block; margin-left: auto; margin-right: auto; width: 50%;">
-    <img src="https://user-images.githubusercontent.com/61813081/145729405-d7368ff3-130b-4d71-9fbd-ef92269470ce.png"
+<p align="center">
+    <img style="margin-left: auto; margin-right: auto;"
+         src="https://user-images.githubusercontent.com/61813081/145729405-d7368ff3-130b-4d71-9fbd-ef92269470ce.png"
          alt="Program output example">
 <p>
 
