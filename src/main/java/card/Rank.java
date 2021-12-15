@@ -21,69 +21,18 @@ package card;
  */
 public enum Rank {
 
-    /**
-     * The rank ace (lowest)
-     */
     ACE,
-
-    /**
-     * The rank two
-     */
     TWO,
-
-    /**
-     * The rank three
-     */
     THREE,
-
-    /**
-     * The rank four
-     */
     FOUR,
-
-    /**
-     * The rank five
-     */
     FIVE,
-
-    /**
-     * The rank six
-     */
     SIX,
-
-    /**
-     * The rank seven
-     */
     SEVEN,
-
-    /**
-     * The rank eight
-     */
     EIGHT,
-
-    /**
-     * The rank nine
-     */
     NINE,
-
-    /**
-     * The rank ten
-     */
     TEN,
-
-    /**
-     * The rank jack
-     */
     JACK,
-
-    /**
-     * The rank queen
-     */
     QUEEN,
-
-    /**
-     * The rank king (highest)
-     */
     KING;
 
     /**

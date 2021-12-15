@@ -11,24 +11,9 @@ package card;
  * </ol>
  */
 public enum Suit {
-    /**
-     * The suit clubs
-     */
     CLUBS,
-
-    /**
-     * The suit diamonds
-     */
     DIAMONDS,
-
-    /**
-     * The suit hearts
-     */
     HEARTS,
-
-    /**
-     * The suit spades
-     */
     SPADES;
 
     /**
