@@ -1,8 +1,8 @@
 # cribbage-strategy
 
-Picking which cards to drop in a cribbage hand is often tricky because of the sheer amount of
-possible combinations; you always end up with a mediocre guesstimate at best. Luckily, this is 
-simple for a program to calculate
+Picking which cards to drop in a cribbage hand is tricky because of the sheer amount of possible 
+combinations; you always end up with a guesstimate at best. Luckily, this is  simple for a 
+program to calculate
 
 There are several online calculators that can find points in a given hand and maybe give tips, 
 but this calculator can do more:
@@ -12,7 +12,8 @@ but this calculator can do more:
 * Advise the user on other strategies they should take into account beyond just average points 
   (e.g. don't drop a five when you don't have the crib)
 
-If you would like to run this program, the entry point is UserInterface.java in src/main/java/main. Instructions will be provided to the console
+If you would like to run this program, the entry point is UserInterface.java in 
+src/main/java/main. Instructions will be provided to the console
 
 <p align="center">
     <img style="margin-left: auto; margin-right: auto;"
@@ -20,7 +21,7 @@ If you would like to run this program, the entry point is UserInterface.java in 
          alt="Program output example">
 <p>
 
-## cribbage
+## References
 
 If you are unfamiliar with cribbage, an in-depth guide can be found
 [here](https://bicyclecards.com/how-to-play/cribbage/)
