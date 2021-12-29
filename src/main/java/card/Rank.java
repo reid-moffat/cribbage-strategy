@@ -37,8 +37,8 @@ public enum Rank {
 
     /**
      * Array of all ranks
-     * <p>
-     * Use of this over Rank.values() is preferred since Rank.values() requires a .clone() call
+     *
+     * <p> Use of this over Rank.values() is preferred since Rank.values() requires a .clone() call
      * every time it is invoked
      */
     public static final Rank[] values = Rank.values();

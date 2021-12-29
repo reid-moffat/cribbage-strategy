@@ -31,9 +31,9 @@ public final class Card implements Comparable<Card> {
 
     /**
      * Takes a string representation of a card and returns the corresponding card object
-     * <p>
-     * The string representation (case-insensitive) must be the rank (1-9, 10, J, Q or K) followed
-     * by the suit (C, D, H, S) (i.e. case-insensitive match the regular expression {@code
+     *
+     * <p> The string representation (case-insensitive) must be the rank (1-9, 10, J, Q or K)
+     * followed by the suit (C, D, H, S) (i.e. case-insensitive match the regular expression {@code
      * ^(10|[1-9JQK])[CDHS]$})
      *
      * @param card a string that represents a playing card
@@ -105,8 +105,7 @@ public final class Card implements Comparable<Card> {
     /**
      * Returns the rank number of this card
      *
-     * <p>
-     * Rank numbers are as follows:
+     * <p> Rank numbers are as follows:
      *
      * <ol>
      * <li><code>ACE</code>
@@ -132,11 +131,10 @@ public final class Card implements Comparable<Card> {
 
     /**
      * Returns the number of ranks this card is above the card it is compared to
-     * <p>
-     * Aces are low and negative values mean the card rank is below
      *
-     * <p>
-     * Examples:
+     * <p>Aces are low and negative values mean the card rank is below
+     *
+     * <p> Examples:
      * <ul>
      * <li>Comparing a jack to a five returns 6</li>
      * <li>Comparing an ace to a six returns -5</li>
@@ -176,11 +174,10 @@ public final class Card implements Comparable<Card> {
 
     /**
      * Returns the English description this card
-     * <p>
-     * The structure of the string is "<i>Rank</i> of <i>suit</i>"
      *
-     * <p>
-     * Examples:
+     * <p> The structure of the string is "<i>Rank</i> of <i>suit</i>"
+     *
+     * <p> Examples:
      * <ul>
      * <li>"Ace of spades"</li>
      * <li>"Three of clubs"</li>
