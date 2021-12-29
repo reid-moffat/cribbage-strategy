@@ -5,10 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * Represents cards in a standard 52-card playing card deck
- *
- * <p>
- * Each card has a {@code Rank} and {@code Suit}
+ * An immutable playing card in a standard 52-card deck
  *
  * @author Reid Moffat
  */
@@ -26,9 +23,6 @@ public final class Card implements Comparable<Card> {
 
     /**
      * Initializes this card with a rank and suit
-     *
-     * @param rank the card's {@code Rank} enum
-     * @param suit the card's {@code Suit} enum
      */
     public Card(Rank rank, Suit suit) {
         this.rank = rank;
@@ -39,7 +33,8 @@ public final class Card implements Comparable<Card> {
      * Takes a string representation of a card and returns the corresponding card object
      * <p>
      * The string representation (case-insensitive) must be the rank (1-9, 10, J, Q or K) followed
-     * by the suit (C, D, H, S) (i.e. match the regular expression {@code ^(10|[1-9JQK])[CDHS]$})
+     * by the suit (C, D, H, S) (i.e. case-insensitive match the regular expression {@code
+     * ^(10|[1-9JQK])[CDHS]$})
      *
      * @param card a string that represents a playing card
      * @return a {@code Card} object with the specified rank and suit if the parameter is valid
@@ -53,8 +48,12 @@ public final class Card implements Comparable<Card> {
                     "(10|[1-9JQK])[CDHS]$");
         }
 
+        // Extract the rank and suit parts of the input
+        final String rankString = card.substring(0, card.length() - 1);
+        final char suitString = card.charAt(card.length() - 1);
+
         Rank rank;
-        switch (card.substring(0, card.length() - 1)) { // Determine the card's rank
+        switch (rankString) { // Translate the card's rank
             case "J":
                 rank = Rank.JACK;
                 break;
@@ -65,20 +64,23 @@ public final class Card implements Comparable<Card> {
                 rank = Rank.KING;
                 break;
             default:
-                int value = Integer.parseInt(card.substring(0, card.length() - 1));
+                final int value = Integer.parseInt(card.substring(0, card.length() - 1));
                 rank = Rank.values[value - 1];
                 break;
         }
 
-        switch (card.charAt(card.length() - 1)) { // Determine the card's suit
+        switch (suitString) { // Translate the card's suit
             case 'C':
                 return new Card(rank, Suit.CLUBS);
             case 'D':
                 return new Card(rank, Suit.DIAMONDS);
             case 'H':
                 return new Card(rank, Suit.HEARTS);
-            default:
+            case 'S':
                 return new Card(rank, Suit.SPADES);
+            default:
+                throw new IllegalStateException("The program is in an impossible state: "
+                        + suitString + " is not a valid suit");
         }
     }
 
@@ -130,13 +132,11 @@ public final class Card implements Comparable<Card> {
 
     /**
      * Returns the number of ranks this card is above the card it is compared to
-     *
      * <p>
      * Aces are low and negative values mean the card rank is below
      *
      * <p>
      * Examples:
-     *
      * <ul>
      * <li>Comparing a jack to a five returns 6</li>
      * <li>Comparing an ace to a six returns -5</li>
@@ -176,7 +176,6 @@ public final class Card implements Comparable<Card> {
 
     /**
      * Returns the English description this card
-     *
      * <p>
      * The structure of the string is "<i>Rank</i> of <i>suit</i>"
      *
