@@ -15,16 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class CribbageHandTest {
 
     /**
-     * All possible card ranks
-     */
-    private final Rank[] ranks = {Rank.ACE, Rank.TWO, Rank.THREE, Rank.FOUR, Rank.FIVE, Rank.SIX,
-            Rank.SEVEN, Rank.EIGHT, Rank.NINE, Rank.TEN, Rank.JACK, Rank.QUEEN, Rank.KING};
-    /**
-     * All possible card suits
-     */
-    private final Suit[] suits = {Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES};
-
-    /**
      * Hand for testing
      */
     private final CribbageHand hand = new CribbageHand();
@@ -36,8 +26,8 @@ class CribbageHandTest {
 
     @Test
     void add() {
-        for (Rank r : ranks) {
-            for (Suit s : suits) {
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
                 hand.add(new Card(r, s));
                 assertFalse(hand.add(new Card(r, s)));
             }
@@ -47,14 +37,14 @@ class CribbageHandTest {
 
     @Test
     void remove() {
-        for (Rank r : ranks) {
-            for (Suit s : suits) {
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
                 hand.add(new Card(r, s));
                 hand.add(new Card(r, s));
             }
         }
-        for (Rank r : ranks) {
-            for (Suit s : suits) {
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
                 hand.remove(new Card(r, s));
             }
         }
@@ -64,12 +54,18 @@ class CribbageHandTest {
     @Test
     void getCards() {
         // Ensure that only a copy is returned
-        hand.add(new Card(Rank.ACE, Suit.CLUBS));
-        HashSet<Card> handCopy = hand.getCards();
-        handCopy.clear();
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
+                hand.add(new Card(r, s));
+                HashSet<Card> handCopy = hand.getCards();
+                handCopy.clear();
 
-        assertEquals(hand.size(), 1);
-        assertEquals(handCopy.size(), 0);
+                assertEquals(hand.size(), 1);
+                assertEquals(handCopy.size(), 0);
+
+                hand.clear();
+            }
+        }
     }
 
     @Test
