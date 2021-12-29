@@ -11,6 +11,7 @@ package card;
  * </ol>
  */
 public enum Suit {
+
     CLUBS,
     DIAMONDS,
     HEARTS,
@@ -18,9 +19,9 @@ public enum Suit {
 
     /**
      * Array of all suits
-     * <p>
-     * By storing this as a field, the overhead is decreased since each call of Suit.values()
-     * requires a .clone() call every time it is invoked
+     *
+     * <p> Use of this over Suit.values() is preferred since Suit.values() requires a .clone() call
+     * every time it is invoked
      */
     public static final Suit[] values = Suit.values();
 

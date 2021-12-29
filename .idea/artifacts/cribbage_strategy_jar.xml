@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="cribbage-strategy:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/cribbage_strategy_jar</output-path>
-    <root id="archive" name="cribbage-strategy.jar">
-      <element id="module-output" name="cribbage-strategy" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/22.0.0/annotations-22.0.0.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>

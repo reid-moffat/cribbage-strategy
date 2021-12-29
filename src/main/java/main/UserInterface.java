@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 /**
  * CLI UI for a cribbage calculator
  *
- * <p> Used to get user input from the console for a cribbage hand, and use the class {@code
+ * <p>Used to get user input from the console for a cribbage hand, and use the class {@code
  * CribbageCombinations} to determine the optimal strategies for dropping cards
  *
  * @author Reid Moffat
@@ -38,7 +38,7 @@ final class UserInterface {
     /**
      * Initializes a cribbage calculator {@code UserInterface} object
      *
-     * <p> Use the method {@code .run()} to run the UI
+     * <p>Use the method {@code .run()} to run the UI
      */
     public UserInterface() {
         assert cardPile.size() == 52;
@@ -156,6 +156,7 @@ final class UserInterface {
         final int unknownCards = 52 - hand.size();
 
         System.out.println("---Drop combinations by average points---");
+        double totalPoints, avgPoints;
         if (hand.size() == 6) { // With 6 cards, 2 must be dropped
             // Each hand possibility (removing two cards) is calculated for average points
             for (Card[] combination : subset2(hand.getCards())) {
@@ -163,10 +164,11 @@ final class UserInterface {
                 hand.remove(combination[1]);
 
                 // Calculate the total number of points (all starters) for this combination
-                double totalPoints = cardPile.stream().filter(this::notInHand).mapToInt(hand::totalPoints).sum();
+                totalPoints = cardPile.stream().filter(this::notInHand)
+                        .mapToInt(hand::totalPoints).sum();
 
                 // The combination and its average number of points to 2 decimals
-                double avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
+                avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
                 hands.add(String.format("%4.0f%s and %s: %3.2f", 100 * avgPoints, combination[0],
                         combination[1], avgPoints));
 
@@ -179,10 +181,11 @@ final class UserInterface {
                 hand.remove(droppedCard);
 
                 // Calculate the total number of points (all starters) for this combination
-                double totalPoints = cardPile.stream().filter(this::notInHand).mapToInt(hand::totalPoints).sum();
+                totalPoints = cardPile.stream().filter(this::notInHand)
+                        .mapToInt(hand::totalPoints).sum();
 
                 // The combination and its average number of points to 2 decimals
-                double avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
+                avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
                 hands.add(String.format("%4.0f%s: %3.2f", 100 * avgPoints, droppedCard, avgPoints));
 
                 hand.add(droppedCard);

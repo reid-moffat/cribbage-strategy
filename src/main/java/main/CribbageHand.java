@@ -58,7 +58,8 @@ final class CribbageHand {
      * Returns the power set of a given {@code HashSet}
      *
      * <p> Adapted from
-     * <a href="https://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java">stack overflow</a>
+     * <a href="https://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java">
+     * stack overflow</a>
      *
      * @param originalSet a {@code HashSet} of objects
      * @return a {@code HashSet} containing all subsets of {@code originalSet}
@@ -92,7 +93,7 @@ final class CribbageHand {
      */
     public boolean add(Card card) {
         if (card == null) {
-            throw new IllegalArgumentException("Cannot add a a null card to the hand");
+            throw new IllegalArgumentException("Cannot add a null card to the hand");
         }
         return this.hand.add(card);
     }
@@ -215,7 +216,7 @@ final class CribbageHand {
         final int[] runScores = {0, 0, 0};
 
         cardCombinations.forEach(cards -> {
-            // If this may be a run (>2 cards), sort the list of card rank numbers with duplicates
+            // If this could be a run (>2 cards), sort the list of card rank numbers with duplicates
             // (ex: [2, 5, 5, 11, 13])
             if (cards.size() < 3) return;
             final int[] values = cards.stream().mapToInt(Card::getRankNumber).sorted().toArray();

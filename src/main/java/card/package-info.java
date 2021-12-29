@@ -1,8 +1,6 @@
 /**
- * Contains classes to represent playing cards in a standard 52-card playing card deck
- *
- * <p> The card class is designed for cribbage, and such includes certain cribbage-related data
- * (such as treating all face cards as having a value of 10)
+ * Contains a Card class and corresponding Suit and Rank enumerations to represent playing cards
+ * in a standard 52-card deck
  *
  * @author Reid Moffat
  */
