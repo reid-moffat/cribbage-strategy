@@ -1,8 +1,8 @@
 # cribbage-strategy
 
 Picking which cards to drop in a cribbage hand is tricky because of the sheer amount of possible
-combinations; you always end up with a guesstimate at best. Luckily, this is simple for a program to
-calculate
+combinations; you always end up with a guesstimate at best. Luckily, optimizing a cribbage hand
+is simple for a program to calculate
 
 There are several online calculators that can find points in a given hand and maybe give tips, but
 this calculator can do more:
