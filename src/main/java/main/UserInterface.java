@@ -42,7 +42,6 @@ final class UserInterface {
      * <p>Use the method {@code .run()} to run the UI
      */
     public UserInterface() {
-        assert cardPile.size() == 52;
     }
 
     /**
@@ -74,8 +73,7 @@ final class UserInterface {
      * @param cards a {@code HashSet} of {@code Card} objects
      * @return a {@code HashSet} of 2-element subsets (stored as {@code Card[]})
      */
-    private static @NotNull
-    HashSet<Card[]> subset2(HashSet<Card> cards) {
+    private static @NotNull HashSet<Card[]> subset2(HashSet<Card> cards) {
         HashSet<Card[]> subsets = new HashSet<>();
         HashSet<Card> remaining = new HashSet<>(cards);
         cards.forEach(card1 -> {
@@ -148,10 +146,9 @@ final class UserInterface {
      * <p> The average number of points takes into account the number of points gained from each
      * possible starter card to be flipped up
      */
-    private @NotNull
-    ArrayList<String> getAveragePoints() {
-        CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand)); // Current cards
-        ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest points for combinations
+    private @NotNull ArrayList<String> getAveragePoints() {
+        final CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand)); // Current cards
+        final ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest point combinations
 
         // The player has seen either 5 or 6 cards so far (from their hand), implying that the
         // remaining 47 or 46 cards respectively could all possibly be the starter
@@ -199,12 +196,12 @@ final class UserInterface {
     /**
      * Prints to the console the average points for each hand with suggestions for cards to keep
      */
-    private void printPoints(@NotNull ArrayList<String> hands) {
+    private void printPoints(@NotNull ArrayList<String> hands) { // TODO: clean this up
         // Sorts the combinations from highest to lowest points and outputs them
         hands.sort(Collections.reverseOrder());
         int counter = 1; // Current rank (multiple combinations may have the same amount of points)
-        boolean fives = false; // Fives and aces are special cases; you might not want to drop them
-        boolean aces = false;
+        boolean fives = false, aces = false; // Fives and aces are special cases; you might not want
+        // to drop them
         for (int i = 0; i < hands.size(); ++i) {
             // The first four characters of the string is the average points (multiplied by 100
             // to remove the decimal) so it can be sorted
@@ -224,12 +221,13 @@ final class UserInterface {
             }
             System.out.println();
         }
+
         System.out.println();
-        if (fives) System.out.println("(*) Consider keeping fives, especially if you don't have " +
-                "the crib");
+        if (fives) System.out.println("(*) Consider keeping fives (if the points are close), " +
+                    "especially if you don't have the crib");
         if (aces)
             System.out.println("(**) Aces are good for the play round, consider keeping them " +
-                    "if the points are close");
+                    "(if the points are close)");
     }
 
     /**
