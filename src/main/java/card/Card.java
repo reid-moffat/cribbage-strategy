@@ -40,20 +40,15 @@ public final class Card implements Comparable<Card> {
      * @return a {@code Card} object with the specified rank and suit if the parameter is valid
      * @throws IllegalArgumentException if the string does not represent a valid card
      */
-    public static @NotNull
-    Card stringToCard(String card) {
+    public static @NotNull Card stringToCard(String card) {
         card = card.trim().toUpperCase();
         if (!card.matches("^(10|[1-9JQK])[CDHS]$")) {
             throw new IllegalArgumentException("Card string is invalid, it must match ^" +
                     "(10|[1-9JQK])[CDHS]$");
         }
 
-        // Extract the rank and suit parts of the input
-        final String rankString = card.substring(0, card.length() - 1);
-        final char suitString = card.charAt(card.length() - 1);
-
         Rank rank;
-        switch (rankString) { // Translate the card's rank
+        switch (card.substring(0, card.length() - 1)) { // Translate the card's rank
             case "J":
                 rank = Rank.JACK;
                 break;
@@ -64,12 +59,11 @@ public final class Card implements Comparable<Card> {
                 rank = Rank.KING;
                 break;
             default:
-                final int value = Integer.parseInt(card.substring(0, card.length() - 1));
-                rank = Rank.values[value - 1];
+                rank = Rank.values[Integer.parseInt(card.substring(0, card.length() - 1)) - 1];
                 break;
         }
 
-        switch (suitString) { // Translate the card's suit
+        switch (card.charAt(card.length() - 1)) { // Translate the card's suit
             case 'C':
                 return new Card(rank, Suit.CLUBS);
             case 'D':
@@ -79,8 +73,7 @@ public final class Card implements Comparable<Card> {
             case 'S':
                 return new Card(rank, Suit.SPADES);
             default:
-                throw new IllegalStateException("The program is in an impossible state: "
-                        + suitString + " is not a valid suit");
+                throw new IllegalStateException("Program is in an impossible state: " + card);
         }
     }
 
@@ -168,7 +161,7 @@ public final class Card implements Comparable<Card> {
         if (!(obj instanceof Card)) {
             return false;
         }
-        Card other = (Card) obj;
+        final Card other = (Card) obj;
         return rank == other.rank && suit == other.suit;
     }
 
@@ -188,7 +181,7 @@ public final class Card implements Comparable<Card> {
     @Override
     public @NotNull
     String toString() {
-        String rankString = rank.toString();
+        final String rankString = rank.toString();
         return rankString.charAt(0) // First letter of the rank (a capital letter)
                 + rankString.substring(1).toLowerCase() // Rest of the rank (lower case)
                 + " of " + suit.toString().toLowerCase(); // Suit (lowercase)

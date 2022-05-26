@@ -3,6 +3,7 @@ package main;
 import card.Card;
 import card.Rank;
 import card.Suit;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -62,7 +63,8 @@ final class UserInterface {
      * @return a {@code Card} object with the specified rank and suit if the parameter is valid
      * @throws IllegalArgumentException if the string does not represent a valid card
      */
-    private static Card checkValidCard(String card) {
+    @Contract("_ -> new")
+    private static @NotNull Card checkValidCard(String card) throws IllegalArgumentException {
         return Card.stringToCard(card);
     }
 
