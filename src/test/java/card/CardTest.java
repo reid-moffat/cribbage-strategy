@@ -41,7 +41,7 @@ class CardTest {
     @Test
     void compareTo() {
         allCards.forEach(card1 -> allCards.forEach(card2 -> assertEquals(card1.compareTo(card2),
-                card1.getRank().getRankValue() - card2.getRank().getRankValue())));
+                card1.getRankNumber() - card2.getRankNumber())));
     }
 
     @Test

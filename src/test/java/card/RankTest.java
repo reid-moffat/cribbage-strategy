@@ -54,11 +54,4 @@ class RankTest {
         }
     }
 
-    @Test
-    void getRankValue() {
-        for (int i = 0; i < Rank.values.length; ++i) {
-            assertEquals(Rank.values[i].getRankValue(), i + 1);
-        }
-    }
-
 }
