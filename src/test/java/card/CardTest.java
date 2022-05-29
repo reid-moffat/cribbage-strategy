@@ -1,10 +1,12 @@
 package card;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -12,11 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
 
-    private static HashSet<Card> allCards;
+    private static Set<Card> allCards;
 
-    void setUp() {
+    @BeforeAll
+    static void setUpClass() {
         allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
-                Suit.values[i / 13])).collect(Collectors.toCollection(HashSet::new));
+                Suit.values[i / 13])).collect(Collectors.toUnmodifiableSet());
     }
 
     @Test
