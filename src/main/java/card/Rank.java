@@ -43,21 +43,4 @@ public enum Rank {
      */
     public static final Rank[] values = Rank.values();
 
-    /**
-     * Returns the value of this rank with aces low:
-     *
-     * <ul>
-     * <li><code>ACE</code>: 1
-     * <li><code>TWO to TEN</code>: Their respective values
-     * <li><code>JACK</code>: 11
-     * <li><code>QUEEN</code>: 12
-     * <li><code>KING</code>: 13
-     * </ul>
-     *
-     * @return the rank place of the rank
-     */
-    int getRankValue() {
-        return this.ordinal() + 1;
-    }
-
 }

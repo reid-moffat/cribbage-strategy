@@ -1,5 +1,6 @@
 package card;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -82,6 +83,7 @@ public final class Card implements Comparable<Card> {
      *
      * @return this card's rank
      */
+    @Contract(pure = true)
     public Rank getRank() {
         return this.rank;
     }
@@ -91,35 +93,28 @@ public final class Card implements Comparable<Card> {
      *
      * @return this card's suit
      */
+    @Contract(pure = true)
     public Suit getSuit() {
         return this.suit;
     }
 
     /**
-     * Returns the rank number of this card
+     * Returns the rank number of this card with aces low
      *
      * <p> Rank numbers are as follows:
      *
-     * <ol>
-     * <li><code>ACE</code>
-     * <li><code>TWO</code>
-     * <li><code>THREE</code>
-     * <li><code>FOUR</code>
-     * <li><code>FIVE</code>
-     * <li><code>SIX</code>
-     * <li><code>SEVEN</code>
-     * <li><code>EIGHT</code>
-     * <li><code>NINE</code>
-     * <li><code>TEN</code>
-     * <li><code>JACK</code>
-     * <li><code>QUEEN</code>
-     * <li><code>KING</code>
-     * </ol>
+     * <ul>
+     * <li><code>ACE: 1</code>
+     * <li><code>TWO to TEN: Their respective number</code>
+     * <li><code>JACK: 11</code>
+     * <li><code>QUEEN: 12</code>
+     * <li><code>KING: 13</code>
+     * </ul>
      *
      * @return the rank place of this card
      */
     public int getRankNumber() {
-        return this.rank.getRankValue();
+        return this.rank.ordinal() + 1;
     }
 
     /**
@@ -179,8 +174,7 @@ public final class Card implements Comparable<Card> {
      * </ul>
      */
     @Override
-    public @NotNull
-    String toString() {
+    public @NotNull String toString() {
         final String rankString = rank.toString();
         return rankString.charAt(0) // First letter of the rank (a capital letter)
                 + rankString.substring(1).toLowerCase() // Rest of the rank (lower case)
