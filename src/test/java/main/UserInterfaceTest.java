@@ -1,6 +1,7 @@
 package main;
 
 import card.Card;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -10,18 +11,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserInterfaceTest {
 
-    private final UserInterface ui = new UserInterface();
+    private UserInterface ui;
 
-    @Test
-    void dataIntegrity() throws NoSuchFieldException, IllegalAccessException {
-        final Field cardPile = ui.getClass().getDeclaredField("cardPile");
-        cardPile.setAccessible(true);
-        assertEquals(((HashSet<Card>) cardPile.get(ui)).size(), 52);
+    @BeforeEach
+    void setUp() {
+        ui = new UserInterface();
     }
 
     @Test
-    @SuppressWarnings({"UnusedDeclaration"})
-    void main() {
-        UserInterface ui = new UserInterface();
+    @SuppressWarnings("unchecked")
+    void dataIntegrity() throws NoSuchFieldException, IllegalAccessException {
+        final Field cardPileField = ui.getClass().getDeclaredField("cardPile");
+        cardPileField.setAccessible(true);
+        final var cardPile = (HashSet<Card>) cardPileField.get(ui);
+
+        assertEquals(cardPile.size(), 52);
     }
 }

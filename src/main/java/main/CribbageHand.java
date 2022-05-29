@@ -122,7 +122,7 @@ final class CribbageHand {
      *
      * @return the number of {@code Card} objects in this hand
      */
-    public int size() {
+    int size() {
         return this.hand.size();
     }
 
