@@ -12,9 +12,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
 
-    private static final HashSet<Card> allCards =
-            new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
-                    Suit.values[i / 13])).collect(Collectors.toSet()));
+    private static HashSet<Card> allCards;
+
+    void setUp() {
+        allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
+                Suit.values[i / 13])).collect(Collectors.toCollection(HashSet::new));
+    }
+
+    @Test
+    void rankToString() {
+        final String[] names = {"ACE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT",
+                "NINE", "TEN", "JACK", "QUEEN", "KING"};
+        for (int i = 0; i < Rank.values.length; ++i) {
+            assertEquals(Rank.values[i].toString(), names[i]);
+        }
+    }
+
+    @Test
+    void suitToString() {
+        final String[] names = {"CLUBS", "DIAMONDS", "HEARTS", "SPADES"};
+        for (int i = 0; i < Suit.values.length; ++i) {
+            assertEquals(Suit.values[i].toString(), names[i]);
+        }
+    }
 
     @Test
     void getRank() {
