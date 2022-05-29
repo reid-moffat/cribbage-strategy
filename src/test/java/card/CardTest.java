@@ -40,49 +40,13 @@ class CardTest {
     }
 
     @Test
-    void getRank() {
+    void getData() {
         Card c;
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
                 c = new Card(r, s);
                 assertEquals(c.getRank(), r);
-            }
-        }
-    }
-
-    @Test
-    void getSuit() {
-        Card c;
-        for (Rank r : Rank.values) {
-            for (Suit s : Suit.values) {
-                c = new Card(r, s);
                 assertEquals(c.getSuit(), s);
-            }
-        }
-    }
-
-    @Test
-    void compareTo() {
-        allCards.forEach(card1 -> allCards.forEach(card2 -> assertEquals(card1.compareTo(card2),
-                card1.getRankNumber() - card2.getRankNumber())));
-    }
-
-    @Test
-    void testHashCode() {
-        // Test that the hashCode value for a specific suit is constant
-        // no matter when it is calculated or what variable it is from
-        int hashCode1, hashCode2;
-        Card c1, c2;
-
-        for (Rank r : Rank.values) {
-            for (Suit s : Suit.values) {
-                c1 = new Card(r, s);
-                hashCode1 = c1.hashCode();
-                c2 = c1;
-                hashCode2 = c1.hashCode();
-
-                assertEquals(hashCode1, hashCode2);
-                assertEquals(hashCode1, c2.hashCode());
             }
         }
     }
@@ -121,7 +85,44 @@ class CardTest {
     }
 
     @Test
-    void testEquals() {
+    void rankNumber() {
+        Card c;
+        for (int i = 0; i < Rank.values.length; ++i) {
+            for (Suit s : Suit.values) {
+                c = new Card(Rank.values[i], s);
+                assertEquals(i + 1, c.getRankNumber());
+            }
+        }
+    }
+
+    @Test
+    void compareTo() {
+        allCards.forEach(card1 -> allCards.forEach(card2 -> assertEquals(card1.compareTo(card2),
+                card1.getRankNumber() - card2.getRankNumber())));
+    }
+
+    @Test
+    void testHashCode() {
+        // Test that the hashCode value for a specific suit is constant
+        // no matter when it is calculated or what variable it is from
+        int hashCode1, hashCode2;
+        Card c1, c2;
+
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
+                c1 = new Card(r, s);
+                hashCode1 = c1.hashCode();
+                c2 = c1;
+                hashCode2 = c1.hashCode();
+
+                assertEquals(hashCode1, hashCode2);
+                assertEquals(hashCode1, c2.hashCode());
+            }
+        }
+    }
+
+    @Test
+    void cardEquals() {
         // Equals contract:
         // 1. x.equals(y) is false if y is null (x == null would cause a nullPointerException)
         allCards.forEach(card -> assertNotEquals(null, card));
@@ -144,7 +145,7 @@ class CardTest {
     }
 
     @Test
-    void testToString() {
+    void cardToString() {
         assertEquals(new Card(Rank.ACE, Suit.CLUBS).toString(), "Ace of clubs");
         assertEquals(new Card(Rank.ACE, Suit.SPADES).toString(), "Ace of spades");
         assertEquals(new Card(Rank.TWO, Suit.SPADES).toString(), "Two of spades");
