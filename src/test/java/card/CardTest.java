@@ -71,18 +71,19 @@ class CardTest {
             }
         }
 
-        // Checks ~107k (~(2^16/200)^2) random invalid cases of a rank and suit combination
-        int[] invalidSuits = IntStream.range(0, Character.MAX_VALUE + 1)
-                .filter(i -> Math.random() < 0.005 && !suitStrings.contains((char) i)).toArray();
-        IntStream.range(0, Character.MAX_VALUE + 1)
-                .filter(i -> Math.random() < 0.005 && !rankStrings.contains(Character.toString(i)))
-                .forEach(rank -> {
-                    for (int suit : invalidSuits) {
-                        assertThrows(IllegalArgumentException.class,
-                                () -> Card.stringToCard(Character.toString(rank) + suit),
-                                "Card should not be legal: " + Character.toString(rank) + suit);
-                    }
-                });
+        // Checks random invalid cases of a rank and suit combination
+        final int[] invalidSuits = IntStream.range(0, Character.MAX_VALUE + 1)
+                .filter(i -> Math.random() < 0.01 && !suitStrings.contains((char) i)).toArray();
+        final int[] invalidRanks = IntStream.range(0, Character.MAX_VALUE + 1)
+                .filter(i -> Math.random() < 0.01 && !rankStrings.contains(Character.toString(i))).toArray();
+
+        for (int rank : invalidRanks) {
+            for (int suit : invalidSuits) {
+                assertThrows(IllegalArgumentException.class,
+                        () -> Card.stringToCard(Character.toString(rank) + suit),
+                        "Card should not be legal: " + Character.toString(rank) + suit);
+            }
+        }
     }
 
     @Test
@@ -127,7 +128,7 @@ class CardTest {
         // 2. x.equals(y) is false if x and y are not of the same object type
         HashSet<Object> differentTypes = new HashSet<>(List.of(Rank.values));
         differentTypes.addAll(List.of(Suit.values));
-        allCards.forEach(card -> differentTypes.forEach(t -> assertNotEquals(card, (Object) t)));
+        allCards.forEach(card -> differentTypes.forEach(t -> assertNotEquals(card, t)));
 
         // 3. x.equals(y) is false if x and y are of the same class, but semantically different
         allCards.forEach(card1 -> allCards.forEach(card2 -> {
