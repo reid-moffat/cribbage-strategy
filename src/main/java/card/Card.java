@@ -25,7 +25,7 @@ public final class Card implements Comparable<Card> {
     /**
      * Initializes this card with a rank and suit
      */
-    public Card(Rank rank, Suit suit) {
+    public Card(@NotNull Rank rank, @NotNull Suit suit) {
         this.rank = rank;
         this.suit = suit;
     }

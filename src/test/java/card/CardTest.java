@@ -2,11 +2,9 @@ package card;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -154,5 +152,13 @@ class CardTest {
         assertEquals(new Card(Rank.EIGHT, Suit.DIAMONDS).toString(), "Eight of diamonds");
         assertEquals(new Card(Rank.QUEEN, Suit.CLUBS).toString(), "Queen of clubs");
         assertEquals(new Card(Rank.KING, Suit.HEARTS).toString(), "King of hearts");
+
+        Card c;
+        for (Rank r : Rank.values) {
+            for (Suit s : Suit.values) {
+                c = new Card(r, s);
+                assertTrue(c.toString().matches("[A-T][a-x]{2,4} of [a-u]{5,8}"), c.toString());
+            }
+        }
     }
 }
