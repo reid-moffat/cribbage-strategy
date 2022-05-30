@@ -2,9 +2,11 @@ package card;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -101,20 +103,16 @@ class CardTest {
 
     @Test
     void testHashCode() {
-        // Test that the hashCode value for a specific suit is constant
-        // no matter when it is calculated or what variable it is from
-        int hashCode1, hashCode2;
-        Card c1, c2;
-
+        Card x, y, z;
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
-                c1 = new Card(r, s);
-                hashCode1 = c1.hashCode();
-                c2 = c1;
-                hashCode2 = c1.hashCode();
-
-                assertEquals(hashCode1, hashCode2);
-                assertEquals(hashCode1, c2.hashCode());
+                x = new Card(r, s);
+                y = new Card(r, s);
+                z = new Card(y.getRank(), x.getSuit());
+                assertTrue(x.equals(y) && y.equals(x) && x.equals(z) && z.equals(x)
+                        && y.equals(z) && z.equals(y), "" + x + " " + y + " " + z);
+                assertTrue(x.hashCode() == y.hashCode() && y.hashCode() == z.hashCode(),
+                        "" + x + " " + y + " " + z);
             }
         }
     }
