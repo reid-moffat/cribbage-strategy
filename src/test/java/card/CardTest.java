@@ -20,6 +20,7 @@ class CardTest {
     static void setUpClass() {
         allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
                 Suit.values[i / 13])).collect(Collectors.toUnmodifiableSet());
+        assertEquals(allCards.size(), 52);
     }
 
     @Test
@@ -124,20 +125,24 @@ class CardTest {
         allCards.forEach(card -> assertNotEquals(null, card));
 
         // 2. x.equals(y) is false if x and y are not of the same object type
-        HashSet<Object> differentTypes = new HashSet<>();
-        differentTypes.add(Rank.values);
-        differentTypes.add(Suit.values);
-        allCards.forEach(card -> differentTypes.forEach(t -> assertNotEquals(card, t)));
+        HashSet<Object> differentTypes = new HashSet<>(List.of(Rank.values));
+        differentTypes.addAll(List.of(Suit.values));
+        allCards.forEach(card -> differentTypes.forEach(t -> assertNotEquals(card, (Object) t)));
 
         // 3. x.equals(y) is false if x and y are of the same class, but semantically different
         allCards.forEach(card1 -> allCards.forEach(card2 -> {
-            if (!(card1 == card2)) {
+            if (card1.getRank() != card2.getRank() || card1.getSuit() != card2.getSuit()) {
                 assertNotEquals(card1, card2);
             }
         }));
 
         // 4. x.equals(y) is true if x and y are of the same type and semantically equal
         allCards.forEach(card -> assertEquals(card, new Card(card.getRank(), card.getSuit())));
+        allCards.forEach(card1 -> allCards.forEach(card2 -> {
+            if (card1.getRank() == card2.getRank() && card1.getSuit() == card2.getSuit()) {
+                assertEquals(card1, card2);
+            }
+        }));
     }
 
     @Test
@@ -158,12 +163,7 @@ class CardTest {
         assertEquals(new Card(Rank.QUEEN, Suit.CLUBS).toString(), "Queen of clubs");
         assertEquals(new Card(Rank.KING, Suit.HEARTS).toString(), "King of hearts");
 
-        Card c;
-        for (Rank r : Rank.values) {
-            for (Suit s : Suit.values) {
-                c = new Card(r, s);
-                assertTrue(c.toString().matches("[A-T][a-x]{2,4} of [a-u]{5,8}"), c.toString());
-            }
-        }
+        allCards.forEach(card ->
+                assertTrue(card.toString().matches("[A-T][a-x]{2,4} of [a-u]{5,8}"), card.toString()));
     }
 }
