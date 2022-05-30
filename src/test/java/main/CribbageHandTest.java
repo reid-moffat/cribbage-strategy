@@ -4,21 +4,38 @@ import card.Card;
 import card.Rank;
 import card.Suit;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CribbageHandTest {
 
     private CribbageHand hand;
     private HashSet<Card> cards;
+    private static Set<Card> allCards;
+
+    @BeforeAll
+    static void setUpClass() {
+        allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
+                Suit.values[i / 13])).collect(Collectors.toUnmodifiableSet());
+
+        assertEquals(Rank.values().length, 13);
+        assertEquals(Suit.values().length, 4);
+        assertEquals(allCards.size(), 52);
+    }
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
     void setUp() throws NoSuchFieldException, IllegalAccessException {
         hand = new CribbageHand();
 
@@ -27,17 +44,26 @@ class CribbageHandTest {
         cards = (HashSet<Card>) cardsField.get(hand);
     }
 
+    @AfterEach
+    void tearDown() {
+        hand.clear();
+        assertEquals(cards.size(), 0);
+
+        assertEquals(Rank.values().length, 13);
+        assertEquals(Suit.values().length, 4);
+        assertEquals(allCards.size(), 52);
+    }
+
     @Test
     void add() {
-        assertEquals(Rank.values.length, 13);
-        assertEquals(Suit.values.length, 4);
-
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
                 hand.add(new Card(r, s));
                 assertFalse(hand.add(new Card(r, s)));
             }
         }
+
+        allCards.forEach(c -> assertFalse(hand.add(c)));
         assertEquals(cards.size(), 52);
     }
 
@@ -66,7 +92,7 @@ class CribbageHandTest {
                 HashSet<Card> handCopy = hand.getCards();
                 handCopy.clear();
 
-                //assertEquals(hand.size(), 1);
+                assertEquals(hand.size(), 1);
                 assertEquals(handCopy.size(), 0);
 
                 hand.clear();
@@ -164,7 +190,8 @@ class CribbageHandTest {
             hand.add(Card.stringToCard(card));
         }
 
-        assertEquals(hand.totalPoints(Card.stringToCard(starter)), expected);
+        assertEquals(hand.totalPoints(Card.stringToCard(starter)), expected,
+                Arrays.toString(cards) + " " + starter + " " + expected);
     }
 
 }
