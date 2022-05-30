@@ -144,17 +144,17 @@ class CardTest {
     void cardToString() {
         assertEquals(new Card(Rank.ACE, Suit.CLUBS).toString(), "Ace of clubs");
         assertEquals(new Card(Rank.ACE, Suit.SPADES).toString(), "Ace of spades");
-        assertEquals(new Card(Rank.TWO, Suit.HEARTS).toString(), "Two of spades");
+        assertEquals(new Card(Rank.TWO, Suit.HEARTS).toString(), "Two of hearts");
         assertEquals(new Card(Rank.TWO, Suit.DIAMONDS).toString(), "Two of diamonds");
-        assertEquals(new Card(Rank.THREE, Suit.CLUBS).toString(), "Two of diamonds");
+        assertEquals(new Card(Rank.THREE, Suit.CLUBS).toString(), "Three of clubs");
         assertEquals(new Card(Rank.FOUR, Suit.HEARTS).toString(), "Four of hearts");
-        assertEquals(new Card(Rank.FIVE, Suit.SPADES).toString(), "Two of diamonds");
-        assertEquals(new Card(Rank.SIX, Suit.CLUBS).toString(), "Two of diamonds");
-        assertEquals(new Card(Rank.SEVEN, Suit.SPADES).toString(), "Two of diamonds");
+        assertEquals(new Card(Rank.FIVE, Suit.SPADES).toString(), "Five of spades");
+        assertEquals(new Card(Rank.SIX, Suit.CLUBS).toString(), "Six of clubs");
+        assertEquals(new Card(Rank.SEVEN, Suit.SPADES).toString(), "Seven of spades");
         assertEquals(new Card(Rank.EIGHT, Suit.DIAMONDS).toString(), "Eight of diamonds");
-        assertEquals(new Card(Rank.NINE, Suit.HEARTS).toString(), "Two of diamonds");
-        assertEquals(new Card(Rank.TEN, Suit.DIAMONDS).toString(), "Two of diamonds");
-        assertEquals(new Card(Rank.JACK, Suit.SPADES).toString(), "Two of diamonds");
+        assertEquals(new Card(Rank.NINE, Suit.HEARTS).toString(), "Nine of hearts");
+        assertEquals(new Card(Rank.TEN, Suit.DIAMONDS).toString(), "Ten of diamonds");
+        assertEquals(new Card(Rank.JACK, Suit.SPADES).toString(), "Jack of spades");
         assertEquals(new Card(Rank.QUEEN, Suit.CLUBS).toString(), "Queen of clubs");
         assertEquals(new Card(Rank.KING, Suit.HEARTS).toString(), "King of hearts");
 
