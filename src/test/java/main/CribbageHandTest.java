@@ -10,19 +10,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class CribbageHandTest {
 
+    private static Set<Card> allCards;
     private CribbageHand hand;
     private HashSet<Card> cards;
-    private static Set<Card> allCards;
 
     @BeforeAll
     static void setUpClass() {
@@ -48,9 +51,6 @@ class CribbageHandTest {
     void tearDown() {
         hand.clear();
         assertEquals(cards.size(), 0);
-
-        assertEquals(Rank.values().length, 13);
-        assertEquals(Suit.values().length, 4);
         assertEquals(allCards.size(), 52);
     }
 
@@ -179,7 +179,7 @@ class CribbageHandTest {
      * @param starter  the starter card for this hand (string representation)
      * @param expected the expected amount of points gained from this hand
      */
-    void testHand(String @NotNull [] cards, String starter, int expected) {
+    private void testHand(String @NotNull [] cards, String starter, int expected) {
         if (cards.length != 4 || starter == null) {
             throw new IllegalArgumentException("Must provide four cards and a starter");
         }
@@ -192,6 +192,34 @@ class CribbageHandTest {
 
         assertEquals(hand.totalPoints(Card.stringToCard(starter)), expected,
                 Arrays.toString(cards) + " " + starter + " " + expected);
+    }
+
+    @Test
+    void fifteens() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final Method ft = hand.getClass().getDeclaredMethod("fifteens");
+        ft.setAccessible(true);
+
+        ft.invoke(new HashSet<HashSet<Card>>());
+    }
+
+    @Test
+    void multiples() {
+        ;
+    }
+
+    @Test
+    void runs() {
+        ;
+    }
+
+    @Test
+    void flushes() {
+        ;
+    }
+
+    @Test
+    void nobs() {
+        ;
     }
 
 }

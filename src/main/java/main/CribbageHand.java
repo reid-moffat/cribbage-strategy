@@ -132,8 +132,7 @@ final class CribbageHand {
      * @return a copy of this hand
      */
     @Contract(" -> new")
-    public @NotNull
-    HashSet<Card> getCards() {
+    public @NotNull HashSet<Card> getCards() {
         return new HashSet<>(hand);
     }
 
