@@ -196,10 +196,11 @@ class CribbageHandTest {
 
     @Test
     void fifteens() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final Method ft = hand.getClass().getDeclaredMethod("fifteens");
+        final Method ft = hand.getClass().getDeclaredMethod("fifteens", HashSet.class);
         ft.setAccessible(true);
 
-        ft.invoke(new HashSet<HashSet<Card>>());
+        // No fifteens cases
+        testPrivateMethod(ft, new HashSet<>(), 0);
     }
 
     @Test
@@ -220,6 +221,12 @@ class CribbageHandTest {
     @Test
     void nobs() {
         ;
+    }
+
+    // Test a private method that's been set as accessible
+    void testPrivateMethod(Method m, Object param, int expected) throws InvocationTargetException,
+            IllegalAccessException {
+        assertEquals(m.invoke(hand, param), expected);
     }
 
 }
