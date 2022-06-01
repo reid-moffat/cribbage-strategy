@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -18,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static main.CribbageHandTest.testTypes.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -187,58 +187,67 @@ class CribbageHandTest {
                 Arrays.toString(cards) + " " + starter + " " + expected);
     }
 
+    enum testTypes {FIFTEENS, MULTIPLES, RUNS, FLUSHES, NOBS}
+
     @Test
     void fifteens() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final Method ft = hand.getClass().getDeclaredMethod("fifteens", HashSet.class);
-        ft.setAccessible(true);
-
         // No fifteens cases
-        testPrivateMethod(ft, new HashSet<>(), 0);
+        testPrivateMethod(FIFTEENS, new HashSet<>(), 0);
     }
 
     @Test
     void multiples() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final Method mp = hand.getClass().getDeclaredMethod("multiples", HashSet.class);
-        mp.setAccessible(true);
-
         // No multiples cases
-        testPrivateMethod(mp, new HashSet<>(), 0);
+        testPrivateMethod(MULTIPLES, new HashSet<>(), 0);
     }
 
     @Test
     void runs() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final Method rn = hand.getClass().getDeclaredMethod("runs", HashSet.class);
-        rn.setAccessible(true);
-
-        // No multiples cases
-        testPrivateMethod(rn, new HashSet<>(), 0);
+        // No runs cases
+        testPrivateMethod(RUNS, new HashSet<>(), 0);
     }
 
     @Test
     void flushes() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final Method fl = hand.getClass().getDeclaredMethod("flushes", Card.class);
-        fl.setAccessible(true);
-
-        // No multiples cases
+        // No flushes cases
         for (Card c : allCards) {
-            testPrivateMethod(fl, c, 0);
+            testPrivateMethod(FLUSHES, c, 0);
         }
     }
 
     @Test
     void nobs() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final Method nb = hand.getClass().getDeclaredMethod("nobs", Card.class);
-        nb.setAccessible(true);
-
-        // No multiples cases
+        // No nobs cases
         for (Card c : allCards) {
-            testPrivateMethod(nb, c, 0);
+            testPrivateMethod(NOBS, c, 0);
         }
     }
 
-    // Test a private method that's been set as accessible
-    void testPrivateMethod(@NotNull Method m, Object param, int expected) throws InvocationTargetException,
-            IllegalAccessException {
+    void testPrivateMethod(@NotNull testTypes type, Object param, int expected) throws InvocationTargetException,
+            IllegalAccessException, NoSuchMethodException {
+        final Method powerSet = hand.getClass().getDeclaredMethod("powerSet", HashSet.class);
+        powerSet.setAccessible(true);
+
+        Class<?> paramType;
+        switch (type) {
+            case FIFTEENS:
+                paramType = HashSet.class;
+                param = powerSet.invoke(hand, param);
+                break;
+            case MULTIPLES:
+            case RUNS:
+                paramType = HashSet.class;
+                break;
+            case FLUSHES:
+            case NOBS:
+                paramType = Card.class;
+                break;
+            default:
+                throw new IllegalStateException("Impossible state");
+        }
+        final Method m = hand.getClass().getDeclaredMethod(type.name().toLowerCase(), paramType);
+        m.setAccessible(true);
+
         assertEquals(m.invoke(hand, param), expected);
     }
 
