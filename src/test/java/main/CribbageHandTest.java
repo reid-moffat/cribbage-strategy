@@ -204,23 +204,43 @@ class CribbageHandTest {
     }
 
     @Test
-    void multiples() {
-        ;
+    void multiples() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final Method mp = hand.getClass().getDeclaredMethod("multiples", HashSet.class);
+        mp.setAccessible(true);
+
+        // No multiples cases
+        testPrivateMethod(mp, new HashSet<>(), 0);
     }
 
     @Test
-    void runs() {
-        ;
+    void runs() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final Method rn = hand.getClass().getDeclaredMethod("runs", HashSet.class);
+        rn.setAccessible(true);
+
+        // No multiples cases
+        testPrivateMethod(rn, new HashSet<>(), 0);
     }
 
     @Test
-    void flushes() {
-        ;
+    void flushes() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final Method fl = hand.getClass().getDeclaredMethod("flushes", Card.class);
+        fl.setAccessible(true);
+
+        // No multiples cases
+        for (Card c : allCards) {
+            testPrivateMethod(fl, c, 0);
+        }
     }
 
     @Test
-    void nobs() {
-        ;
+    void nobs() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final Method nb = hand.getClass().getDeclaredMethod("nobs", Card.class);
+        nb.setAccessible(true);
+
+        // No multiples cases
+        for (Card c : allCards) {
+            testPrivateMethod(nb, c, 0);
+        }
     }
 
     // Test a private method that's been set as accessible
