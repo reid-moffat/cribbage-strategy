@@ -25,7 +25,6 @@ class CribbageHandTest {
 
     private static Set<Card> allCards;
     private CribbageHand hand;
-    private HashSet<Card> cards;
 
     @BeforeAll
     static void setUpClass() {
@@ -38,19 +37,15 @@ class CribbageHandTest {
     }
 
     @BeforeEach
-    @SuppressWarnings("unchecked")
-    void setUp() throws NoSuchFieldException, IllegalAccessException {
+    void setUp() {
         hand = new CribbageHand();
-
-        final Field cardsField = hand.getClass().getDeclaredField("hand");
-        cardsField.setAccessible(true);
-        cards = (HashSet<Card>) cardsField.get(hand);
+        hand.clear();
+        assertEquals(allCards.size(), 52);
     }
 
     @AfterEach
     void tearDown() {
         hand.clear();
-        assertEquals(cards.size(), 0);
         assertEquals(allCards.size(), 52);
     }
 
@@ -64,7 +59,6 @@ class CribbageHandTest {
         }
 
         allCards.forEach(c -> assertFalse(hand.add(c)));
-        assertEquals(cards.size(), 52);
     }
 
     @Test
@@ -80,7 +74,6 @@ class CribbageHandTest {
                 hand.remove(new Card(r, s));
             }
         }
-        assertEquals(cards.size(), 0);
     }
 
     @Test
@@ -244,7 +237,7 @@ class CribbageHandTest {
     }
 
     // Test a private method that's been set as accessible
-    void testPrivateMethod(Method m, Object param, int expected) throws InvocationTargetException,
+    void testPrivateMethod(@NotNull Method m, Object param, int expected) throws InvocationTargetException,
             IllegalAccessException {
         assertEquals(m.invoke(hand, param), expected);
     }
