@@ -191,12 +191,14 @@ class CribbageHandTest {
     void fifteens() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // No fifteens cases
         testPrivateMethod(FIFTEENS, new String[]{}, 0);
+
         testPrivateMethod(FIFTEENS, new String[]{"1s", "1c", "1d", "1h", "2s"}, 0);
         testPrivateMethod(FIFTEENS, new String[]{"7s", "7c", "7d", "7h", "2d"}, 0);
         testPrivateMethod(FIFTEENS, new String[]{"2s", "4c", "6d", "8h", "10s"}, 0);
         testPrivateMethod(FIFTEENS, new String[]{"2s", "2c", "6d", "6h", "2h"}, 0);
         testPrivateMethod(FIFTEENS, new String[]{"1s", "2c", "3d", "4h", "4c"}, 0);
         testPrivateMethod(FIFTEENS, new String[]{"4s", "6c", "4d", "4h", "4c"}, 0);
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "2s", "kd", "jh", "qc"}, 0);
 
         // One fifteen
         testPrivateMethod(FIFTEENS, new String[]{"1s", "1c", "1d", "5h", "10s"}, 2);
@@ -206,11 +208,24 @@ class CribbageHandTest {
 
         testPrivateMethod(FIFTEENS, new String[]{"4s", "4c", "5d", "5h", "5c"}, 2);
         testPrivateMethod(FIFTEENS, new String[]{"2s", "4c", "5d", "5h", "5c"}, 2);
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "2s", "6d", "jh", "qc"}, 2);
 
         // Multiple fifteens
         testPrivateMethod(FIFTEENS, new String[]{"5s", "5c", "5d", "5h", "10s"}, 16);
+        testPrivateMethod(FIFTEENS, new String[]{"5s", "5c", "5d", "5h", "js"}, 16);
+        testPrivateMethod(FIFTEENS, new String[]{"5s", "5c", "5d", "5h", "qs"}, 16);
+        testPrivateMethod(FIFTEENS, new String[]{"5s", "5c", "5d", "5h", "ks"}, 16);
         testPrivateMethod(FIFTEENS, new String[]{"7s", "7c", "7d", "7h", "1s"}, 12);
         testPrivateMethod(FIFTEENS, new String[]{"6s", "4c", "5d", "5h", "5c"}, 8);
+
+        testPrivateMethod(FIFTEENS, new String[]{"9s", "5s", "5d", "5h", "5c"}, 8);
+        testPrivateMethod(FIFTEENS, new String[]{"4s", "5s", "5d", "5h", "5c"}, 8);
+        testPrivateMethod(FIFTEENS, new String[]{"6s", "5s", "5d", "5h", "5c"}, 8);
+        testPrivateMethod(FIFTEENS, new String[]{"1s", "5s", "5d", "5h", "5c"}, 8);
+
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "7s", "7d", "8h", "8c"}, 12);
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "1s", "7d", "8h", "8c"}, 10);
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "2s", "7d", "8h", "8c"}, 8);
     }
 
     @Test
