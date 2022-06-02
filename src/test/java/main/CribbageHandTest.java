@@ -11,9 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -192,19 +190,39 @@ class CribbageHandTest {
     @Test
     void fifteens() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // No fifteens cases
-        testPrivateMethod(FIFTEENS, new HashSet<>(), 0);
+        testPrivateMethod(FIFTEENS, new String[]{}, 0);
+        testPrivateMethod(FIFTEENS, new String[]{"1s", "1c", "1d", "1h", "2s"}, 0);
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "7c", "7d", "7h", "2d"}, 0);
+        testPrivateMethod(FIFTEENS, new String[]{"2s", "4c", "6d", "8h", "10s"}, 0);
+        testPrivateMethod(FIFTEENS, new String[]{"2s", "2c", "6d", "6h", "2h"}, 0);
+        testPrivateMethod(FIFTEENS, new String[]{"1s", "2c", "3d", "4h", "4c"}, 0);
+        testPrivateMethod(FIFTEENS, new String[]{"4s", "6c", "4d", "4h", "4c"}, 0);
+
+        // One fifteen
+        testPrivateMethod(FIFTEENS, new String[]{"1s", "1c", "1d", "5h", "10s"}, 2);
+        testPrivateMethod(FIFTEENS, new String[]{"1s", "1c", "1d", "5h", "jd"}, 2);
+        testPrivateMethod(FIFTEENS, new String[]{"1s", "1c", "1d", "5h", "qh"}, 2);
+        testPrivateMethod(FIFTEENS, new String[]{"1s", "1c", "1d", "5h", "kc"}, 2);
+
+        testPrivateMethod(FIFTEENS, new String[]{"4s", "4c", "5d", "5h", "5c"}, 2);
+        testPrivateMethod(FIFTEENS, new String[]{"2s", "4c", "5d", "5h", "5c"}, 2);
+
+        // Multiple fifteens
+        testPrivateMethod(FIFTEENS, new String[]{"5s", "5c", "5d", "5h", "10s"}, 16);
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "7c", "7d", "7h", "1s"}, 12);
+        testPrivateMethod(FIFTEENS, new String[]{"6s", "4c", "5d", "5h", "5c"}, 8);
     }
 
     @Test
     void multiples() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // No multiples cases
-        testPrivateMethod(MULTIPLES, new HashSet<>(), 0);
+        testPrivateMethod(MULTIPLES, new String[]{}, 0);
     }
 
     @Test
     void runs() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // No runs cases
-        testPrivateMethod(RUNS, new HashSet<>(), 0);
+        testPrivateMethod(RUNS, new String[]{}, 0);
     }
 
     @Test
@@ -223,7 +241,36 @@ class CribbageHandTest {
         }
     }
 
-    void testPrivateMethod(@NotNull testTypes type, Object param, int expected) throws InvocationTargetException,
+    private void testPrivateMethod(@NotNull testTypes type, Object param, int expected) throws InvocationTargetException,
+            IllegalAccessException, NoSuchMethodException {
+        methodCall(type, param, expected);
+
+        // For tests where suits don't matter, run them with the suits cycled through to increase
+        // coverage
+        if (type == FIFTEENS || type == RUNS || type == MULTIPLES) {
+            final Map<Character, Character> suitMaps = Map.of(
+                    'c', 'd',
+                    'd', 'h',
+                    'h', 's',
+                    's', 'c'
+            );
+
+            String[] values = (String[]) param;
+            for (int i = 0; i < 3; ++i) {
+                for (int j = 0; j < values.length; ++j) {
+                    String val = values[j];
+                    int len = val.length();
+                    values[j] = val.substring(0, len - 1) + suitMaps.get(val.charAt(len - 1));
+                }
+                methodCall(type, param, expected);
+            }
+        }
+    }
+
+    /**
+     * Do not call directly
+     */
+    private void methodCall(testTypes type, Object param, int expected) throws InvocationTargetException,
             IllegalAccessException, NoSuchMethodException {
         final Method powerSet = hand.getClass().getDeclaredMethod("powerSet", HashSet.class);
         powerSet.setAccessible(true);
@@ -232,11 +279,16 @@ class CribbageHandTest {
         switch (type) {
             case FIFTEENS:
                 paramType = HashSet.class;
-                param = powerSet.invoke(hand, param);
+                var cards = Arrays.stream((String[]) param).map(Card::stringToCard)
+                        .collect(Collectors.toCollection(HashSet::new));
+                if (cards.size() != 5 && cards.size() != 0) throw new IllegalArgumentException(
+                        "Duplicate or illegal amount of cards present in input");
+                param = powerSet.invoke(hand, cards);
                 break;
             case MULTIPLES:
             case RUNS:
                 paramType = HashSet.class;
+                param = new HashSet<>(List.of((String[]) param));
                 break;
             case FLUSHES:
             case NOBS:
