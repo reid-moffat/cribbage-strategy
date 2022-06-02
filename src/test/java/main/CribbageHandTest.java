@@ -287,17 +287,17 @@ class CribbageHandTest {
      */
     private void methodCall(testTypes type, Object param, int expected) throws InvocationTargetException,
             IllegalAccessException, NoSuchMethodException {
-        final Method powerSet = hand.getClass().getDeclaredMethod("powerSet", HashSet.class);
-        powerSet.setAccessible(true);
-
         Class<?> paramType;
         switch (type) {
             case FIFTEENS:
                 paramType = HashSet.class;
+
                 var cards = Arrays.stream((String[]) param).map(Card::stringToCard)
                         .collect(Collectors.toCollection(HashSet::new));
                 if (cards.size() != 5 && cards.size() != 0) throw new IllegalArgumentException(
                         "Duplicate or illegal amount of cards present in input");
+                final Method powerSet = hand.getClass().getDeclaredMethod("powerSet", HashSet.class);
+                powerSet.setAccessible(true);
                 param = powerSet.invoke(hand, cards);
                 break;
             case MULTIPLES:
