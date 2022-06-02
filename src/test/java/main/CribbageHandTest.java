@@ -223,7 +223,7 @@ class CribbageHandTest {
         testPrivateMethod(FIFTEENS, new String[]{"6s", "5s", "5d", "5h", "5c"}, 8);
         testPrivateMethod(FIFTEENS, new String[]{"1s", "5s", "5d", "5h", "5c"}, 8);
 
-        testPrivateMethod(FIFTEENS, new String[]{"7s", "7s", "7d", "8h", "8c"}, 12);
+        testPrivateMethod(FIFTEENS, new String[]{"7s", "7h", "7d", "8h", "8c"}, 12);
         testPrivateMethod(FIFTEENS, new String[]{"7s", "1s", "7d", "8h", "8c"}, 10);
         testPrivateMethod(FIFTEENS, new String[]{"7s", "2s", "7d", "8h", "8c"}, 8);
     }
