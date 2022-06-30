@@ -232,6 +232,9 @@ class CribbageHandTest {
     void multiples() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // No multiples cases
         testPrivateMethod(MULTIPLES, new String[]{}, 0);
+        testPrivateMethod(MULTIPLES, new String[]{""}, 0);
+
+        // One multiple cases
     }
 
     @Test
@@ -256,21 +259,21 @@ class CribbageHandTest {
         }
     }
 
+    // See testPrivateMethod
+    final Map<Character, Character> suitMaps = Map.of(
+            'c', 'd',
+            'd', 'h',
+            'h', 's',
+            's', 'c'
+    );
+
     private void testPrivateMethod(@NotNull testTypes type, Object param, int expected) throws InvocationTargetException,
             IllegalAccessException, NoSuchMethodException {
         methodCall(type, param, expected);
 
-        // For tests where suits don't matter, run them with the suits cycled through to increase
-        // coverage
+        // For tests where suits shouldn't matter, run them with all suites to confirm
         if (type == FIFTEENS || type == RUNS || type == MULTIPLES) {
-            final Map<Character, Character> suitMaps = Map.of(
-                    'c', 'd',
-                    'd', 'h',
-                    'h', 's',
-                    's', 'c'
-            );
-
-            String[] values = (String[]) param;
+            final String[] values = (String[]) param;
             for (int i = 0; i < 3; ++i) {
                 for (int j = 0; j < values.length; ++j) {
                     String val = values[j];
@@ -285,7 +288,7 @@ class CribbageHandTest {
     /**
      * Do not call directly
      */
-    private void methodCall(testTypes type, Object param, int expected) throws InvocationTargetException,
+    private void methodCall(@NotNull testTypes type, Object param, int expected) throws InvocationTargetException,
             IllegalAccessException, NoSuchMethodException {
         Class<?> paramType;
         switch (type) {
@@ -295,7 +298,7 @@ class CribbageHandTest {
                 var cards = Arrays.stream((String[]) param).map(Card::stringToCard)
                         .collect(Collectors.toCollection(HashSet::new));
                 if (cards.size() != 5 && cards.size() != 0) throw new IllegalArgumentException(
-                        "Duplicate or illegal amount of cards present in input");
+                        "Duplicate or illegal amount of cards present in input: must be 5 or 0");
                 final Method powerSet = hand.getClass().getDeclaredMethod("powerSet", HashSet.class);
                 powerSet.setAccessible(true);
                 param = powerSet.invoke(hand, cards);
