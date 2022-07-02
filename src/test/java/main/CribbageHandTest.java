@@ -232,9 +232,28 @@ class CribbageHandTest {
     void multiples() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // No multiples cases
         testPrivateMethod(MULTIPLES, new String[]{}, 0);
-        testPrivateMethod(MULTIPLES, new String[]{""}, 0);
 
-        // One multiple cases
+        testPrivateMethod(MULTIPLES, new String[]{"2s", "3d", "4c", "5h", "9c"}, 0);
+        testPrivateMethod(MULTIPLES, new String[]{"1s", "3d", "4c", "jh", "2s"}, 0);
+        testPrivateMethod(MULTIPLES, new String[]{"2s", "3d", "jc", "5h", "6d"}, 0);
+        testPrivateMethod(MULTIPLES, new String[]{"2s", "10d", "4c", "qh", "3s"}, 0);
+
+        // Double cases
+        testPrivateMethod(MULTIPLES, new String[]{"2s", "6d", "4c", "5h", "6c"}, 2);
+        testPrivateMethod(MULTIPLES, new String[]{"3s", "3d", "4c", "5h", "6h"}, 2);
+        testPrivateMethod(MULTIPLES, new String[]{"5s", "3d", "4c", "5h", "6d"}, 2);
+        testPrivateMethod(MULTIPLES, new String[]{"js", "3d", "4c", "jh", "1s"}, 2);
+        testPrivateMethod(MULTIPLES, new String[]{"qs", "2d", "qc", "5h", "6d"}, 2);
+
+        testPrivateMethod(MULTIPLES, new String[]{"qs", "2d", "qc", "5h", "2s"}, 4);
+        testPrivateMethod(MULTIPLES, new String[]{"10s", "10d", "qc", "jh", "jd"}, 4);
+        testPrivateMethod(MULTIPLES, new String[]{"1s", "2d", "2c", "3h", "3d"}, 4);
+        testPrivateMethod(MULTIPLES, new String[]{"7s", "2d", "7c", "2h", "6d"}, 4);
+
+        // Triple cases
+
+        // Quad cases
+
     }
 
     @Test
@@ -245,18 +264,18 @@ class CribbageHandTest {
 
     @Test
     void flushes() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        // Note: Last card is the starter
+
         // No flushes cases
-        for (Card c : allCards) {
-            testPrivateMethod(FLUSHES, c, 0);
-        }
+        testPrivateMethod(FLUSHES, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
     }
 
     @Test
     void nobs() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        // Note: Last card is the starter
+
         // No nobs cases
-        for (Card c : allCards) {
-            testPrivateMethod(NOBS, c, 0);
-        }
+        testPrivateMethod(NOBS, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
     }
 
     // See testPrivateMethod
@@ -293,24 +312,35 @@ class CribbageHandTest {
         Class<?> paramType;
         switch (type) {
             case FIFTEENS:
+            case RUNS:
+            case MULTIPLES:
                 paramType = HashSet.class;
 
                 var cards = Arrays.stream((String[]) param).map(Card::stringToCard)
                         .collect(Collectors.toCollection(HashSet::new));
                 if (cards.size() != 5 && cards.size() != 0) throw new IllegalArgumentException(
                         "Duplicate or illegal amount of cards present in input: must be 5 or 0");
-                final Method powerSet = hand.getClass().getDeclaredMethod("powerSet", HashSet.class);
-                powerSet.setAccessible(true);
-                param = powerSet.invoke(hand, cards);
-                break;
-            case MULTIPLES:
-            case RUNS:
-                paramType = HashSet.class;
-                param = new HashSet<>(List.of((String[]) param));
+
+                if (type == MULTIPLES) {
+                    param = cards;
+                } else {
+                    final Method powerSet = hand.getClass().getDeclaredMethod("powerSet", HashSet.class);
+                    powerSet.setAccessible(true);
+                    param = powerSet.invoke(hand, cards);
+                }
+
                 break;
             case FLUSHES:
             case NOBS:
                 paramType = Card.class;
+
+                if (((String[]) param).length != 5) throw new IllegalArgumentException(
+                        "Duplicate or illegal amount of cards present in input: must be 5");
+
+                hand.clear();
+                Arrays.stream(Arrays.copyOfRange((String[]) param, 0, 4)).forEach(c -> hand.add(Card.stringToCard(c)));
+
+                param = Card.stringToCard(((String[]) param)[4]);
                 break;
             default:
                 throw new IllegalStateException("Impossible state");
