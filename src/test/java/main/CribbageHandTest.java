@@ -334,13 +334,14 @@ class CribbageHandTest {
             case NOBS:
                 paramType = Card.class;
 
-                if (((String[]) param).length != 5) throw new IllegalArgumentException(
+                final var cardStrings = (String[]) param;
+                if (cardStrings.length != 5) throw new IllegalArgumentException(
                         "Duplicate or illegal amount of cards present in input: must be 5");
 
                 hand.clear();
-                Arrays.stream(Arrays.copyOfRange((String[]) param, 0, 4)).forEach(c -> hand.add(Card.stringToCard(c)));
+                Arrays.stream(Arrays.copyOfRange(cardStrings, 0, 4)).forEach(c -> hand.add(Card.stringToCard(c)));
 
-                param = Card.stringToCard(((String[]) param)[4]);
+                param = Card.stringToCard(cardStrings[4]);
                 break;
             default:
                 throw new IllegalStateException("Impossible state");
