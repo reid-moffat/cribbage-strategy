@@ -44,8 +44,8 @@ public final class Card implements Comparable<Card> {
     public static @NotNull Card stringToCard(String card) {
         card = card.trim().toUpperCase();
         if (!card.matches("^(10|[1-9JQK])[CDHS]$")) {
-            throw new IllegalArgumentException("Card string is invalid, it must match ^" +
-                    "(10|[1-9JQK])[CDHS]$");
+            throw new IllegalArgumentException("Card string '" + card + "' is invalid, it must " +
+                    "match (10|[1-9JQK])[CDHS]");
         }
 
         Rank rank;

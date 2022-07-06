@@ -276,6 +276,28 @@ class CribbageHandTest {
 
         // No nobs cases
         testPrivateMethod(NOBS, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
+        testPrivateMethod(NOBS, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
+        testPrivateMethod(NOBS, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
+        testPrivateMethod(NOBS, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
+        testPrivateMethod(NOBS, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
+
+        // Nobs cases
+        final String[] ranks = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"};
+        final char[] suits = {'s', 'c', 'd', 'h'};
+
+        String card, jack;
+        for (String rank : ranks) {
+            for (char suit : suits) {
+                if (rank.equalsIgnoreCase("j")) continue;
+                card = rank + suit;
+                jack = "j" + suit;
+
+                testPrivateMethod(NOBS, new String[]{jack, "2s", "8s", "jd", card}, 1);
+                testPrivateMethod(NOBS, new String[]{"5s", jack, "7s", "qd", card}, 1);
+                testPrivateMethod(NOBS, new String[]{"5s", "6s", jack, "jd", card}, 1);
+                testPrivateMethod(NOBS, new String[]{"5s", "6s", "7s", jack, card}, 1);
+            }
+        }
     }
 
     // See testPrivateMethod
