@@ -295,6 +295,12 @@ class CribbageHandTest {
         testPrivateMethod(RUNS, new String[]{"qs", "10d", "9c", "jc", "8d"}, 5);
 
         // Multiple runs cases
+        testPrivateMethod(RUNS, new String[]{"2s", "3d", "4c", "4h", "6c"}, 6);
+        testPrivateMethod(RUNS, new String[]{"qs", "10d", "9c", "jc", "9d"}, 8);
+        testPrivateMethod(RUNS, new String[]{"10s", "10d", "9c", "10c", "8d"}, 9);
+        testPrivateMethod(RUNS, new String[]{"2s", "3d", "3c", "4c", "4d"}, 12);
+        testPrivateMethod(RUNS, new String[]{"js", "qd", "kc", "qc", "qh"}, 9);
+        testPrivateMethod(RUNS, new String[]{"qs", "10d", "jc", "10c", "qd"}, 12);
     }
 
     @Test
