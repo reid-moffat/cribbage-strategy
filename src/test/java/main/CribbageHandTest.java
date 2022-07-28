@@ -251,15 +251,50 @@ class CribbageHandTest {
         testPrivateMethod(MULTIPLES, new String[]{"7s", "2d", "7c", "2h", "6d"}, 4);
 
         // Triple cases
+        testPrivateMethod(MULTIPLES, new String[]{"2s", "2d", "7c", "2h", "6d"}, 6);
+        testPrivateMethod(MULTIPLES, new String[]{"7s", "7d", "7c", "2h", "6d"}, 6);
+        testPrivateMethod(MULTIPLES, new String[]{"1s", "4d", "3c", "1d", "1h"}, 6);
+
+        testPrivateMethod(MULTIPLES, new String[]{"2s", "jd", "2c", "js", "2d"}, 8);
+        testPrivateMethod(MULTIPLES, new String[]{"1s", "3d", "3c", "1d", "1h"}, 8);
 
         // Quad cases
-
+        testPrivateMethod(MULTIPLES, new String[]{"1s", "1d", "1c", "js", "1h"}, 12);
+        testPrivateMethod(MULTIPLES, new String[]{"7s", "7d", "7h", "4d", "7c"}, 12);
+        testPrivateMethod(MULTIPLES, new String[]{"ks", "10s", "kd", "kh", "kc"}, 12);
     }
 
     @Test
     void runs() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // No runs cases
         testPrivateMethod(RUNS, new String[]{}, 0);
+        testPrivateMethod(RUNS, new String[]{"ks", "10s", "kd", "kh", "kc"}, 0);
+        testPrivateMethod(RUNS, new String[]{"2s", "3s", "6d", "5h", "5c"}, 0);
+        testPrivateMethod(RUNS, new String[]{"7d", "3s", "6d", "9h", "6c"}, 0);
+        testPrivateMethod(RUNS, new String[]{"js", "3d", "kd", "10h", "8c"}, 0);
+        testPrivateMethod(RUNS, new String[]{"qs", "3d", "qd", "10h", "8c"}, 0);
+        testPrivateMethod(RUNS, new String[]{"ks", "3d", "kd", "10h", "8c"}, 0);
+
+        // Run of three cases
+        testPrivateMethod(RUNS, new String[]{"2s", "3d", "4c", "7h", "6h"}, 3);
+        testPrivateMethod(RUNS, new String[]{"3s", "3h", "7h", "5d", "6h"}, 3);
+        testPrivateMethod(RUNS, new String[]{"qs", "8d", "4c", "jh", "10d"}, 3);
+        testPrivateMethod(RUNS, new String[]{"jd", "3c", "4c", "jh", "2s"}, 3);
+        testPrivateMethod(RUNS, new String[]{"qs", "4d", "qd", "5s", "6d"}, 3);
+
+        // Run of four cases
+        testPrivateMethod(RUNS, new String[]{"2s", "3d", "4c", "7h", "5d"}, 4);
+        testPrivateMethod(RUNS, new String[]{"2s", "7c", "5h", "6h", "4d"}, 4);
+        testPrivateMethod(RUNS, new String[]{"qs", "kd", "4c", "jh", "10d"}, 4);
+        testPrivateMethod(RUNS, new String[]{"6s", "3d", "4d", "5h", "1s"}, 4);
+        testPrivateMethod(RUNS, new String[]{"6s", "8d", "qc", "5h", "7d"}, 4);
+
+        // Run of five cases
+        testPrivateMethod(RUNS, new String[]{"2s", "3d", "4c", "5h", "6c"}, 5);
+        testPrivateMethod(RUNS, new String[]{"qs", "10d", "9c", "kh", "jc"}, 5);
+        testPrivateMethod(RUNS, new String[]{"qs", "10d", "9c", "jc", "8d"}, 5);
+
+        // Multiple runs cases
     }
 
     @Test
@@ -371,7 +406,7 @@ class CribbageHandTest {
         final Method m = hand.getClass().getDeclaredMethod(type.name().toLowerCase(), paramType);
         m.setAccessible(true);
 
-        assertEquals(m.invoke(hand, param), expected);
+        assertEquals(expected, m.invoke(hand, param));
     }
 
 }
