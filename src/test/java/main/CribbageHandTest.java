@@ -38,12 +38,14 @@ class CribbageHandTest {
     void setUp() {
         hand = new CribbageHand();
         hand.clear();
+
         assertEquals(allCards.size(), 52);
     }
 
     @AfterEach
     void tearDown() {
         hand.clear();
+
         assertEquals(allCards.size(), 52);
     }
 
@@ -101,9 +103,9 @@ class CribbageHandTest {
         testHand(fourFives, "jc", 28);
         testHand(fourFives, "qc", 28);
         testHand(fourFives, "kc", 28);
-        for (int i = 0; i < 9; ++i) {
-            if (i != 4) { // Ace to nine, excluding five (already in the hand)
-                testHand(fourFives, "" + (i + 1) + "c", 20);
+        for (int i = 1; i < 10; ++i) {
+            if (i != 5) { // Ace to nine, excluding five (already in the hand)
+                testHand(fourFives, "" + i + "c", 20);
             }
         }
         // Special case for 29 points
@@ -143,6 +145,7 @@ class CribbageHandTest {
 
         // Triple: 6 points, double: 2 points
         testHand(new String[]{"10c", "10d", "10s", "9d"}, "9h", 8);
+        testHand(new String[]{"ks", "2c", "kd", "2d"}, "2h", 8);
 
         /*
          * Fifteens
@@ -305,10 +308,45 @@ class CribbageHandTest {
 
     @Test
     void flushes() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        final List<String> suits = Arrays.asList("s", "h", "d", "c");
+        final List<String> values =
+                Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k");
         // Note: Last card is the starter
 
-        // No flushes cases
+        // No flushes
         testPrivateMethod(FLUSHES, new String[]{"5s", "6s", "7s", "8d", "9s"}, 0);
+        testPrivateMethod(FLUSHES, new String[]{"5s", "6d", "7s", "jd", "9c"}, 0);
+        testPrivateMethod(FLUSHES, new String[]{"js", "jd", "jc", "jh", "9c"}, 0);
+        testPrivateMethod(FLUSHES, new String[]{"10s", "10d", "10c", "10h", "9c"}, 0);
+        testPrivateMethod(FLUSHES, new String[]{"2s", "3s", "4s", "5h", "6c"}, 0);
+
+        // 4 and 5 point flushes
+        testPrivateMethod(FLUSHES, new String[]{"5s", "6s", "7s", "8s", "9d"}, 4);
+        testPrivateMethod(FLUSHES, new String[]{"1c", "7c", "10c", "2c", "4s"}, 4);
+
+        testPrivateMethod(FLUSHES, new String[]{"5s", "6s", "7s", "8s", "9s"}, 5);
+
+        // Test a bunch of possible cases
+        final String[] cards = new String[5];
+        for (int i = 0; i < 1000; ++i) {
+            Collections.shuffle(values);
+            for (String suit : suits) {
+                // 4 points: 4 cards of random value of the same suit and a card of a different suit
+                for (int j = 0; j < 4; ++j) {
+                    cards[j] = values.get(j) + suit;
+                }
+                cards[4] = values.get(4)
+                        + suits.get(suits.indexOf(suit) < 3 ? suits.indexOf(suit) + 1 : 0);
+                testPrivateMethod(FLUSHES, cards, 4);
+
+                // 5 points: 5 cards of random value of the same suit
+                for (int j = 0; j < 5; ++j) {
+                    cards[j] = values.get(j) + suit;
+                }
+                testPrivateMethod(FLUSHES, cards, 5);
+            }
+        }
+
     }
 
     @Test
