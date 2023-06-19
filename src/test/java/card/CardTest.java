@@ -46,8 +46,8 @@ class CardTest {
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
                 c = new Card(r, s);
-                assertEquals(c.getRank(), r);
-                assertEquals(c.getSuit(), s);
+                assertEquals(c.rank, r);
+                assertEquals(c.suit, s);
             }
         }
     }
@@ -110,7 +110,7 @@ class CardTest {
             for (Suit s : Suit.values) {
                 x = new Card(r, s);
                 y = new Card(r, s);
-                z = new Card(y.getRank(), x.getSuit());
+                z = new Card(y.rank, x.suit);
                 assertTrue(x.equals(y) && y.equals(x) && x.equals(z) && z.equals(x)
                         && y.equals(z) && z.equals(y), "" + x + " " + y + " " + z);
                 assertTrue(x.hashCode() == y.hashCode() && y.hashCode() == z.hashCode(),
@@ -132,15 +132,15 @@ class CardTest {
 
         // 3. x.equals(y) is false if x and y are of the same class, but semantically different
         allCards.forEach(card1 -> allCards.forEach(card2 -> {
-            if (card1.getRank() != card2.getRank() || card1.getSuit() != card2.getSuit()) {
+            if (card1.rank != card2.rank || card1.suit != card2.suit) {
                 assertNotEquals(card1, card2);
             }
         }));
 
         // 4. x.equals(y) is true if x and y are of the same type and semantically equal
-        allCards.forEach(card -> assertEquals(card, new Card(card.getRank(), card.getSuit())));
+        allCards.forEach(card -> assertEquals(card, new Card(card.rank, card.suit)));
         allCards.forEach(card1 -> allCards.forEach(card2 -> {
-            if (card1.getRank() == card2.getRank() && card1.getSuit() == card2.getSuit()) {
+            if (card1.rank == card2.rank && card1.suit == card2.suit) {
                 assertEquals(card1, card2);
             }
         }));

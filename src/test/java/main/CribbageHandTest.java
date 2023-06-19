@@ -43,7 +43,7 @@ class CribbageHandTest {
 
     @BeforeEach
     void setUp() {
-        hand = new CribbageHand();
+        hand = new CribbageHand(new HashSet<>());
         hand.clear();
 
         assertEquals(allCards.size(), 52);
