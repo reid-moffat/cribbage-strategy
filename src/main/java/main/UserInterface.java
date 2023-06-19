@@ -207,7 +207,7 @@ final class UserInterface {
             if (i > 0 && pointComparer.compare(hands.get(i), hands.get(i - 1)) != 0) {
                 counter = i + 1;
             }
-            System.out.println(counter + ": " + hands.get(i));
+            System.out.print(counter + ": " + hands.get(i));
 
             // A couple special cases (the average points doesn't take into account the crib or the playing round)
             if (hands.get(i).contains("Five")) {
