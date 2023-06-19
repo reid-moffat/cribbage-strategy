@@ -154,12 +154,34 @@ final class UserInterface {
     }
 
     /**
-     * Used to compare
+     * Used to compare two point strings in the format "[card(s) to drop]: [average points]"
      */
     public static class PointStringComparator implements Comparator<String> {
 
         private double getPoints(String s) {
-            return Double.parseDouble(s.substring(s.length() - 5).trim());
+            boolean decimal = false;
+            final StringBuilder doubleString = new StringBuilder();
+            int index = s.length() - 1;
+
+            while (true) {
+                if (s.charAt(index) == '.') {
+                    if (decimal) {
+                        throw new IllegalArgumentException("String contains two decimal points in points: " + s);
+                    }
+                    decimal = true;
+                    doubleString.insert(0, s.charAt(index));
+                } else if (s.charAt(index) >= '0' && s.charAt(index) <= '9') {
+                    doubleString.insert(0, s.charAt(index));
+                } else if (s.charAt(index) == ' ') {
+                    break;
+                } else {
+                    throw new IllegalArgumentException("Points string has an invalid character: " + s);
+                }
+
+                index--;
+            }
+
+            return Double.parseDouble(doubleString.toString());
         }
 
         @Override
@@ -185,7 +207,7 @@ final class UserInterface {
             if (i > 0 && pointComparer.compare(hands.get(i), hands.get(i - 1)) != 0) {
                 counter = i + 1;
             }
-            System.out.printf(counter + ": " + hands.get(i));
+            System.out.println(counter + ": " + hands.get(i));
 
             // A couple special cases (the average points doesn't take into account the crib or the playing round)
             if (hands.get(i).contains("Five")) {
