@@ -37,13 +37,14 @@ final class UserInterface {
     private final HashSet<Card> dealtHand = new HashSet<>();
 
     /**
-     * Initializes a cribbage calculator {@code UserInterface} object
-     *
-     * <p>Use the method {@code .run()} to run the UI
+     * Runs the cribbage calculator
      */
     public UserInterface() {
+        getUserInput();
+        printPoints(getAveragePoints());
     }
 
+    /*
     /**
      * Checks if a String represents a valid card, and returns the {@code Card} object that it
      * represents if it does
@@ -61,11 +62,11 @@ final class UserInterface {
      * @param card a string that represents a playing card
      * @return a {@code Card} object with the specified rank and suit if the parameter is valid
      * @throws IllegalArgumentException if the string does not represent a valid card
-     */
+     *//*
     @Contract("_ -> new")
     private static @NotNull Card checkValidCard(String card) throws IllegalArgumentException {
         return Card.stringToCard(card);
-    }
+    }*/
 
     /**
      * Generates a {@code HashSet} of all 2-{@code Card} combinations in {@code cards}
@@ -83,63 +84,49 @@ final class UserInterface {
         return subsets;
     }
 
-    public static void main(String[] args) {
-        new UserInterface().run();
-    }
-
-    /**
-     * Runs the program's user interface, calling the required methods in the correct order
-     *
-     * <p> No parameters or return value; calling this method will do all the required work
-     */
-    private void run() {
-        this.getUserInput();
-        this.printPoints(this.getAveragePoints());
-    }
-
     /**
      * Prints instructions to the console and gets user input
      */
     private void getUserInput() {
-        final Scanner input = new Scanner(System.in);
-        System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
+        try (final Scanner input = new Scanner(System.in)) {
+            System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
-        // Loops until a valid number of players is inputted
-        String numPlayers = input.nextLine().trim();
-        while (!(numPlayers.equals("2") || numPlayers.equals("3") || numPlayers.equals("4"))) {
-            System.out.println("Invalid input. Try again: ");
-            numPlayers = input.nextLine();
-        }
-        int numCards = numPlayers.equals("2") ? 6 : 5;
-
-        System.out.println(numCards + " cards to start");
-        System.out.println("\nEach cards is represented as their value (1-10, J, Q or K) and suit\n"
-                + "Examples:\n"
-                + "'1D': Ace of diamonds\n"
-                + "'10c': Ten of clubs\n"
-                + "'KH': King of hearts\n"
-                + "Enter each of the cards in your hand one by one below and press enter:\n");
-
-        // Gets and stores each valid card the user inputs
-        for (int i = 1; i <= numCards; ++i) {
-            System.out.print("Card " + i + ": ");
-            Card card;
-
-            while (true) {
-                try {
-                    card = checkValidCard(input.nextLine());
-                    if (notInHand(card)) {
-                        break;
-                    }
-                    System.out.print("Card is already in hand, try again: ");
-                } catch (IllegalArgumentException e) {
-                    System.out.print("Invalid card, input again: ");
-                }
+            // Loops until a valid number of players is inputted
+            String numPlayers = input.nextLine().trim();
+            while (!(numPlayers.equals("2") || numPlayers.equals("3") || numPlayers.equals("4"))) {
+                System.out.println("Invalid input. Try again: ");
+                numPlayers = input.nextLine();
             }
-            this.dealtHand.add(card);
-            System.out.println(card + "\n");
+            int numCards = numPlayers.equals("2") ? 6 : 5;
+
+            System.out.println(numCards + " cards to start");
+            System.out.println("\nEach cards is represented as their value (1-10, J, Q or K) and suit\n"
+                    + "Examples:\n"
+                    + "'1D': Ace of diamonds\n"
+                    + "'10c': Ten of clubs\n"
+                    + "'KH': King of hearts\n"
+                    + "Enter each of the cards in your hand one by one below and press enter:\n");
+
+            // Gets and stores each valid card the user inputs
+            for (int i = 1; i <= numCards; ++i) {
+                System.out.print("Card " + i + ": ");
+                Card card;
+
+                while (true) {
+                    try {
+                        card = Card.stringToCard(input.nextLine());
+                        if (notInHand(card)) {
+                            break;
+                        }
+                        System.out.print("Card is already in hand, try again: ");
+                    } catch (IllegalArgumentException e) {
+                        System.out.print("Invalid card, input again: ");
+                    }
+                }
+                this.dealtHand.add(card);
+                System.out.println(card + "\n");
+            }
         }
-        input.close();
     }
 
     /**
