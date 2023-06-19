@@ -50,27 +50,24 @@ final class CribbageHand {
     /**
      * Returns the power set of a given {@code HashSet}
      *
-     * <p> Adapted from
-     * <a href="https://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java">
-     * stack overflow</a>
-     *
      * @param originalSet a {@code HashSet} of objects
      * @return a {@code HashSet} containing all subsets of {@code originalSet}
      */
     private static @NotNull
     HashSet<HashSet<Card>> powerSet(@NotNull HashSet<Card> originalSet) {
-        HashSet<HashSet<Card>> sets = new HashSet<>();
+        final HashSet<HashSet<Card>> sets = new HashSet<>();
         if (originalSet.isEmpty()) {
             sets.add(new HashSet<>());
             return sets;
         }
-        List<Card> list = new ArrayList<>(originalSet);
-        Card head = list.get(0);
-        HashSet<Card> rest = new HashSet<>(list.subList(1, list.size()));
+
+        final List<Card> list = new ArrayList<>(originalSet);
+        final HashSet<Card> rest = new HashSet<>(list.subList(1, list.size()));
         for (HashSet<Card> set : powerSet(rest)) {
             HashSet<Card> newSet = new HashSet<>();
-            newSet.add(head);
+            newSet.add(list.get(0));
             newSet.addAll(set);
+
             sets.add(newSet);
             sets.add(set);
         }
@@ -204,7 +201,7 @@ final class CribbageHand {
      * @return the number of points obtained from runs
      */
     private int runs(@NotNull HashSet<HashSet<Card>> cardCombinations) {
-        // Total points obtained from each length of run, offset by 3 (runScores[0] is for length 3)
+        // Total points obtained from each length of run, offset by 3 (runScores[0] is for a run of 3)
         final int[] runScores = {0, 0, 0};
 
         cardCombinations.forEach(cards -> {
@@ -234,10 +231,10 @@ final class CribbageHand {
      */
     private int flushes(@NotNull Card starter) {
         // All the suits in this hand
-        HashSet<Suit> suits = this.hand.stream().map(c -> c.suit).collect(Collectors
+        final HashSet<Suit> suits = this.hand.stream().map(c -> c.suit).collect(Collectors
                 .toCollection(HashSet::new));
 
-        // If all the suits are the same, 'suits' will only have one object
+        // If all the suits are the same, the 'suits' set will only have one suit object
         return suits.size() == 1 ? 4 + (suits.add(starter.suit) ? 0 : 1) : 0;
     }
 

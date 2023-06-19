@@ -3,10 +3,8 @@ package main;
 import card.Card;
 import card.Rank;
 import card.Suit;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -154,56 +152,19 @@ final class UserInterface {
     }
 
     /**
-     * Used to compare two point strings in the format "[card(s) to drop]: [average points]"
-     */
-    public static class PointStringComparator implements Comparator<String> {
-
-        private double getPoints(String s) {
-            boolean decimal = false;
-            final StringBuilder doubleString = new StringBuilder();
-            int index = s.length() - 1;
-
-            while (true) {
-                if (s.charAt(index) == '.') {
-                    if (decimal) {
-                        throw new IllegalArgumentException("String contains two decimal points in points: " + s);
-                    }
-                    decimal = true;
-                    doubleString.insert(0, s.charAt(index));
-                } else if (s.charAt(index) >= '0' && s.charAt(index) <= '9') {
-                    doubleString.insert(0, s.charAt(index));
-                } else if (s.charAt(index) == ' ') {
-                    break;
-                } else {
-                    throw new IllegalArgumentException("Points string has an invalid character: " + s);
-                }
-
-                index--;
-            }
-
-            return Double.parseDouble(doubleString.toString());
-        }
-
-        @Override
-        public int compare(String s1, String s2) {
-            return Double.compare(getPoints(s2), getPoints(s1));
-        }
-    }
-
-    /**
      * Prints to the console the average points for each hand with suggestions for cards to keep
      */
     private void printPoints(@NotNull ArrayList<String> hands) {
 
+        // Sort from highest to lowest, based on points at the end of the string
         hands.sort(new PointStringComparator());
 
-        int counter = 1; // Current rank (multiple combinations may have the same amount of points)
+        int counter = 1; // Rank of the current combination
         boolean fives = false, aces = false; // Fives and aces are special cases; you might not want to drop them
-        var pointComparer = new PointStringComparator();
+        final PointStringComparator pointComparer = new PointStringComparator();
 
         for (int i = 0; i < hands.size(); ++i) {
-            // The first four characters of the string is the average points (multiplied by 100
-            // to remove the decimal) so it can be sorted
+            // Combinations with the same # of average points should be a tie in the ranking (e.g. two #1s)
             if (i > 0 && pointComparer.compare(hands.get(i), hands.get(i - 1)) != 0) {
                 counter = i + 1;
             }
@@ -239,6 +200,43 @@ final class UserInterface {
      */
     private boolean notInHand(Card card) {
         return !this.dealtHand.contains(card);
+    }
+
+    /**
+     * Used to compare two point strings in the format "[card(s) to drop]: [average points]"
+     */
+    public static class PointStringComparator implements Comparator<String> {
+
+        private double getPoints(String s) {
+            boolean decimal = false;
+            final StringBuilder doubleString = new StringBuilder();
+            int index = s.length() - 1;
+
+            while (true) {
+                if (s.charAt(index) == '.') {
+                    if (decimal) {
+                        throw new IllegalArgumentException("String contains two decimal points in points: " + s);
+                    }
+                    decimal = true;
+                    doubleString.insert(0, s.charAt(index));
+                } else if (s.charAt(index) >= '0' && s.charAt(index) <= '9') {
+                    doubleString.insert(0, s.charAt(index));
+                } else if (s.charAt(index) == ' ') {
+                    break;
+                } else {
+                    throw new IllegalArgumentException("Points string has an invalid character: " + s);
+                }
+
+                index--;
+            }
+
+            return Double.parseDouble(doubleString.toString());
+        }
+
+        @Override
+        public int compare(String s1, String s2) {
+            return Double.compare(getPoints(s2), getPoints(s1));
+        }
     }
 
 }
