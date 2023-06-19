@@ -16,12 +16,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static main.CribbageHandTest.testTypes.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CribbageHandTest {
 
-    private static Set<Card> allCards;
+    private static final Set<Card> allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
+            Suit.values[i / 13])).collect(Collectors.toUnmodifiableSet());
+
     // See testPrivateMethod
     final Map<Character, Character> suitMaps = Map.of(
             'c', 'd',
@@ -33,9 +34,6 @@ class CribbageHandTest {
 
     @BeforeAll
     static void setUpClass() {
-        allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
-                Suit.values[i / 13])).collect(Collectors.toUnmodifiableSet());
-
         assertEquals(Rank.values().length, 13);
         assertEquals(Suit.values().length, 4);
         assertEquals(allCards.size(), 52);
@@ -44,25 +42,33 @@ class CribbageHandTest {
     @BeforeEach
     void setUp() {
         hand = new CribbageHand(new HashSet<>());
-        hand.clear();
+        assertEquals(hand.size(), 0);
 
         assertEquals(allCards.size(), 52);
     }
 
     @AfterEach
     void tearDown() {
-        hand.clear();
-
         assertEquals(allCards.size(), 52);
     }
 
     @Test
     void add() {
+        // Adding cards from possible values
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
-                hand.add(new Card(r, s));
+                assertTrue(hand.add(new Card(r, s)));
                 assertFalse(hand.add(new Card(r, s)));
             }
+        }
+
+        allCards.forEach(c -> assertFalse(hand.add(c)));
+
+        // Add cards from all cards
+        hand = new CribbageHand(new HashSet<>());
+        for (Card card : allCards) {
+            assertTrue(hand.add(card));
+            assertFalse(hand.add(card));
         }
 
         allCards.forEach(c -> assertFalse(hand.add(c)));
@@ -72,10 +78,10 @@ class CribbageHandTest {
     void remove() {
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
-                hand.add(new Card(r, s));
-                hand.add(new Card(r, s));
+                assertTrue(hand.add(new Card(r, s)));
             }
         }
+
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
                 hand.remove(new Card(r, s));
@@ -450,6 +456,7 @@ class CribbageHandTest {
         assertEquals(expected, m.invoke(hand, param));
     }
 
-    enum testTypes {FIFTEENS, MULTIPLES, RUNS, FLUSHES, NOBS}
+    enum testTypes {FIFTEENS, MULTIPLES, RUNS, FLUSHES, NOBS} // Private method test types
+
 
 }

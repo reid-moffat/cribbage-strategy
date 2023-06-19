@@ -14,12 +14,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
 
-    private static Set<Card> allCards;
+    private static final Set<Card> allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
+            Suit.values[i / 13])).collect(Collectors.toUnmodifiableSet());
 
     @BeforeAll
     static void setUpClass() {
-        allCards = IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
-                Suit.values[i / 13])).collect(Collectors.toUnmodifiableSet());
         assertEquals(allCards.size(), 52);
     }
 
@@ -41,7 +40,7 @@ class CardTest {
     }
 
     @Test
-    void getData() {
+    void createCard() {
         Card c;
         for (Rank r : Rank.values) {
             for (Suit s : Suit.values) {
@@ -64,8 +63,7 @@ class CardTest {
             for (int j = 0; j < suitStrings.size(); ++j) {
                 // stringToCard has parameter checking included
                 Card fromString = Card.stringToCard(rankStrings.get(i) + suitStrings.get(j));
-                Card fromEnum = new Card(Rank.values[i < 13 ? i : i - 3], Suit.values[j < 4 ? j :
-                        j - 4]);
+                Card fromEnum = new Card(Rank.values[i < 13 ? i : i - 3], Suit.values[j < 4 ? j : j - 4]);
 
                 assertEquals(fromString, fromEnum);
             }
