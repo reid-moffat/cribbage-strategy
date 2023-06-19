@@ -22,6 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class CribbageHandTest {
 
     private static Set<Card> allCards;
+    // See testPrivateMethod
+    final Map<Character, Character> suitMaps = Map.of(
+            'c', 'd',
+            'd', 'h',
+            'h', 's',
+            's', 'c'
+    );
     private CribbageHand hand;
 
     @BeforeAll
@@ -187,8 +194,6 @@ class CribbageHandTest {
         assertEquals(hand.totalPoints(Card.stringToCard(starter)), expected,
                 Arrays.toString(cards) + " " + starter + " " + expected);
     }
-
-    enum testTypes {FIFTEENS, MULTIPLES, RUNS, FLUSHES, NOBS}
 
     @Test
     void fifteens() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -379,14 +384,6 @@ class CribbageHandTest {
         }
     }
 
-    // See testPrivateMethod
-    final Map<Character, Character> suitMaps = Map.of(
-            'c', 'd',
-            'd', 'h',
-            'h', 's',
-            's', 'c'
-    );
-
     private void testPrivateMethod(@NotNull testTypes type, Object param, int expected) throws InvocationTargetException,
             IllegalAccessException, NoSuchMethodException {
         methodCall(type, param, expected);
@@ -452,5 +449,7 @@ class CribbageHandTest {
 
         assertEquals(expected, m.invoke(hand, param));
     }
+
+    enum testTypes {FIFTEENS, MULTIPLES, RUNS, FLUSHES, NOBS}
 
 }

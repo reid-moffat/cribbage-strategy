@@ -31,6 +31,13 @@ A handy scoring sheet can be found
 
 ## Notes
 
-I made this project when I started to plateau after playing cribbage for a while, and it ended up being simpler that I expected- just a few days of coding and it was working. But after some time, it transitioned into more of a playground for software QA techniques; I realized that there was a lot that I could do to improve the project, and that Java has plenty of great tools to add to it to improve the code.
+I made this project when I started to plateau after playing cribbage for a while, and it ended up being simpler that I
+expected- just a few days of coding and it was working. But after some time, it transitioned into more of a playground
+for software QA techniques; I realized that there was a lot that I could do to improve the project, and that Java has
+plenty of great tools to add to it to improve the code.
 
-I've added a lot to this project-maybe *too* much-but it's made it well documented, covered with tests and efficient; and, most importantly, in the process I've learned a lot of important skills and tools such as Intellij, Maven, Junit and plenty of other QA concepts. Maybe in the future I'll add this to a website so it's easy for anyone to use, but for now this has been a quite important project for me, not because of how hard it was to make it work, but how much work it took to perfect and all that I learned from it.
+I've added a lot to this project-maybe *too* much-but it's made it well documented, covered with tests and efficient;
+and, most importantly, in the process I've learned a lot of important skills and tools such as Intellij, Maven, Junit
+and plenty of other QA concepts. Maybe in the future I'll add this to a website so it's easy for anyone to use, but for
+now this has been a quite important project for me, not because of how hard it was to make it work, but how much work it
+took to perfect and all that I learned from it.

@@ -128,7 +128,10 @@ final class UserInterface {
             while (true) {
                 try {
                     card = checkValidCard(input.nextLine());
-                    if (notInHand(card)) break;
+                    if (notInHand(card)) {
+                        break;
+                    }
+                    System.out.print("Card is already in hand, try again: ");
                 } catch (IllegalArgumentException e) {
                     System.out.print("Invalid card, input again: ");
                 }
@@ -200,8 +203,8 @@ final class UserInterface {
         // Sorts the combinations from highest to lowest points and outputs them
         hands.sort(Collections.reverseOrder());
         int counter = 1; // Current rank (multiple combinations may have the same amount of points)
-        boolean fives = false, aces = false; // Fives and aces are special cases; you might not want
-        // to drop them
+        boolean fives = false, aces = false; // Fives and aces are special cases; you might not want to drop them
+
         for (int i = 0; i < hands.size(); ++i) {
             // The first four characters of the string is the average points (multiplied by 100
             // to remove the decimal) so it can be sorted
@@ -223,11 +226,14 @@ final class UserInterface {
         }
 
         System.out.println();
-        if (fives) System.out.println("(*) Consider keeping fives (if the points are close), " +
-                    "especially if you don't have the crib");
-        if (aces)
+        if (fives) {
+            System.out.println("(*) Consider keeping fives (if the points are close), especially if you don't have the crib");
+        }
+
+        if (aces) {
             System.out.println("(**) Aces are good for the play round, consider keeping them " +
                     "(if the points are close)");
+        }
     }
 
     /**
