@@ -154,21 +154,38 @@ final class UserInterface {
     }
 
     /**
+     * Used to compare
+     */
+    public static class PointStringComparator implements Comparator<String> {
+
+        private double getPoints(String s) {
+            return Double.parseDouble(s.substring(s.length() - 5).trim());
+        }
+
+        @Override
+        public int compare(String s1, String s2) {
+            return Double.compare(getPoints(s2), getPoints(s1));
+        }
+    }
+
+    /**
      * Prints to the console the average points for each hand with suggestions for cards to keep
      */
-    private void printPoints(@NotNull ArrayList<String> hands) { // TODO: clean this up
-        // Sorts the combinations from highest to lowest points and outputs them
-        hands.sort(Collections.reverseOrder());
+    private void printPoints(@NotNull ArrayList<String> hands) {
+
+        hands.sort(new PointStringComparator());
+
         int counter = 1; // Current rank (multiple combinations may have the same amount of points)
         boolean fives = false, aces = false; // Fives and aces are special cases; you might not want to drop them
+        var pointComparer = new PointStringComparator();
 
         for (int i = 0; i < hands.size(); ++i) {
             // The first four characters of the string is the average points (multiplied by 100
             // to remove the decimal) so it can be sorted
-            if (i > 0 && hands.get(i).substring(0, 3).compareTo(hands.get(i - 1).substring(0, 3)) != 0) {
+            if (i > 0 && pointComparer.compare(hands.get(i), hands.get(i - 1)) != 0) {
                 counter = i + 1;
             }
-            System.out.printf("#%d: %s", counter, hands.get(i).substring(4));
+            System.out.printf(counter + ": " + hands.get(i));
 
             // A couple special cases (the average points doesn't take into account the crib or the playing round)
             if (hands.get(i).contains("Five")) {
