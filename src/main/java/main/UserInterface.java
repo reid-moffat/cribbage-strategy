@@ -6,10 +6,7 @@ import card.Suit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -41,7 +38,8 @@ final class UserInterface {
      */
     public UserInterface() {
         getUserInput();
-        printPoints(getAveragePoints());
+        var averagePoints = getAveragePoints();
+        printPoints(averagePoints);
     }
 
     /**
@@ -69,7 +67,8 @@ final class UserInterface {
 
             // Loops until a valid number of players is inputted
             String numPlayers = input.nextLine().trim();
-            while (!(numPlayers.equals("2") || numPlayers.equals("3") || numPlayers.equals("4"))) {
+            final List<String> validNumPlayers = Arrays.asList("2", "3", "4");
+            while (!validNumPlayers.contains(numPlayers)) {
                 System.out.println("Invalid input. Try again: ");
                 numPlayers = input.nextLine();
             }
