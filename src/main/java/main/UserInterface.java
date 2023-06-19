@@ -6,6 +6,8 @@ import card.Suit;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -119,40 +121,34 @@ final class UserInterface {
         final int unknownCards = 52 - hand.size();
 
         System.out.println("---Drop combinations by average points---");
-        double totalPoints, avgPoints;
-        if (hand.size() == 6) { // With 6 cards, 2 must be dropped
-            // Each hand possibility (removing two cards) is calculated for average points
+        final DecimalFormat df = new DecimalFormat("##.##");
+
+        // For 6 cards (2 players), we need to drop 2 card; otherwise (3-4 players, 5 cards) drop 1
+        if (hand.size() == 6) {
+
             for (Card[] combination : subset2(hand.getCards())) {
                 hand.remove(combination[0]);
                 hand.remove(combination[1]);
 
-                // Calculate the total number of points (all starters) for this combination
-                totalPoints = cardPile.stream().filter(this::notInHand)
-                        .mapToInt(hand::totalPoints).sum();
-
-                // The combination and its average number of points to 2 decimals
-                avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
-                hands.add(String.format("%4.0f%s and %s: %3.2f", 100 * avgPoints, combination[0],
-                        combination[1], avgPoints));
+                // Calculate average number of points for this combination, rounded to 2 decimals
+                double totalPoints = cardPile.stream().filter(this::notInHand).mapToInt(hand::totalPoints).sum();
+                hands.add(combination[0] + " and " + combination[1] + ": " + df.format(totalPoints / unknownCards));
 
                 hand.add(combination[0]);
                 hand.add(combination[1]);
             }
-        } else { // With 5 cards, only one needs to be dropped
-            // Each hand possibility (removing a card) is calculated for average points
-            for (Card droppedCard : hand.getCards()) {
-                hand.remove(droppedCard);
 
-                // Calculate the total number of points (all starters) for this combination
-                totalPoints = cardPile.stream().filter(this::notInHand)
-                        .mapToInt(hand::totalPoints).sum();
+            return hands;
+        }
 
-                // The combination and its average number of points to 2 decimals
-                avgPoints = 100 * (totalPoints / unknownCards) / 100.0;
-                hands.add(String.format("%4.0f%s: %3.2f", 100 * avgPoints, droppedCard, avgPoints));
+        for (Card droppedCard : hand.getCards()) {
+            hand.remove(droppedCard);
 
-                hand.add(droppedCard);
-            }
+            // Add the average number of points for this combination, rounded to 2 decimals
+            double totalPoints = cardPile.stream().filter(this::notInHand).mapToInt(hand::totalPoints).sum();
+            hands.add(droppedCard + ": " + df.format(totalPoints / unknownCards));
+
+            hand.add(droppedCard);
         }
         return hands;
     }
