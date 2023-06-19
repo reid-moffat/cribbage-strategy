@@ -24,7 +24,7 @@ import java.util.stream.IntStream;
 final class UserInterface {
 
     /**
-     * A standard 52-card deck
+     * A standard 52-card deck to compare with
      */
     private static final HashSet<Card> cardPile =
             new HashSet<>(IntStream.range(0, 52).mapToObj(i -> new Card(Rank.values[i % 13],
@@ -43,30 +43,6 @@ final class UserInterface {
         getUserInput();
         printPoints(getAveragePoints());
     }
-
-    /*
-    /**
-     * Checks if a String represents a valid card, and returns the {@code Card} object that it
-     * represents if it does
-     *
-     * <p> A valid card string is the rank (1-10, j, q or k) of the card followed by the first
-     * letter of the suit (neither are case-sensitive). Examples:
-     *
-     * <ul>
-     * <li>"3d": Three of diamonds</li>
-     * <li>"jS": Jack of spades</li>
-     * <li>"10c": Ten of clubs</li>
-     * <li>"1H": Ace of hearts</li>
-     * </ul>
-     *
-     * @param card a string that represents a playing card
-     * @return a {@code Card} object with the specified rank and suit if the parameter is valid
-     * @throws IllegalArgumentException if the string does not represent a valid card
-     *//*
-    @Contract("_ -> new")
-    private static @NotNull Card checkValidCard(String card) throws IllegalArgumentException {
-        return Card.stringToCard(card);
-    }*/
 
     /**
      * Generates a {@code HashSet} of all 2-{@code Card} combinations in {@code cards}

@@ -241,11 +241,11 @@ final class CribbageHand {
      */
     private int flushes(@NotNull Card starter) {
         // All the suits in this hand
-        HashSet<Suit> suits = this.hand.stream().map(Card::getSuit).collect(Collectors
+        HashSet<Suit> suits = this.hand.stream().map(c -> c.suit).collect(Collectors
                 .toCollection(HashSet::new));
 
         // If all the suits are the same, 'suits' will only have one object
-        return suits.size() == 1 ? 4 + (suits.add(starter.getSuit()) ? 0 : 1) : 0;
+        return suits.size() == 1 ? 4 + (suits.add(starter.suit) ? 0 : 1) : 0;
     }
 
     /**
@@ -257,8 +257,7 @@ final class CribbageHand {
      * @return the number of points obtained from nobs
      */
     private int nobs(@NotNull Card starter) {
-        return this.hand.stream().filter(c -> c.getRank() == Rank.JACK).map(Card::getSuit)
-                .anyMatch(starter.getSuit()::equals) ? 1 : 0;
+        return this.hand.stream().filter(c -> c.rank == Rank.JACK).map(c -> c.suit)
+                .anyMatch(starter.suit::equals) ? 1 : 0;
     }
-
 }

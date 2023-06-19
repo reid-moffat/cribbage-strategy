@@ -1,6 +1,5 @@
 package card;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -15,12 +14,12 @@ public final class Card implements Comparable<Card> {
     /**
      * This card's rank enum (ACE, TWO, THREE, ..., QUEEN or KING)
      */
-    private final Rank rank;
+    public final Rank rank;
 
     /**
      * This card's suit enum (CLUBS, DIAMONDS, HEARTS or SPADES)
      */
-    private final Suit suit;
+    public final Suit suit;
 
     /**
      * Initializes this card with a rank and suit
@@ -31,11 +30,18 @@ public final class Card implements Comparable<Card> {
     }
 
     /**
-     * Takes a string representation of a card and returns the corresponding card object
+     * Checks if a String represents a valid card, and returns the {@code Card} object that it
+     * represents if it does
      *
-     * <p> The string representation (case-insensitive) must be the rank (1-9, 10, J, Q or K)
-     * followed by the suit (C, D, H, S) (i.e. case-insensitive match the regular expression {@code
-     * ^(10|[1-9JQK])[CDHS]$})
+     * <p> A valid card string is the rank (1-10, j, q or k) of the card followed by the first
+     * letter of the suit (neither are case-sensitive). Examples:
+     *
+     * <ul>
+     * <li>"3d": Three of diamonds</li>
+     * <li>"jS": Jack of spades</li>
+     * <li>"10c": Ten of clubs</li>
+     * <li>"1H": Ace of hearts</li>
+     * </ul>
      *
      * @param card a string that represents a playing card
      * @return a {@code Card} object with the specified rank and suit if the parameter is valid
@@ -49,7 +55,8 @@ public final class Card implements Comparable<Card> {
         }
 
         Rank rank;
-        switch (card.substring(0, card.length() - 1)) { // Translate the card's rank
+        String rankString = card.substring(0, card.length() - 1);
+        switch (rankString) { // Translate the card's rank
             case "J":
                 rank = Rank.JACK;
                 break;
@@ -60,7 +67,7 @@ public final class Card implements Comparable<Card> {
                 rank = Rank.KING;
                 break;
             default:
-                rank = Rank.values[Integer.parseInt(card.substring(0, card.length() - 1)) - 1];
+                rank = Rank.values[Integer.parseInt(rankString) - 1];
                 break;
         }
 
@@ -76,26 +83,6 @@ public final class Card implements Comparable<Card> {
             default:
                 throw new IllegalStateException("Program is in an impossible state: " + card);
         }
-    }
-
-    /**
-     * Returns this card's rank
-     *
-     * @return this card's rank
-     */
-    @Contract(pure = true)
-    public Rank getRank() {
-        return this.rank;
-    }
-
-    /**
-     * Returns this card's suit
-     *
-     * @return this card's suit
-     */
-    @Contract(pure = true)
-    public Suit getSuit() {
-        return this.suit;
     }
 
     /**
@@ -145,8 +132,7 @@ public final class Card implements Comparable<Card> {
     }
 
     /**
-     * Returns true if both {@code Cards} have the same {@code Rank} and
-     * {@code Suit}
+     * Returns true if both {@code Cards} have the same {@code Rank} and {@code Suit}
      */
     @Override
     public boolean equals(Object obj) {
