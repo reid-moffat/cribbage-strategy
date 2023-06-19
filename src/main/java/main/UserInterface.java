@@ -62,7 +62,7 @@ final class UserInterface {
      * Prints instructions to the console and gets user input
      */
     private void getUserInput() {
-        try (final Scanner input = new Scanner(System.in)) {
+        try (Scanner input = new Scanner(System.in)) {
             System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
             // Loops until a valid number of players is inputted
@@ -85,15 +85,15 @@ final class UserInterface {
             // Gets and stores each valid card the user inputs
             for (int i = 1; i <= numCards; ++i) {
                 System.out.print("Card " + i + ": ");
-                Card card;
 
+                Card card;
                 while (true) {
                     try {
                         card = Card.stringToCard(input.nextLine());
                         if (notInHand(card)) {
                             break;
                         }
-                        System.out.print("Card is already in hand, try again: ");
+                        System.out.print("Card is already in your hand, try another one: ");
                     } catch (IllegalArgumentException e) {
                         System.out.print("Invalid card, input again: ");
                     }
@@ -115,8 +115,7 @@ final class UserInterface {
         final CribbageHand hand = new CribbageHand(new HashSet<>(this.dealtHand)); // Current cards
         final ArrayList<String> hands = new ArrayList<>(); // Highest to the lowest point combinations
 
-        // The player has seen either 5 or 6 cards so far (from their hand), implying that the
-        // remaining 47 or 46 cards respectively could all possibly be the starter
+        // Any of the remaining cards (cards not in the user's hand) could be the starter
         final int unknownCards = 52 - hand.size();
 
         System.out.println("---Drop combinations by average points---");
@@ -191,10 +190,9 @@ final class UserInterface {
         if (fives) {
             System.out.println("(*) Consider keeping fives (if the points are close), especially if you don't have the crib");
         }
-
         if (aces) {
             System.out.println("(**) Aces are good for the play round, consider keeping them " +
-                    "(if the points are close)");
+                    "(if the points are very close)");
         }
     }
 

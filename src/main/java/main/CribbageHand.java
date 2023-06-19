@@ -35,13 +35,6 @@ final class CribbageHand {
     private final HashSet<Card> hand;
 
     /**
-     * Initializes this {@code CribbageHand} with an empty hand
-     */
-    CribbageHand() {
-        this.hand = new HashSet<>();
-    }
-
-    /**
      * Initializes this {@code CribbageHand} with a set of {@code Cards}
      *
      * @param hand a {@code Set} of {@code Card} objects (not including the starter card)
@@ -51,7 +44,7 @@ final class CribbageHand {
         if (hand.contains(null)) {
             throw new IllegalArgumentException("Cannot have a null card in the hand");
         }
-        this.hand = hand;
+        this.hand = new HashSet<>(hand);
     }
 
     /**
