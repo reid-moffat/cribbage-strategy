@@ -66,11 +66,11 @@ final class UserInterface {
             System.out.print("Cribbage Calculator\nCreated by Reid Moffat\n\nHow many players (2-4)? ");
 
             // Loops until a valid number of players is inputted
-            String numPlayers = input.nextLine().trim();
             final List<String> validNumPlayers = Arrays.asList("2", "3", "4");
+            String numPlayers = input.nextLine().trim();
             while (!validNumPlayers.contains(numPlayers)) {
-                System.out.println("Invalid input. Try again: ");
-                numPlayers = input.nextLine();
+                System.out.print("Invalid input; must be between 2 and 4 (inclusive): ");
+                numPlayers = input.nextLine().trim();
             }
             int numCards = numPlayers.equals("2") ? 6 : 5;
 
